@@ -2,6 +2,38 @@
 @section('title')
     Orari
 @stop
+@section('other')
+    <style>
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload{
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="{{asset('js/login.js')}}"></script>
+    <script>
+        function readURL(input){
+            if (input.files && input.files[0]) {
+                $('#img').css('display','block');
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img')
+                            .attr('src', e.target.result)
+                            .width(200)
+                            .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+@stop
 @section('body')
     <div class="x_panel">
         <div class="x_title">
@@ -89,7 +121,7 @@
                         {{ FORM::label('file-upload',null,['class'=>'btn btn-info']) }}
                         {{ FORM::file('img',['id'=>'file-upload','class'=>'form-control','onchange="readURL(this)"'])}}
                         <br><br>
-                        <img id="img" src="#" />
+                        <img id="img" src="#" style="display:none" />
                     </div>
                 </div>
 
