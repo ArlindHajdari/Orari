@@ -18,6 +18,8 @@ Route::get('/', function () {
 
 Route::get('login', 'UsersController@index');
 
+Route::get('dekanet','DekanController@index');
+
 Route::post('login','UsersController@login');
 
 Route::post('register','UsersController@store');
