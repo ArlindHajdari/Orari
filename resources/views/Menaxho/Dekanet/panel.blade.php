@@ -2,7 +2,6 @@
 @section('title')
     Orari
 @stop
-
 @section('body')
     <!-- Modal Register-->
     <div class="modal fade" id="registerModal" role="dialog">
@@ -15,52 +14,50 @@
                 </div>
                 <div class="modal-body">
                     {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
-
                     <div class="col-md-10 col-md-offset-1">
-
                         <div class="form-group">
                             {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('emri',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
+                                {{FORM::text('first_name',null,['class'=>'form-control','required','placeholder'=>'Emri'])}}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Semestri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('titulli',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
+                                {{FORM::text('last_name',null,['class'=>'form-control','required','placeholder'=>'Mbiemri'])}}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{FORM::password('password',['class'=>'form-control','placeholder'=>'Fjalëkalimi','required'])}}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Numri Personal',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('n_personal',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
+                                {{FORM::select('acedemical_title_id',array_merge(['0'=>'Zgjedhe titullin akademik'],$academicalTitles),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Passwordi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('passwordi',null,['class'=>'form-control','required','placeholder'=>'Passwordi']) }}
+                                {{FORM::select('cpa_id',array_merge(['0'=>'Zgjedhe profesor/asistent'],$cpas),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Email',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('email',null,['class'=>'form-control','required','placeholder'=>'Email']) }}
+                                {{FORM::text('personal_number',null,['class'=>'form-control','required','placeholder'=>'Numri personal','maxlength'=>'10'])}}
 
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            {{ FORM::label('Email',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail'])}}
+                            </div>
+                        </div>
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->

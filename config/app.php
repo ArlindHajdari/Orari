@@ -164,6 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
+        App\Providers\ComposerProvider::class,
         /*
          * Package Service Providers...
          */

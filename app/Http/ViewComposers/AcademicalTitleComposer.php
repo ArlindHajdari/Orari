@@ -3,7 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
-use App\Models\AcademicalTitle;
+use App\Models\AcademicTitle;
 use Illuminate\Database\QueryException;
 
 class AcademicalTitleComposer
@@ -13,7 +13,7 @@ class AcademicalTitleComposer
     function __construct()
     {
         try{
-            $this->titles = AcademicalTitle::pluck('academical_title','id')->toArray();
+            $this->titles = AcademicTitle::pluck('academic_title','id')->toArray();
         }catch(QueryException $e){
             return response()->json([
                 'fails'=>true,

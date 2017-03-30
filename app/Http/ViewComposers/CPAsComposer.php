@@ -12,13 +12,8 @@ class CPAsComposer
 
     public function __construct()
     {
-        $this->cpas=Cpa::pluck('cpa','id');
-    }
-
-    public function compose(View $view)
-    {
         try{
-            $view->with('cpas',$this->cpas->toArray());
+            $this->cpas=Cpa::pluck('cpa','id')->toArray();
         }
         catch(QueryException $e){
             return response()->json([
@@ -27,5 +22,10 @@ class CPAsComposer
             'msg'=>'Të dhëna të caktuara nuk mundën të nxirren nga databaza!'
             ],400);
         }
+    }
+
+    public function compose(View $view)
+    {
+        $view->with('cpas',$this->cpas);
     }
 }

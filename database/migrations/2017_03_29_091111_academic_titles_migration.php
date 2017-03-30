@@ -15,7 +15,7 @@ class AcademicTitlesMigration extends Migration
     {
         Schema::create('academic_titles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('academical_title');
+            $table->string('academic_title');
             $table->timestamps();
 
             $table->engine = 'InnoDB';

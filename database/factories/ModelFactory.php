@@ -20,14 +20,14 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'first_name'=> $faker->firstName,
         'personal_number' => $faker->text(10),
         'cpa_id' => $faker->numberBetween(1,3),
-        'acedemical_title_id'=>$faker->numberBetween(1,10),
+        'acedemic_title_id'=>$faker->numberBetween(1,10),
         'photo'=>$faker->text(12),
         'log_id'=> $faker->numberBetween(1000,9999)
     ];
 });
 
-$factory->define(App\Models\AcademicalTitle::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\AcademicTitle::class, function (Faker\Generator $faker) {
     return [
-        'academical_title'=>$faker->jobTitle
+        'academic_title'=>$faker->jobTitle
     ];
 });
