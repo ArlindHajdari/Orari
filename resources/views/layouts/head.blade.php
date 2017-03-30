@@ -11,5 +11,6 @@
 <link href="{{asset('jqvmap/dist/jqvmap.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 <link href="{{asset('css/custom.min.css')}}" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 

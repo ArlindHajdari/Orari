@@ -2,6 +2,7 @@
 @section('title')
     Orari
 @stop
+
 @section('body')
     <div class="x_panel">
         <div class="x_title">

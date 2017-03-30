@@ -13,7 +13,7 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        return view('Fakultetet.panel');
+        return view('Menaxho.Fakultetet.panel');
     }
 
     /**
