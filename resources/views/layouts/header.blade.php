@@ -19,9 +19,7 @@
             </div>
         </div>
         <!-- /menu profile quick info -->
-
         <br />
-
         <!-- sidebar menu -->
         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <div class="menu_section">
@@ -39,8 +37,6 @@
                             <li><a href="{{ url('dekanReg') }}">Lëndët</a>
                             </li>
                             <li><a href="{{ url('dekanReg') }}">Sallë</a>
-                            </li>
-                            <li><a href="{{ url('dekanReg') }}">Lloj</a>
                             </li>
 
                             </li>
