@@ -29,3 +29,5 @@ Route::post('dekanRegister','SuAdminController@store');
 Route::get('dekanEd','SuAdminController@showDekanEdit');
 
 Route::get('lendetRegister','UsersController@LendetRegister');
+
+Route::get('FacultyPanel','FacultyController@index'); 

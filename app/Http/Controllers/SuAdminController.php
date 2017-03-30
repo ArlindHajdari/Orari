@@ -27,7 +27,7 @@ class SuAdminController extends Controller
 
     public function showDekanRegister()
     {
-        return view('Menaxho_Dekanet.register');
+        return view('Menaxho.Dekanet.register');
     }
 
     public function showDekanEdit()
@@ -37,7 +37,7 @@ class SuAdminController extends Controller
 
     public function showLendetRegister()
     {
-        return view('Menaxho_Lendet.register');
+        return view('Menaxho.Lendet.register');
     }
 
     /**
