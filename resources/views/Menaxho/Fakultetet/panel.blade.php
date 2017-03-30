@@ -3,7 +3,6 @@
     Orari
 @stop
 
-
 @section('body')
 
     <!-- Modal Register-->
@@ -65,8 +64,12 @@
 
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-
-                                    {!! FORM::file('photo') !!}
+                            <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
+                                <label class="btn btn-info">
+                                    <span class="glyphicon glyphicon-add"> Zgjedh</span>
+                                    {!! FORM::file('photo',['required','style'=>'display:none']) !!}
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -144,19 +147,11 @@
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
-                            <span class="input-group-btn col-md-8 col-sm-8 col-xs-12">
-                                <!-- image-preview-clear button -->
-                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                    <span class="glyphicon glyphicon-remove"></span> Clear
-                                </button>
-                                <!-- image-preview-input -->
-                                <div class="btn btn-default image-preview-input">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                    <span class="image-preview-input-title">Browse</span>
-                                    {!! FORM::file('photo') !!}
-                                </div>
-                            </span>
-                            </div><!-- /input-group image-preview [TO HERE]-->
+                                <label class="btn btn-info">
+                                    <span class="glyphicon glyphicon-add"> Zgjedh</span>
+                                    {!! FORM::file('photo',['required','style'=>'display:none']) !!}
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
