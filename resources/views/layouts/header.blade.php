@@ -40,11 +40,6 @@
                             </li>
                             <li><a href="{{ url('dekanReg') }}">Sallë</a>
                             </li>
-                            <li><a href="{{ url('dekanReg') }}">Lloj</a>
-                            </li>
-
-                            </li>
-
                             {{--<li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>--}}
                             {{--<ul class="nav child_menu">--}}
                             {{--<li><a href="form.html">General Form</a></li>--}}
@@ -90,9 +85,8 @@
                             {{--</ul>--}}
                             {{--</li>--}}
                         </ul>
-            </div>
+                    </ul>
             <div class="menu_section">
-
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
@@ -133,7 +127,7 @@
                     <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
                 </ul>
             </div>
-
+            </div>
         </div>
         <!-- /sidebar menu -->
 
