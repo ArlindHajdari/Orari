@@ -35,9 +35,11 @@
                             </li>
                             <li><a href="{{ url('dekanet') }}">Dekanët</a>
                             </li>
-                            <li><a href="{{ url('dekanReg') }}">Lëndët</a>
+                            <li><a href="{{ url('LendetPanel') }}">Lëndët</a>
                             </li>
                             <li><a href="{{ url('dekanReg') }}">Sallë</a>
+                            </li>
+                            <li><a href="{{ url('dekanReg') }}">Profesor-Lëndë</a>
                             </li>
                             </li>
                         </ul>
