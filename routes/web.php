@@ -36,12 +36,12 @@ Route::get('dekanEd','SuAdminController@showDekanEdit');
 
 Route::get('lendetRegister','UsersController@LendetRegister');
 
-<<<<<<< HEAD
+
 Route::get('FacultyPanel','FacultyController@index');
 
 Route::get('LendetPanel','LendetController@index');
-=======
+
 Route::get('FacultyPanel','FacultyController@index'); 
 
 Route::resource('hall', 'HallsController');
->>>>>>> origin/master
+
