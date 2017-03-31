@@ -257,7 +257,9 @@
                                     <th style="width: 20%">#Edit</th>
                                 </tr>
                                 </thead>
+                                @if(isset($data))
                                 <tbody>
+
                                 @foreach($data->getCollection()->all() as $user)
                                 <tr>
                                     <td>{{$user->id}}</td>
@@ -290,6 +292,7 @@
                                 </tr>
                                 @endforeach
                                 </tbody>
+                                @endif
                             </table>
                             <!-- end project list -->
                         </div>

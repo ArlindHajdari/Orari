@@ -16,14 +16,13 @@ class ComposerProvider extends ServiceProvider
     {
         View::composer(['login','Menaxho.Dekanet.panel'],'App\Http\ViewComposers\AcademicalTitleComposer');
         View::composer(['login','Menaxho.Dekanet.panel'],'App\Http\ViewComposers\CPAsComposer');
-<<<<<<< HEAD
+
 
         View::composer('Menaxho.Dekanet.panel','App\Http\ViewComposers\RolesComposer');
 
 //        View::composer('Menaxho.Dekanet.panel','App\Http\ViewComposers\DekansComposer');
-=======
+
         View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
->>>>>>> origin/master
     }
 
     /**

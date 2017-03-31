@@ -22,7 +22,7 @@ class HallsTypeComposer
                 'fails'=>true,
                 'title'=>'Gabim ne databaze',
                 'msg'=>'Të dhëna të caktuara nuk mundën të nxirren nga databaza!'
-            ],400);
+            ],500);
         }
     }
     public function compose(View $view)
