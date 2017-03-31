@@ -170,7 +170,7 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Reliese\Coders\CodersServiceProvider::class,
-        App\Providers\ComposerProvider::class,
+       
         /*
          * Application Service Providers...
          */

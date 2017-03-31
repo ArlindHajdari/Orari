@@ -37,3 +37,5 @@ Route::get('dekanEd','SuAdminController@showDekanEdit');
 Route::get('lendetRegister','UsersController@LendetRegister');
 
 Route::get('FacultyPanel','FacultyController@index'); 
+
+Route::resource('hall', 'HallsController');
