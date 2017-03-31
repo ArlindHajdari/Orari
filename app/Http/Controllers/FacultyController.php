@@ -34,7 +34,7 @@ class FacultyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -45,7 +45,7 @@ class FacultyController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
