@@ -20,6 +20,10 @@ Route::get('login', 'UsersController@index');
 
 Route::get('dekanet','DekanController@index');
 
+Route::post('register','DekanController@store');
+
+Route::post('dekanet','DekanController@show');
+
 Route::post('login','UsersController@login');
 
 Route::post('register','UsersController@store');
