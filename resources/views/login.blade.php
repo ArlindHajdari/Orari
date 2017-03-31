@@ -73,10 +73,6 @@
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">Nuk keni llogari?
-                  <a href="#signup" class="to_register"> Krijo llogarinë </a>
-                </p>
-
                 <div class="clearfix"></div>
                 <br />
 
@@ -88,75 +84,6 @@
               {{FORM::close()}}
           </section>
         </div>
-
-        {{--<div id="register" class="animate form registration_form">--}}
-          {{--<section class="login_content">--}}
-              {{--{{FORM::open(['id'=>'registerForm','url'=>'register','files'=>true,'novalidate'])}}--}}
-              {{--{{csrf_field()}}--}}
-              {{--<h1>Krijo llogari</h1>--}}
-              {{--<div>--}}
-                  {{--{{FORM::text('first_name',null,['class'=>'form-control','required','placeholder'=>'Emri'])}}--}}
-              {{--</div>--}}
-              {{--<div>--}}
-                  {{--{{FORM::text('last_name',null,['class'=>'form-control','required','placeholder'=>'Mbiemri'])}}--}}
-              {{--</div>--}}
-              {{--<div>--}}
-                  {{--{{FORM::password('password',['class'=>'form-control','placeholder'=>'Fjalëkalimi','required'])}}--}}
-              {{--</div>--}}
-              {{--<div>--}}
-                  {{--{{FORM::password('password_confirmation',['class'=>'form-control','placeholder'=>'Konfirmo fjalëkalimin','required'])}}--}}
-              {{--</div>--}}
-              {{--<div>--}}
-                  {{--{{FORM::select('acedemical_title_id',array_merge(['0'=>'Zgjedhe titullin akademik'],$academicalTitles),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}--}}
-              {{--</div>--}}
-              {{--<br>--}}
-              {{--<div>--}}
-                  {{--{{FORM::select('cpa_id',array_merge(['0'=>'Zgjedhe profesor/asistent'],$cpas),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}--}}
-              {{--</div>--}}
-              {{--<br>--}}
-              {{--<div>--}}
-                  {{--{{FORM::text('personal_number',null,['class'=>'form-control','required','placeholder'=>'Numri personal','maxlength'=>'10'])}}--}}
-              {{--</div>--}}
-              {{--<div>--}}
-                  {{--{{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail'])}}--}}
-              {{--</div>--}}
-              {{--<div>--}}
-                  {{--<div class="input-group image-preview">--}}
-            {{--<span class="input-group-btn">--}}
-                {{--<!-- image-preview-clear button -->--}}
-                {{--<button type="button" class="btn btn-default image-preview-clear" style="display:none;">--}}
-                    {{--<span class="glyphicon glyphicon-remove"></span> Pastro--}}
-                {{--</button>--}}
-                {{--<!-- image-preview-input -->--}}
-                {{--<div class="btn btn-default image-preview-input">--}}
-                    {{--<span class="glyphicon glyphicon-folder-open"></span>--}}
-                    {{--<span class="image-preview-input-title">Zgjedh foton</span>--}}
-                    {{--{!! FORM::file('photo') !!}--}}
-                {{--</div>--}}
-            {{--</span>--}}
-                  {{--</div>--}}
-              {{--</div>--}}
-              {{--<br>--}}
-              {{--<div>--}}
-                  {{--{{FORM::submit('Regjistrohu',['class'=>'btn btn-success pull-right'])}}--}}
-              {{--</div>--}}
-              {{--<div class="clearfix"></div>--}}
-              {{--<div class="separator">--}}
-                  {{--<p class="change_link">Keni llogari?--}}
-                      {{--<a href="#signin" class="to_register"> Kyçu </a>--}}
-                  {{--</p>--}}
-
-                  {{--<div class="clearfix"></div>--}}
-                  {{--<br/>--}}
-
-                  {{--<div>--}}
-                      {{--<h1><i class="fa fa-xalfa"></i> XALFA - Për krijimin e orarit!</h1>--}}
-                      {{--<p>©2016 All Rights Reserved. XALFA Inc. Privacy and Terms</p>--}}
-                  {{--</div>--}}
-              {{--</div>--}}
-              {{--{{FORM::close()}}--}}
-          {{--</section>--}}
-        {{--</div>--}}
       </div>
     </div>
 

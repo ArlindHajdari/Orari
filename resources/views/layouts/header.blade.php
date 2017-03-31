@@ -14,7 +14,7 @@
             <div class="profile_info">
                 @if(Sentinel::check())
                     <span>Welcome,</span>
-                    <h2>Sentinel::getUser()->name</h2>
+                    <h2>{{Sentinel::getUser()->first_name}} {{Sentinel::getUser()->last_name}}</h2>
                 @endif
             </div>
         </div>
@@ -100,9 +100,11 @@
             <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            {{FORM::open(['url'=>'logout','id'=>'logout-form'])}}
+            <a href="#" onclick="document.getElementById('logout-form').submit()">
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
+            {{FORM::close()}}
         </div>
         <!-- /menu footer buttons -->
     </div>
@@ -119,7 +121,7 @@
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <img src="images/img.jpg" alt="">
                         @if(Sentinel::check())
-                            Sentinel::getUser()->name
+                            {{Sentinel::getUser()->first_name}} {{Sentinel::getUser()->last_name}}
                         @endif
                         <span class=" fa fa-angle-down"></span>
                     </a>
@@ -132,7 +134,9 @@
                             </a>
                         </li>
                         <li><a href="javascript:;">Help</a></li>
-                        <li><a href="{{url('logout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                        <li>
+
+                        </li>
                     </ul>
                 </li>
 

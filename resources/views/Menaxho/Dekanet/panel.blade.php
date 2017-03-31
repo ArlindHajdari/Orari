@@ -292,11 +292,12 @@
                                 </tr>
                                 @endforeach
                                 </tbody>
-                                @endif
+
                             </table>
                             <!-- end project list -->
                         </div>
                         {{$data->links()}}
+                        @endif
                     </div>
                 </div>
             </div>

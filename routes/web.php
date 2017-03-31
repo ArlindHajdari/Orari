@@ -18,6 +18,8 @@ Route::get('/', function () {
 
 Route::get('login', 'UsersController@index');
 
+Route::post('logout','UsersController@logout');
+
 Route::get('dekanet','DekanController@index');
 
 Route::post('register','DekanController@store');
@@ -35,7 +37,6 @@ Route::post('dekanRegister','SuAdminController@store');
 Route::get('dekanEd','SuAdminController@showDekanEdit');
 
 Route::get('lendetRegister','UsersController@LendetRegister');
-
 
 Route::get('FacultyPanel','FacultyController@index');
 

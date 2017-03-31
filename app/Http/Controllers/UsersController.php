@@ -47,12 +47,12 @@ class UsersController extends Controller
             if(Sentinel::authenticate(['email'=>$request->log_id, 'password'=>$request->password])){
                 return response()->json([
                     'success'=>true,
-                    'url' => env('APP_URL'),
+                    'url' => 'http://'.env('APP_URL'),
                 ],200);
             }elseif(Sentinel::authenticate(['log_id'=>$request->log_id, 'password'=>$request->password])){
                 return response()->json([
                     'success'=>true,
-                    'url' => env('APP_URL'),
+                    'url' => 'http://'.env('APP_URL'),
                 ],200);
             }else{
                 return response()->json([
@@ -191,6 +191,13 @@ class UsersController extends Controller
             $message->to($user->email);
             $message->subject("Përshëndetje $user->first_name $user->last_name, aktivizo llogarinë tuaj!");
         });
+    }
+
+    public function logout(){
+        if(Sentinel::check()){
+            Sentinel::logout();
+            return redirect('login');
+        }
     }
 
     /**

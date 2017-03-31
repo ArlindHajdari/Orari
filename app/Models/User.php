@@ -9,6 +9,7 @@ namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
+use Sentinel;
 
 /**
  * Class User
@@ -59,4 +60,9 @@ class User extends SentinelUser
 		'permissions',
 		'last_login'
 	];
+
+	public function getFullName(){
+		if(Sentinel::check())
+			return Sentinel::getUser()->first_name.' '.Sentinel::getUser()->last_name;
+	}
 }
