@@ -15,8 +15,8 @@ class ComposerProvider extends ServiceProvider
     public function boot()
     {
         View::composer(['login','Menaxho.Dekanet.panel'],'App\Http\ViewComposers\AcademicalTitleComposer');
-
         View::composer(['login','Menaxho.Dekanet.panel'],'App\Http\ViewComposers\CPAsComposer');
+        View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
     }
 
     /**
