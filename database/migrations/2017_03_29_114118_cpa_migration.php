@@ -29,6 +29,9 @@ class CpaMigration extends Migration
         DB::table('cpas')->insert([
             'cpa'=> 'Ligjërues'
         ]);
+        DB::table('cpas')->insert([
+            'cpa'=> 'Dekan'
+        ]);
     }
 
     /**

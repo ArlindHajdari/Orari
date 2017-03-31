@@ -104,39 +104,39 @@
                     <h4 class="modal-title">Regjistrimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'/hall']) }}
 
                     <div class="col-md-10 col-md-offset-1">
 
                         <div class="form-group">
-                            {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Emri Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('emri',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
+                                {{ FORM::text('Emri',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {{ FORM::label('Semestri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Kapaciteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('titulli',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
+                                {{ FORM::text('Kapaciteti',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{ FORM::select('dekan_i',$halls,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             {{ FORM::label('Numri Personal',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::text('n_personal',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             {{ FORM::label('Passwordi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::text('passwordi',null,['class'=>'form-control','required','placeholder'=>'Passwordi']) }}
@@ -149,9 +149,9 @@
                                 {{ FORM::text('email',null,['class'=>'form-control','required','placeholder'=>'Email']) }}
 
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
                             <span class="input-group-btn col-md-8 col-sm-8 col-xs-12">
@@ -167,7 +167,7 @@
                                 </div>
                             </span>
                             </div><!-- /input-group image-preview [TO HERE]-->
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="modal-footer">

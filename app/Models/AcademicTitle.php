@@ -22,6 +22,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class AcademicTitle extends Eloquent
 {
 	protected $fillable = [
-		'academical_title'
+		'academic_title'
 	];
 }

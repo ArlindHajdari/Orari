@@ -8,6 +8,7 @@
 namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
+use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
 
 /**
  * Class User
@@ -29,7 +30,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class User extends Eloquent
+class User extends SentinelUser
 {
 	protected $casts = [
 		'log_id' => 'int',
@@ -53,7 +54,7 @@ class User extends Eloquent
 		'password',
 		'personal_number',
 		'cpa_id',
-		'acedemic_title_id',
+		'academic_title_id',
 		'photo',
 		'permissions',
 		'last_login'
