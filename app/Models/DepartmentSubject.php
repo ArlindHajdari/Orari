@@ -31,4 +31,11 @@ class DepartmentSubject extends Eloquent
 		'department_id',
 		'subject_id'
 	];
+
+    protected $table = 'department_subjects';
+
+//    public function departmentSubject()
+//    {
+//        return $this->belongsTo('id','subject_id');
+//    }
 }

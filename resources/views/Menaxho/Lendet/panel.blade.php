@@ -2,9 +2,12 @@
 @section('title')
     Orari
 @stop
+@section('other')
+    <script src="{{ asset('js/LendetRegister.js') }}"></script>
+@stop
 @section('body')
 
-   <!-- Modal Register-->
+    <!-- Modal Register-->
     <div class="modal fade" id="registerModal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -14,26 +17,26 @@
                     <h4 class="modal-title">Regjistrimi i Lendes</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
+                    {{ FORM::open(['id'=>'register-form','class'=>'form-horizontal form-label-left input_mask','url'=>'LendetReg']) }}
 
                     <div class="col-md-10 col-md-offset-1">
 
                         <div class="form-group">
                             {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('emri_lendes',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
+                                {{ FORM::text('subject',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {{ FORM::label('ECTS',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('ects',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::text('ects',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
-                            {{ FORM::label('Semestri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('semester',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::text('semester',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
                             </div>
@@ -42,7 +45,7 @@
                         <div class="form-group">
                             {{ FORM::label('Lloji',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('subjecttype',array_merge(['0'=>'Cakto Llojin'],$subjecttype),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
+                                {{FORM::select('subjecttype_id',array_merge(['0'=>'Cakto Llojin'],$subjecttype),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
                             </div>
                         </div>
 
@@ -116,7 +119,7 @@
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::select('department',array_merge(['0'=>'Cakto Departamentin'],$department),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
                             </div>
-                        </div>3
+                        </div>
 
                     </div>
                 </div>
@@ -152,7 +155,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- /Modal /Delete-->
@@ -165,12 +167,14 @@
 
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                {{FORM::open(['novalidate','id'=>'search-form','url'=>'LendetPanel'])}}
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Kerko per...">
+                    {{FORM::text('search',null,['placeholder'=>'Kërko për...','class'=>'form-control','id'=>'search'])}}
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
+                              <button class="btn btn-default" type="button" onclick="document.getElementById('search-form').submit();">Kërko!</button>
+                            </span>
                 </div>
+                {{FORM::close()}}
             </div>
         </div>
     </div>
@@ -187,62 +191,91 @@
                 </div>
                 <div class="x_content">
 
-                    <p>Simple table with project listing with progress and editing options</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
                             <th style="width: 1%">#</th>
-                            <th style="width: 20%">Project Name</th>
-                            <th>Team Members</th>
-                            <th>Project Progress</th>
-                            <th>Status</th>
+                            <th style="width: 20%">Lenda</th>
+                            <th>ECTS</th>
+                            <th>Semestri</th>
+                            <th>Lloji i Lendes</th>
+                            <th>Departamenti</th>
                             <th style="width: 20%">#Edit</th>
                         </tr>
                         </thead>
                         <tbody>
+
+                        @forelse($lendet->getCollection()->all() as $lende)
                         <tr>
-                            <td>#</td>
+                            <td>{{ $lende->id }}</td>
                             <td>
-                                <a>Pesamakini Backend UI</a>
+                                <a>{{ $lende->subject }}</a>
                                 <br />
-                                <small>Created 01.01.2015</small>
+                                {{--<small>Created 01.01.2015</small>--}}
                             </td>
                             <td>
-                                <ul class="list-inline">
-                                    <li>
-                                        <img src="images/user.png" class="avatar" alt="Avatar">
-                                    </li>
-                                    <li>
-                                        <img src="images/user.png" class="avatar" alt="Avatar">
-                                    </li>
-                                    <li>
-                                        <img src="images/user.png" class="avatar" alt="Avatar">
-                                    </li>
-                                    <li>
-                                        <img src="images/user.png" class="avatar" alt="Avatar">
-                                    </li>
-                                </ul>
-                            </td>
-                            <td class="project_progress">
-                                <div class="progress progress_sm">
-                                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
-                                </div>
-                                <small>57% Complete</small>
+                                <a>{{ $lende->ects }}</a>
+                                <br />
+                                {{--<small>Created 01.01.2015</small>--}}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-success btn-xs">Success</button>
+                                <a>{{ $lende->semester }}</a>
+                                <br />
+                                {{--<small>Created 01.01.2015</small>--}}
                             </td>
+                            <td>
+                                <a>{{ $lende->subjecttype }}</a>
+                                <br />
+                                {{--<small>Created 01.01.2015</small>--}}
+                            </td>
+
+                            <td>
+                                <a>{{ $lende->department }}</a>
+                                <br />
+                                {{--<small>Created 01.01.2015</small>--}}
+                            </td>
+                            {{--<td>--}}
+                                {{--<ul class="list-inline">--}}
+                                    {{--<li>--}}
+                                        {{--<img src="images/user.png" class="avatar" alt="Avatar">--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<img src="images/user.png" class="avatar" alt="Avatar">--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<img src="images/user.png" class="avatar" alt="Avatar">--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<img src="images/user.png" class="avatar" alt="Avatar">--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</td>--}}
+                            {{--<td class="project_progress">--}}
+                                {{--<div class="progress progress_sm">--}}
+                                    {{--<div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>--}}
+                                {{--</div>--}}
+                                {{--<small>57% Complete</small>--}}
+                            {{--</td>--}}
+                            {{--<td>--}}
+                                {{--<button type="button" class="btn btn-success btn-xs">Success</button>--}}
+                            {{--</td>--}}
                             <td>
                                 <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
                             </td>
                         </tr>
+                        @empty
+
+                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
+
+                        @endforelse
 
                         </tbody>
+
                     </table>
+                    <center>{{ $lendet->links() }}</center>
                     <!-- end project list -->
 
                 </div>

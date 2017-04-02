@@ -36,4 +36,11 @@ class Subject extends Eloquent
 		'semester',
 		'subjecttype_id'
 	];
+
+//    protected $table = 'subjects';
+//
+//    public function subjectDepartment()
+//    {
+//        return $this->hasMany('subject_id', 'id');
+//    }
 }
