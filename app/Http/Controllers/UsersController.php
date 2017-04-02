@@ -139,6 +139,7 @@ class UsersController extends Controller
             }while(in_array($log_id,$log_ids));
 
             $data['log_id'] = $log_id;
+            
             if($user = Sentinel::register($data)){
                 if($activation = Activation::create($user)){
                     if($role = Sentinel::findRoleBySlug('user')){

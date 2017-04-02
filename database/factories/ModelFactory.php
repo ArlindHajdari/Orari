@@ -20,7 +20,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'first_name'=> $faker->firstName,
         'personal_number' => $faker->text(10),
         'cpa_id' => $faker->numberBetween(1,3),
-        'acedemic_title_id'=>$faker->numberBetween(1,10),
+        'academic_title_id'=>$faker->numberBetween(1,10),
         'photo'=>$faker->text(12),
         'log_id'=> $faker->numberBetween(1000,9999)
     ];

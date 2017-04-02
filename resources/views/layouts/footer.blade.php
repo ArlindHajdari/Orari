@@ -1,6 +1,6 @@
 <footer>
     <div class="pull-right">
-        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+        XALFA - Aplikacioni për menaxhimin e orareve <br><a href="{{url('/')}}" class="pull-right">Orari</a>
     </div>
     <div class="clearfix"></div>
 </footer>

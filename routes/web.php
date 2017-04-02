@@ -22,9 +22,13 @@ Route::post('logout','UsersController@logout');
 
 Route::get('dekanet','DekanController@index');
 
-Route::post('register','DekanController@store');
+Route::post('register-dekan','DekanController@store');
 
-Route::post('dekanet','DekanController@show');
+Route::delete('dekan-delete/{id}','DekanController@destroy');
+
+Route::patch('dekan-edit/{id}/{photo}','DekanController@edit');
+
+Route::match(['post','get'],'dekanet','DekanController@show');
 
 Route::post('login','UsersController@login');
 

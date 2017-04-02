@@ -12,9 +12,9 @@
             <div class="right_col" role="main" style="min-height: 1704px;">
                 @yield('body')
             </div>
-            @include('layouts.footer')
         </div>
     </div>
+    @include('layouts.footer')
     @include('layouts.scripts')
 </body>
 </html>
