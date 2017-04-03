@@ -3,7 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
-use App\Models\Hall;
+use App\Models\Halltype;
 use Illuminate\Database\QueryException;
 
 class HallsTypeComposer
@@ -14,7 +14,7 @@ class HallsTypeComposer
     {
         try
         {
-            $this->halls=Hall::pluck('hall','id')->toArray();
+            $this->halls=Halltype::pluck('hallType','id')->toArray();
         }
         catch(QueryException $e)
         {
@@ -27,7 +27,7 @@ class HallsTypeComposer
     }
     public function compose(View $view)
     {
-        dd($this->halls);
+        
         $view->with('halls',$this->halls);
     }
 }

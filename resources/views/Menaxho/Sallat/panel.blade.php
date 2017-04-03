@@ -125,49 +125,11 @@
                         <div class="form-group">
                             {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('dekan_i',$halls,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{ FORM::select('dekan_i',['0'=>'test','1'=>'laborator'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
 
-                        {{-- <div class="form-group">
-                            {{ FORM::label('Numri Personal',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('n_personal',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
-                            </div>
-                        </div> --}}
-
-                        {{-- <div class="form-group">
-                            {{ FORM::label('Passwordi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('passwordi',null,['class'=>'form-control','required','placeholder'=>'Passwordi']) }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Email',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('email',null,['class'=>'form-control','required','placeholder'=>'Email']) }}
-
-                            </div>
-                        </div> --}}
-
-                        {{-- <div class="form-group">
-                            {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
-                            <span class="input-group-btn col-md-8 col-sm-8 col-xs-12">
-                                <!-- image-preview-clear button -->
-                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                    <span class="glyphicon glyphicon-remove"></span> Clear
-                                </button>
-                                <!-- image-preview-input -->
-                                <div class="btn btn-default image-preview-input">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                    <span class="image-preview-input-title">Browse</span>
-                                    {!! FORM::file('photo') !!}
-                                </div>
-                            </span>
-                            </div><!-- /input-group image-preview [TO HERE]-->
-                        </div> --}}
+                      
                     </div>
                 </div>
                 <div class="modal-footer">
