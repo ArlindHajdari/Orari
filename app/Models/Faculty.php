@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 30 Mar 2017 17:53:37 +0000.
+ * Date: Wed, 05 Apr 2017 11:11:13 +0000.
  */
 
 namespace App\Models;
@@ -14,6 +14,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id
  * @property string $faculty
+ * 
+ * @property \Illuminate\Database\Eloquent\Collection $departments
  *
  * @package App\Models
  */
@@ -24,4 +26,9 @@ class Faculty extends Eloquent
 	protected $fillable = [
 		'faculty'
 	];
+
+	public function departments()
+	{
+		return $this->hasMany(\App\Models\Department::class);
+	}
 }

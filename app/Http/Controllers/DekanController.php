@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Validator;
 use Sentinel;
 use App\Models\User;
+use App\Models\RoleUser;
 use DB;
 
 class DekanController extends Controller
@@ -122,8 +123,15 @@ class DekanController extends Controller
      */
     public function show(Request $request)
     {
+        DB::enableQueryLog();
         try{
-            $data = User::select('users.id','users.first_name','users.password','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,'.',users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','Dekan')->orWhere('users.last_name','like','%'.$request->search.'%')->orWhere('users.email','like','%'.$request->search.'%')->orWhere('users.personal_number','like','%'.$request->search.'%')->orWhere('users.log_id','like','%'.$request->search.'%')->orWhere('users.first_name','like','%'.$request->search.'%')->paginate(10);
+            $data = User::select('users.id','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo', 'role_users.role_id')->join('role_users','role_users.user_id','users.id')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','Dekan')->where(function($query) use ($request){
+                $query->orWhere('users.last_name','like','%'.$request->search.'%');
+                $query->orWhere('users.email','like','%'.$request->search.'%');
+                $query->orWhere('users.personal_number','like','%'.$request->search.'%');
+                $query->orWhere('users.log_id','like','%'.$request->search.'%');
+                $query->orWhere('users.first_name','like','%'.$request->search.'%');
+            })->paginate(10);
 
             return view('Menaxho.Dekanet.panel')->with('data',$data);
         }
@@ -144,14 +152,13 @@ class DekanController extends Controller
      */
     public function edit(Request $request,$id,$photo)
     {
+        DB::enableQueryLog();
         try{
             $destinationFolder = 'Uploads/';
             $validation = Validator::make($request->all(),[
                 'first_name' => 'bail|required|alpha|max:190',
                 'last_name' => 'bail|required|alpha|max:190',
-                'log_id'=> 'bail|required|numeric|unique:users,log_id',
                 'email' => 'bail|required|email|max:190',
-                'password'=>'bail|required|max:190',
                 'personal_number'=>'bail|required|string',
                 'cpa_id' => 'bail|required|numeric',
                 'academic_title_id' => 'bail|required|numeric',
@@ -175,42 +182,30 @@ class DekanController extends Controller
 
                 $data['photo']=$destinationFolder.$filename;
             }else{
-                $data['photo'] = $photo;
+                $data['photo'] = $destinationFolder.$photo;
             }
 
             unset($data['role_id']);
             if($dekan = User::find($id)){
                 $dekan->first_name = $data['first_name'];
                 $dekan->last_name = $data['last_name'];
-                $dekan->log_id = $data['log_id'];
                 $dekan->email = $data['email'];
-                $dekan->password = $data['password'];
                 $dekan->personal_number = $data['personal_number'];
                 $dekan->cpa_id = $data['cpa_id'];
                 $dekan->academic_title_id = $data['academic_title_id'];
-
+                $dekan->photo = $data['photo'];
                 if($dekan->save()){
-                    if($user = Sentinel::findUserById($dekan->id)){
-                        if($role = Sentinel::findRoleById($request->role_id)){
-                            $role->users()->attach($user);
-
-                            return response()->json([
-                                'success'=>true,
-                                'title'=>'Sukses',
-                                'msg' => 'Të dhënat u ndryshuan me sukses!'
-                            ],200);
-                        }else{
-                            return response()->json([
-                                'fails'=>true,
-                                'title'=>'Gabim internal',
-                                'msg'=>'Ju lutemi kontaktoni mbështetësit e faqes!'
-                            ],500);
-                        }
+                    if(RoleUser::where('user_id',$dekan->id)->update(['role_id'=>$request->role_id])){
+                        return response()->json([
+                            'success'=>true,
+                            'title'=>'Sukses',
+                            'msg'=>'Të dhënat u ndryshuan me sukses!'
+                        ],200);
                     }else{
                         return response()->json([
                             'fails'=>true,
-                            'title'=>'Gabim internal',
-                            'msg'=>'Ju lutemi kontaktoni mbështetësit e faqes!'
+                            'title'=>'Gabim gjatë ndryshimit',
+                            'msg'=>'Të dhënat nuk u ndryshuan!'
                         ],500);
                     }
                 }else{
@@ -232,8 +227,7 @@ class DekanController extends Controller
             return response()->json([
                 'fails'=>true,
                 'title' => 'Gabim ne server',
-                'msg' => $e->getMessage(),
-                'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
+                'msg' => $e->getMessage()
             ],500);
         }
     }

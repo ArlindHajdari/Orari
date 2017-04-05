@@ -13,6 +13,8 @@ class SubjectsMigration extends Migration
      */
     public function up()
     {
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('subject',50);
@@ -21,6 +23,7 @@ class SubjectsMigration extends Migration
             $table->integer('subjecttype_id')->unsigned();
 
             $table->index('subjecttype_id');
+            $table->foreign('subjecttype_id')->references('id')->on('subjecttypes');
             $table->engine ='InnoDB';
         });
     }
@@ -33,5 +36,8 @@ class SubjectsMigration extends Migration
     public function down()
     {
         Schema::dropIfExists('subjects');
+        Schema::table('subjects', function(Blueprint $table){
+            $table->dropForeign(['subjecttype_id']);
+        });
     }
 }

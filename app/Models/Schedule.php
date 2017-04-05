@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 30 Mar 2017 17:53:37 +0000.
+ * Date: Wed, 05 Apr 2017 11:11:13 +0000.
  */
 
 namespace App\Models;
@@ -21,6 +21,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $hall_id
  * @property int $lush_id
  * @property int $department_id
+ * 
+ * @property \App\Models\Cp $cp
+ * @property \App\Models\Department $department
+ * @property \App\Models\Hall $hall
+ * @property \App\Models\Lush $lush
  *
  * @package App\Models
  */
@@ -51,4 +56,24 @@ class Schedule extends Eloquent
 		'lush_id',
 		'department_id'
 	];
+
+	public function cp()
+	{
+		return $this->belongsTo(\App\Models\Cp::class, 'cps_id');
+	}
+
+	public function department()
+	{
+		return $this->belongsTo(\App\Models\Department::class);
+	}
+
+	public function hall()
+	{
+		return $this->belongsTo(\App\Models\Hall::class);
+	}
+
+	public function lush()
+	{
+		return $this->belongsTo(\App\Models\Lush::class);
+	}
 }

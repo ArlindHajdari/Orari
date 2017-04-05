@@ -64,7 +64,7 @@
                         <div class="form-group">
                             {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('role',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
+                                {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
                                 ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
                             </div>
                         </div>
@@ -107,12 +107,6 @@
                     'method'=>'PATCH','id'=>'dekan-edit']) }}
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            {{ FORM::label('Log ID',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::text('log_id',null,['class'=>'form-control','required','placeholder'=>'Log ID','id'=>'log_id'])}}
-                            </div>
-                        </div>
-                        <div class="form-group">
                             {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::text('first_name',null,['class'=>'form-control','required','placeholder'=>'Emri','id'=>'first_name'])}}
@@ -123,12 +117,6 @@
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::text('last_name',null,['class'=>'form-control','required',
                                 'placeholder'=>'Mbiemri','id'=>'last_name'])}}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ FORM::label('Fjalëkalimi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::password('password',['class'=>'form-control','placeholder'=>'Fjalëkalimi','required','id'=>'password'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -169,7 +157,7 @@
                             <div class="input-group image-preview control-label pull-right">
                                 <label class="btn btn-info">
                                     <span class="glyphicon glyphicon-add"> Zgjedh</span>
-                                    {!! FORM::file('photo',['required','style'=>'display:none']) !!}
+                                    {!! FORM::file('photo',['style'=>'display:none']) !!}
                                 </label>
                             </div>
                         </div>
@@ -282,11 +270,10 @@
                                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
                                         data-id="{{$user->id}}" data-target="#editModal"
                                         data-first_name="{{$user->first_name}}" data-last_name="{{$user->last_name}}"
-                                        data-password="{{$user->password}}" data-log_id="{{$user->log_id}}"
                                         data-academic_title_id="{{$user->academic_title_id}}"
                                         data-cpa_id="{{$user->cpa_id}}"
                                         data-personal_number="{{$user->personal_number}}" data-email="{{$user->email}}"
-                                        data-photo="{{$user->photo}}"><i
+                                        data-photo="{{$user->photo}}" data-role_id="{{$user->role_id}}"><i
                                             class="fa
                                         fa-pencil"></i> Edit</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$user->id}}"

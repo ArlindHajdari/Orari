@@ -20,6 +20,66 @@ class AcademicTitlesMigration extends Migration
 
             $table->engine = 'InnoDB';
         });
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Dr.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Prof.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Sc.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'MSc.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Ass.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'BSc.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'PHd.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'PHd.Can.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Prof.Assoc.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Doc.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Dr.Sc.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Prof.Ass'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Prof.Ass.Dr.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Prof.Asoc.Dr.'
+        ]);
+
+        DB::table('academic_titles')->insert([
+            'academic_title'=>'Mr.Sc.'
+        ]);
     }
 
     /**

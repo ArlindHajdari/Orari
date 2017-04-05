@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 30 Mar 2017 17:53:37 +0000.
+ * Date: Wed, 05 Apr 2017 11:11:13 +0000.
  */
 
 namespace App\Models;
@@ -15,6 +15,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id
  * @property string $department
  * @property int $faculty_id
+ * 
+ * @property \App\Models\Faculty $faculty
+ * @property \Illuminate\Database\Eloquent\Collection $subjects
+ * @property \Illuminate\Database\Eloquent\Collection $schedules
  *
  * @package App\Models
  */
@@ -30,4 +34,19 @@ class Department extends Eloquent
 		'department',
 		'faculty_id'
 	];
+
+	public function faculty()
+	{
+		return $this->belongsTo(\App\Models\Faculty::class);
+	}
+
+	public function subjects()
+	{
+		return $this->belongsToMany(\App\Models\Subject::class, 'department_subjects');
+	}
+
+	public function schedules()
+	{
+		return $this->hasMany(\App\Models\Schedule::class);
+	}
 }

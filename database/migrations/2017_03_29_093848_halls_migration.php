@@ -13,6 +13,8 @@ class HallsMigration extends Migration
      */
     public function up()
     {
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('halls', function (Blueprint $table) {
             $table->increments('id');
             $table->string('hall',50);
@@ -20,6 +22,8 @@ class HallsMigration extends Migration
             $table->integer('halltype_id')->unsigned();
 
             $table->engine = 'InnoDB';
+            $table->index('halltype_id');
+            $table->foreign('halltype_id')->references('id')->on('halltypes');
         });
     }
 
@@ -31,5 +35,8 @@ class HallsMigration extends Migration
     public function down()
     {
         Schema::dropIfExists('halls');
+        Schema::table('halls', function(Blueprint $table){
+            $table->dropForeign(['halltype_id']);
+        });
     }
 }

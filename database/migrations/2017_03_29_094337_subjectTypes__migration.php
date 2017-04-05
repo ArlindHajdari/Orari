@@ -13,7 +13,9 @@ class SubjectTypesMigration extends Migration
      */
     public function up()
     {
-        Schema::create('subjectTypes', function (Blueprint $table) {
+        Schema::enableForeignKeyConstraints();
+
+        Schema::create('subjecttypes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('subjecttype',50);
 

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 30 Mar 2017 17:53:37 +0000.
+ * Date: Wed, 05 Apr 2017 11:11:13 +0000.
  */
 
 namespace App\Models;
@@ -16,6 +16,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $hall
  * @property int $capacity
  * @property int $halltype_id
+ * 
+ * @property \App\Models\Halltype $halltype
+ * @property \Illuminate\Database\Eloquent\Collection $schedules
  *
  * @package App\Models
  */
@@ -33,4 +36,14 @@ class Hall extends Eloquent
 		'capacity',
 		'halltype_id'
 	];
+
+	public function halltype()
+	{
+		return $this->belongsTo(\App\Models\Halltype::class);
+	}
+
+	public function schedules()
+	{
+		return $this->hasMany(\App\Models\Schedule::class);
+	}
 }

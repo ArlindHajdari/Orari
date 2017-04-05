@@ -13,6 +13,8 @@ class ScheduleMigration extends Migration
      */
     public function up()
     {
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('schedule', function (Blueprint $table) {
             $table->increments('id');
             $table->string('groups',50);
@@ -28,6 +30,10 @@ class ScheduleMigration extends Migration
             $table->index('hall_id');
             $table->index('lush_id');
             $table->index('department_id');
+            $table->foreign('cps_id')->references('id')->on('cps');
+            $table->foreign('hall_id')->references('id')->on('halls');
+            $table->foreign('lush_id')->references('id')->on('lush');
+            $table->foreign('department_id')->references('id')->on('departments');
             $table->engine = 'InnoDB';
         });
     }
@@ -40,5 +46,21 @@ class ScheduleMigration extends Migration
     public function down()
     {
         Schema::dropIfExists('schedule');
+
+        Schema::table('schedule',function(Blueprint $table){
+            $table->dropForeign(['department_id']);
+        });
+
+        Schema::table('schedule',function(Blueprint $table){
+            $table->dropForeign(['cps_id']);
+        });
+
+        Schema::table('schedule',function(Blueprint $table){
+            $table->dropForeign(['lush_id']);
+        });
+        
+        Schema::table('schedule',function(Blueprint $table){
+            $table->dropForeign(['hall_id']);
+        });
     }
 }

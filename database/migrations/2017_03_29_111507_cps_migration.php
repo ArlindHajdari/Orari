@@ -13,6 +13,8 @@ class CpsMigration extends Migration
      */
     public function up()
     {
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('cps', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
@@ -20,6 +22,8 @@ class CpsMigration extends Migration
             
             $table->index('user_id');
             $table->index('subject_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('subject_id')->references('id')->on('subjects');
             $table->engine = 'InnoDB';
         });
     }
@@ -32,5 +36,12 @@ class CpsMigration extends Migration
     public function down()
     {
         Schema::dropIfExists('cps');
+        Schema::table('cps', function(Blueprint $table){
+            $table->dropForeign(['user_id']);
+        });
+
+        Schema::table('cps', function(Blueprint $table){
+            $table->dropForeign(['subject_id']);
+        });
     }
 }

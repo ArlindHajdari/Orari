@@ -13,6 +13,8 @@ class AvailabilityMigration extends Migration
      */
     public function up()
     {
+        //Schema::enableForeignKeyConstraints();
+
         Schema::create('availability', function (Blueprint $table) {
             $table->increments('id');
             $table->time('TimeFrom');
@@ -20,6 +22,7 @@ class AvailabilityMigration extends Migration
             $table->integer('user_id')->unsigned();
 
             $table->index('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->engine = 'InnoDB';
         });
     }
@@ -32,5 +35,8 @@ class AvailabilityMigration extends Migration
     public function down()
     {
         Schema::dropIfExists('availability');
+        Schema::table('availability', function(Blueprint $table){
+            $table->dropForeign(['user_id']);
+        });
     }
 }

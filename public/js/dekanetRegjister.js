@@ -98,9 +98,9 @@ $(document).ready(function(){
                         title: data.title,
                         message: data.msg,
                         buttons: [{
-                            label: 'Close',
-                            action: function(dialog) {
-                                dialog.close();
+                            label: 'OK',
+                            action: function() {
+                                window.location.reload();
                             }
                         }]
                     });
@@ -124,9 +124,7 @@ $(document).ready(function(){
         var academic_title_id = link.data('academic_title_id');
         var cpa_id = link.data('cpa_id');
         var role_id = link.data('role_id');
-        var password = link.data('password');
         var photo = link.data('photo');
-        var log_id = link.data('log_id');
         var id = link.data('id');
 
         var modal = $(this);
@@ -135,10 +133,9 @@ $(document).ready(function(){
         modal.find("#email").val(email);
         modal.find("#personal_number").val(personal_number);
         modal.find("#academic_title_id").val(academic_title_id);
+        modal.find("#role_id").val(role_id);
         modal.find("#cpa_id").val(cpa_id);
-        modal.find("#password").val(password);
-        modal.find("#log_id").val(log_id);
-        $("#dekan-edit").attr('action','http://localhost:8000/dekan-edit/'+id+'/'+photo);
-        console.log(academic_title_id);
+        var real_photo=photo.split('/')[1];
+        $("#dekan-edit").attr('action','http://localhost:8000/dekan-edit/'+id+'/'+real_photo);
     });
 });
