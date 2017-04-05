@@ -11,7 +11,6 @@ class HallsController extends Controller
     {
         return view('menaxho.sallat.panel');
     }
-
     
     public function create()
     {

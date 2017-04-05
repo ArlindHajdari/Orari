@@ -50,8 +50,8 @@ Route::resource('hall', 'HallsController');
 
 Route::post('LendetReg','LendetController@store');
 
-Route::match(['post','get'],'LendetPanel','LendetController@index');
+Route::match(['post','get'],'LendetPanel','LendetController@search');
 
-//Route::get('LendetSearch','LendetController@search');
-//
-//Route::get('LendetPanel','LendetController@index');
+Route::patch('lendet-edit/{id}','LendetController@edit');
+
+Route::delete('lendet-delete/{id}','LendetController@destroy');
