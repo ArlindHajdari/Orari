@@ -44,9 +44,14 @@ Route::get('lendetRegister','UsersController@LendetRegister');
 
 Route::get('FacultyPanel','FacultyController@index');
 
-Route::get('LendetPanel','LendetController@index');
-
 Route::get('FacultyPanel','FacultyController@index'); 
 
 Route::resource('hall', 'HallsController');
 
+Route::post('LendetReg','LendetController@store');
+
+Route::match(['post','get'],'LendetPanel','LendetController@index');
+
+//Route::get('LendetSearch','LendetController@search');
+//
+//Route::get('LendetPanel','LendetController@index');
