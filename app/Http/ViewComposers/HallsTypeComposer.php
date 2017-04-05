@@ -14,7 +14,7 @@ class HallsTypeComposer
     {
         try
         {
-            $this->halls=Halltype::pluck('hallType','id')->toArray();
+            $this->halls=Halltype::pluck('halltype','id')->toArray();
         }
         catch(QueryException $e)
         {

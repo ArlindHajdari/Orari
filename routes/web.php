@@ -46,8 +46,6 @@ Route::get('FacultyPanel','FacultyController@index');
 
 Route::get('FacultyPanel','FacultyController@index'); 
 
-Route::resource('hall', 'HallsController');
-
 Route::post('LendetReg','LendetController@store');
 
 Route::match(['post','get'],'LendetPanel','LendetController@index');
@@ -55,3 +53,11 @@ Route::match(['post','get'],'LendetPanel','LendetController@index');
 //Route::get('LendetSearch','LendetController@search');
 //
 //Route::get('LendetPanel','LendetController@index');
+
+Route::post('salla-register','HallsController@store');
+
+Route::delete('salla-delete/{id}','HallsController@destroy');
+
+Route::patch('salla-edit/{id}','HallsController@edit');
+
+Route::match(['post','get'],'sallat','HallsController@show');
