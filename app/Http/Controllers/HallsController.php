@@ -18,7 +18,16 @@ class HallsController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         return view('Menaxho.Sallat.panel');
+=======
+        return view('menaxho.sallat.panel');
+    }
+    
+    public function create()
+    {
+        
+>>>>>>> origin/master
     }
 
     public function store(Request $request)
