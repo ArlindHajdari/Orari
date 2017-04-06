@@ -29,67 +29,7 @@
         }
     </style>
 
-    <script src="{{asset('js/login.js')}}"></script>
-    <script>
-        $(document).on('click', '#close-preview', function(){
-            $('.image-preview').popover('hide');
-            // Hover befor close the preview
-            $('.image-preview').hover(
-                    function () {
-                        $('.image-preview').popover('show');
-                    },
-                    function () {
-                        $('.image-preview').popover('hide');
-                    }
-            );
-        });
-
-        $(function() {
-            // Create the close button
-            var closebtn = $('<button/>', {
-                type:"button",
-                text: 'x',
-                id: 'close-preview',
-                style: 'font-size: initial;',
-            });
-            closebtn.attr("class","close pull-right");
-            // Set the popover default content
-            $('.image-preview').popover({
-                trigger:'manual',
-                html:true,
-                title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
-                content: "There's no image",
-                placement:'bottom'
-            });
-            // Clear event
-            $('.image-preview-clear').click(function(){
-                $('.image-preview').attr("data-content","").popover('hide');
-                $('.image-preview-filename').val("");
-                $('.image-preview-clear').hide();
-                $('.image-preview-input input:file').val("");
-                $(".image-preview-input-title").text("Browse");
-            });
-            // Create the preview image
-            $(".image-preview-input input:file").change(function (){
-                var img = $('<img/>', {
-                    id: 'dynamic',
-                    width:250,
-                    height:200
-                });
-                var file = this.files[0];
-                var reader = new FileReader();
-                // Set preview image into the popover data-content
-                reader.onload = function (e) {
-                    $(".image-preview-input-title").text("Change");
-                    $(".image-preview-clear").show();
-                    $(".image-preview-filename").val(file.name);
-                    img.attr('src', e.target.result);
-                    $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
-                }
-                reader.readAsDataURL(file);
-            });
-        });
-    </script>
+    <script src="{{asset('js/proflende.js')}}"></script>
 @stop
 
 @section('body')
@@ -104,69 +44,25 @@
                     <h4 class="modal-title">Regjistrimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
-
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','url'=>'prosubRegister']) }}
                     <div class="col-md-10 col-md-offset-1">
-
-                        <div class="form-group">
-                            {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('emri',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Semestri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('titulli',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
-
                         <div class="form-group">
-                            {{ FORM::label('Numri Personal',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('n_personal',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
+                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
-
                         <div class="form-group">
-                            {{ FORM::label('Passwordi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('passwordi',null,['class'=>'form-control','required','placeholder'=>'Passwordi']) }}
+                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Email',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('email',null,['class'=>'form-control','required','placeholder'=>'Email']) }}
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
-                            <span class="input-group-btn col-md-8 col-sm-8 col-xs-12">
-                                <!-- image-preview-clear button -->
-                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                    <span class="glyphicon glyphicon-remove"></span> Clear
-                                </button>
-                                <!-- image-preview-input -->
-                                <div class="btn btn-default image-preview-input">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                    <span class="image-preview-input-title">Browse</span>
-                                    {!! FORM::file('photo') !!}
-                                </div>
-                            </span>
-                            </div><!-- /input-group image-preview [TO HERE]-->
                         </div>
                     </div>
                 </div>
@@ -194,69 +90,25 @@
                     <h4 class="modal-title">Ndryshimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
-
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','url'=>'profLendeEdit']) }}
                     <div class="col-md-10 col-md-offset-1">
-
-                        <div class="form-group">
-                            {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('emri',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Semestri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('titulli',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
-
                         <div class="form-group">
-                            {{ FORM::label('Numri Personal',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('n_personal',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
+                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
-
                         <div class="form-group">
-                            {{ FORM::label('Passwordi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('passwordi',null,['class'=>'form-control','required','placeholder'=>'Passwordi']) }}
+                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Email',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('email',null,['class'=>'form-control','required','placeholder'=>'Email']) }}
-
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
-                            <span class="input-group-btn col-md-8 col-sm-8 col-xs-12">
-                                <!-- image-preview-clear button -->
-                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                    <span class="glyphicon glyphicon-remove"></span> Clear
-                                </button>
-                                <!-- image-preview-input -->
-                                <div class="btn btn-default image-preview-input">
-                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                    <span class="image-preview-input-title">Browse</span>
-                                    {!! FORM::file('photo') !!}
-                                </div>
-                            </span>
-                            </div><!-- /input-group image-preview [TO HERE]-->
                         </div>
                     </div>
                 </div>
@@ -283,11 +135,10 @@
                     <div align="middle">
                         <div class="form-group">
                             <p class="modal-title" style="font-size: 16px;">A jeni të sigurt që dëshironi të fshini?</p><br>
-                            <form action="logout" method="POST" id="logout-form">
-                                {{ csrf_field() }}
-                                <button href="#" onclick="document.getElementById('logout-form').submit()" class="btn btn-success">Yes</button>
-                                <button data-dismiss="modal" class="btn btn-danger">No</button>
-                            </form>
+                            {{FORM::open(['id'=>'delete-form','novalidate','method'=>'DELETE'])}}
+                                <button href="#" onclick="document.getElementById('delete-form').submit()" class="btn btn-success">Po</button>
+                                <button data-dismiss="modal" class="btn btn-danger">Jo</button>
+                            {{FORM::close()}}
                         </div>
                     </div>
                 </div>
@@ -302,21 +153,21 @@
                 <div class="title_left">
                     <h3>Projects <small>Listing designi</small></h3>
                 </div>
-
                 <div class="title_right">
                     <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        {{FORM::open(['novalidate','id'=>'search-form'])}}
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
+                            {{FORM::text('search',null,['class'=>'form-control','placeholder'=>'Kërko për...'])}}
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="document
+                      .getElementById('search-form').submit();">Kërko!</button>
+                            </span>
                         </div>
+                        {{FORM::close()}}
                     </div>
                 </div>
             </div>
-
             <div class="clearfix"></div>
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="x_panel">
@@ -329,66 +180,41 @@
 
                             <p>Simple table with project listing with progress and editing options</p>
 
-                            <!-- start project list -->
+                            @forelse($data as $prosub)
                             <table class="table table-striped projects">
                                 <thead>
                                 <tr>
-                                    <th style="width: 1%">#</th>
-                                    <th style="width: 20%">Project Name</th>
-                                    <th>Team Members</th>
-                                    <th>Project Progress</th>
-                                    <th>Status</th>
-                                    <th style="width: 20%">#Edit</th>
+                                    <th style="width: 20%">Lënda</th>
+                                    <th>Profesori</th>
+                                    <th>Asistentet</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>#</td>
                                     <td>
-                                        <a>Pesamakini Backend UI</a>
-                                        <br />
-                                        <small>Created 01.01.2015</small>
+                                        {{$prosub->user->first_name}} {{$prosub->user->last_name}}
                                     </td>
                                     <td>
-                                        <ul class="list-inline">
-                                            <li>
-                                                <img src="images/user.png" class="avatar" alt="Avatar">
-                                            </li>
-                                            <li>
-                                                <img src="images/user.png" class="avatar" alt="Avatar">
-                                            </li>
-                                            <li>
-                                                <img src="images/user.png" class="avatar" alt="Avatar">
-                                            </li>
-                                            <li>
-                                                <img src="images/user.png" class="avatar" alt="Avatar">
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td class="project_progress">
-                                        <div class="progress progress_sm">
-                                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
-                                        </div>
-                                        <small>57% Complete</small>
+                                        {{$prosub->subject->subject}}
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-success btn-xs">Success</button>
+                                        {{$prosub->user->first_name}} {{$prosub->user->last_name}}
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
                                         <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit</button>
-                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
+                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{$prosub->id}}"><i class="fa fa-trash-o"></i> Delete</button>
                                     </td>
                                 </tr>
-
                                 </tbody>
                             </table>
-                            <!-- end project list -->
-
+                            @empty
+                                <div class="alert alert-info">
+                                    <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
+                                </div>
+                            @endforelse
                         </div>
                     </div>
                 </div>
             </div>
-
     <!-- /page content -->
 @stop

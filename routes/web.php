@@ -52,6 +52,12 @@ Route::post('LendetReg','LendetController@store');
 
 Route::match(['post','get'],'LendetPanel','LendetController@index');
 
+Route::match(['post','get'],'proflende','ProfLendeController@index');
+
+Route::delete('delete-prosub/{id}','ProfLendeController@destroy');
+
+Route::patch('prolende-edit/{id}','ProfLendeController@edit');
+
 //Route::get('LendetSearch','LendetController@search');
 //
 //Route::get('LendetPanel','LendetController@index');

@@ -35,7 +35,7 @@ class DepartmentSubject extends Eloquent
 		'subject_id'
 	];
 
-<<<<<<< HEAD
+
 	public function department()
 	{
 		return $this->belongsTo(\App\Models\Department::class);
@@ -45,12 +45,4 @@ class DepartmentSubject extends Eloquent
 	{
 		return $this->belongsTo(\App\Models\Subject::class);
 	}
-=======
-    protected $table = 'department_subjects';
-
-//    public function departmentSubject()
-//    {
-//        return $this->belongsTo('id','subject_id');
-//    }
->>>>>>> origin/master
 }

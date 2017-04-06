@@ -41,7 +41,7 @@ class Subject extends Eloquent
 		'subjecttype_id'
 	];
 
-<<<<<<< HEAD
+
 	public function subjecttype()
 	{
 		return $this->belongsTo(\App\Models\Subjecttype::class);
@@ -56,12 +56,4 @@ class Subject extends Eloquent
 	{
 		return $this->belongsToMany(\App\Models\Department::class, 'department_subjects');
 	}
-=======
-//    protected $table = 'subjects';
-//
-//    public function subjectDepartment()
-//    {
-//        return $this->hasMany('subject_id', 'id');
-//    }
->>>>>>> origin/master
 }

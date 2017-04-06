@@ -39,7 +39,7 @@
                             </li>
                             <li><a href="{{ url('hall') }}">Sallë</a>
                             </li>
-                            <li><a href="{{ url('dekanReg') }}">Profesor-Lëndë</a>
+                            <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a>
                             </li>
                             </li>
                         </ul>

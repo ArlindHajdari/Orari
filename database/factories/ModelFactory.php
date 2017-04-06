@@ -31,3 +31,19 @@ $factory->define(App\Models\AcademicTitle::class, function (Faker\Generator $fak
         'academic_title'=>$faker->jobTitle
     ];
 });
+
+$factory->define(App\Models\Subjecttype::class, function (Faker\Generator $faker) {
+    return [
+        'subjecttype'=>$faker->firstNameMale
+    ];
+});
+
+
+$factory->define(App\Models\Subject::class, function (Faker\Generator $faker) {
+    return [
+        'subject' => $faker->text(12),
+        'ects' => $faker->numberBetween(1,12),
+        'semester' => $faker->numberBetween(1,2),
+        'subjecttype_id' => $faker->numberBetween(1,2)
+    ];
+});

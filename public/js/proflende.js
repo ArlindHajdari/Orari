@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#dekanRegister').submit(function(e){
+    $('#prosubRegister').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -12,7 +12,6 @@ $(document).ready(function(){
 
         $.ajax({
             type: 'POST',
-            
             data: formData,
             url: url,
             processData: false,
@@ -45,7 +44,7 @@ $(document).ready(function(){
                         message: data.msg,
                         buttons: [{
                             label: 'OK',
-                            action: function(dialog) {
+                            action: function() {
                                 window.location.reload();
                             }
                         }]
@@ -55,7 +54,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#dekan-edit').submit(function(e){
+    $('#profLendeEdit').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -111,32 +110,22 @@ $(document).ready(function(){
     });
 
     $('#deleteModal').on('shown.bs.modal', function(e) {
-        var dekans_Id = $(e.relatedTarget).data('id');
-        $("#delete-form").attr('action','http://localhost:8000/dekan-delete/'+dekans_Id);
+        var Id = $(e.relatedTarget).data('id');
+        $("#delete-form").attr('action','http://localhost:8000/prosub-delete/'+Id);
     });
 
     $('#editModal').on('show.bs.modal', function(e) {
         var link = $(e.relatedTarget);
 
-        var first_name = link.data('first_name');
-        var last_name = link.data('last_name');
-        var email = link.data('email');
-        var personal_number = link.data('personal_number');
-        var academic_title_id = link.data('academic_title_id');
-        var cpa_id = link.data('cpa_id');
-        var role_id = link.data('role_id');
-        var photo = link.data('photo');
-        var id = link.data('id');
+        var subject = link.data('subject_id');
+        var profesor = link.data('prof_id');
+        var asistent = link.data('asis_id');
 
         var modal = $(this);
-        modal.find("#first_name").val(first_name);
-        modal.find("#last_name").val(last_name);
-        modal.find("#email").val(email);
-        modal.find("#personal_number").val(personal_number);
-        modal.find("#academic_title_id").val(academic_title_id);
-        modal.find("#role_id").val(role_id);
-        modal.find("#cpa_id").val(cpa_id);
-        var real_photo=photo.split('/')[1];
-        $("#dekan-edit").attr('action','http://localhost:8000/dekan-edit/'+id+'/'+real_photo);
+        modal.find("#subject_id").val(subject);
+        modal.find("#user_id").val(profesor);
+        modal.find("#email").val(asistent);
+
+        $("#prosub-edit").attr('action','http://localhost:8000/prolende-edit/'+id);
     });
 });
