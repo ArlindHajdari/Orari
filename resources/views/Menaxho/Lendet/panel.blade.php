@@ -7,6 +7,8 @@
 @stop
 @section('body')
 
+
+
     <!-- Modal Register-->
     <div class="modal fade" id="registerModal" role="dialog">
         <div class="modal-dialog">
@@ -31,14 +33,14 @@
                         <div class="form-group">
                             {{ FORM::label('ects',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('ects',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
+                                {{ FORM::text('ects',null,['class'=>'form-control','required','placeholder'=>'ECTS']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('semester',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('semester',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
+                                {{ FORM::text('semester',null,['class'=>'form-control','required','placeholder'=>'Semestri']) }}
                             </div>
                         </div>
 
@@ -82,42 +84,42 @@
                     <h4 class="modal-title">Ndryshimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','id'=>'lendet-edit','method'=>'PATCH',]) }}
 
                     <div class="col-md-10 col-md-offset-1">
 
                         <div class="form-group">
                             {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('emri_lendes',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
+                                {{ FORM::text('subject',null,['class'=>'form-control','required','placeholder'=>'Emri','id'=>'subject']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('ECTS',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('ects',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
+                                {{ FORM::text('ects',null,['class'=>'form-control','required','placeholder'=>'Titulli','id'=>'ects']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Semestri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('semester',null,['class'=>'form-control','required','placeholder'=>'Numri Personal']) }}
+                                {{ FORM::text('semester',null,['class'=>'form-control','required','placeholder'=>'Numri Personal','id'=>'semester']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Lloji',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('subjecttype',array_merge(['0'=>'Cakto Llojin'],$subjecttype),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
+                                {{FORM::select('subjecttype_id',array_merge(['0'=>'Cakto Llojin'],$subjecttype),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'subjecttype_id'])}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Departamenti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('department',array_merge(['0'=>'Cakto Departamentin'],$department),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
+                                {{ FORM::select('department_id',array_merge(['0'=>'Cakto Departamentin'],$department),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'department_id'])}}
                             </div>
                         </div>
 
@@ -144,14 +146,14 @@
             <div class="modal-content">
                 <div class="modal-body" style="padding:25px 10px">
                     <div align="middle">
+                        {{FORM::open(['id'=>'delete-form','method'=>'DELETE'])}}
                         <div class="form-group">
                             <p class="modal-title" style="font-size: 16px;">A jeni të sigurt që dëshironi të fshini?</p><br>
-                            <form action="logout" method="POST" id="logout-form">
-                                {{ csrf_field() }}
-                                <button href="#" onclick="document.getElementById('logout-form').submit()" class="btn btn-success">Yes</button>
-                                <button data-dismiss="modal" class="btn btn-danger">No</button>
-                            </form>
+                            <button href="#" onclick="document.getElementById('delete-form').submit()" class="btn
+                            btn-success">Po</button>
+                            <button data-dismiss="modal" class="btn btn-danger">Jo</button>
                         </div>
+                        {{FORM::close()}}
                     </div>
                 </div>
             </div>
@@ -167,7 +169,7 @@
 
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                {{FORM::open(['novalidate','id'=>'search-form','url'=>'LendetPanel'])}}
+                {{FORM::open(['novalidate','id'=>'search-form'])}}
                 <div class="input-group">
                     {{FORM::text('search',null,['placeholder'=>'Kërko për...','class'=>'form-control','id'=>'search'])}}
                     <span class="input-group-btn">
@@ -195,7 +197,7 @@
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th style="width: 1%">#</th>
+                            {{--<th style="width: 1%">#</th>--}}
                             <th style="width: 20%">Lenda</th>
                             <th>ECTS</th>
                             <th>Semestri</th>
@@ -208,7 +210,7 @@
 
                         @forelse($lendet->getCollection()->all() as $lende)
                         <tr>
-                            <td>{{ $lende->id }}</td>
+                            {{--<td>{{ $lende->id }}</td>--}}
                             <td>
                                 <a>{{ $lende->subject }}</a>
                                 <br />
@@ -261,16 +263,27 @@
                                 {{--<button type="button" class="btn btn-success btn-xs">Success</button>--}}
                             {{--</td>--}}
                             <td>
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                                <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit</button>
-                                <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
+                                <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
+                                        data-id="{{$lende->id}}" data-target="#editModal"
+                                        data-subject="{{$lende->subject}}" data-ects="{{$lende->ects}}"
+                                        data-semester="{{$lende->semester}}" data-subjecttype_id="{{$lende->subjecttype_id}}"
+                                        data-department_id="{{$lende->department_id}}" >
+                                    <i class="fa fa-pencil"></i> Edit</button>
+
+                                <button type="button" class="btn btn-danger btn-xs" data-id="{{$lende->id}}"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
                             </td>
                         </tr>
                         @empty
-
-                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
-
+                            <div class="alert alert-info" role="alert"><center><h4>Nuk ka te dhena per tu shfaqur!</h4></center></div>
+                            {{--<center><h4></h4></center>--}}
                         @endforelse
+
+                        @if(session('message'))
+                            <div class="alert alert-success" role="alert"><center><h4>{{session('message')}}</h4></center></div>
+
+                        @endif
 
                         </tbody>
 

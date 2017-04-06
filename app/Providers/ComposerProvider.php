@@ -26,7 +26,7 @@ class ComposerProvider extends ServiceProvider
 
 //        View::composer('Menaxho.Dekanet.panel','App\Http\ViewComposers\DekansComposer');
 
-        View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
+        // View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
 
     }
 
