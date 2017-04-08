@@ -50,7 +50,10 @@ Route::post('LendetReg','LendetController@store');
 
 Route::match(['post','get'],'LendetPanel','LendetController@search');
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 Route::match(['post','get'],'proflende','ProfLendeController@index');
 
 Route::delete('delete-prosub/{id}','ProfLendeController@destroy');
@@ -73,4 +76,9 @@ Route::patch('lendet-edit/{id}','LendetController@edit');
 
 Route::delete('lendet-delete/{id}','LendetController@destroy');
 
+<<<<<<< HEAD
 Route::get('OrariPanel','OrariController@index');
+=======
+Route::get('scheduler','ScheduleController@index');
+
+>>>>>>> origin/master

@@ -27,6 +27,10 @@
         .image-preview-input-title {
             margin-left:2px;
         }
+
+        #field {
+            margin-bottom:20px;
+        }
     </style>
 
     <script src="{{asset('js/proflende.js')}}"></script>
@@ -47,21 +51,45 @@
                     {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','url'=>'prosubRegister']) }}
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
-                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Profesor',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{ FORM::select('user_id',$profesoret,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Lënda',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{ FORM::select('subject_id',$lendet,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{ FORM::select('asis_id',$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('asis_id1',$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('asis_id2',$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('asis_id3',$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('asis_id4',$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'id_user']) }}
                             </div>
                         </div>
                     </div>
@@ -90,6 +118,7 @@
                     <h4 class="modal-title">Ndryshimi</h4>
                 </div>
                 <div class="modal-body">
+                    <button class="add_field_button">Add More Fields</button>
                     {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','url'=>'profLendeEdit']) }}
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
@@ -104,7 +133,7 @@
                                 {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group input_fields_wrap">
                             {{ FORM::label('Cakto Fakultetin',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::select('dekan_i',['Amerika'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
@@ -180,38 +209,43 @@
 
                             <p>Simple table with project listing with progress and editing options</p>
 
-                            @forelse($data as $prosub)
+
                             <table class="table table-striped projects">
                                 <thead>
                                 <tr>
                                     <th style="width: 20%">Lënda</th>
                                     <th>Profesori</th>
-                                    <th>Asistentet</th>
+                                    <th>Asistentet...</th>
                                 </tr>
                                 </thead>
                                 <tbody>
+
+                                @forelse($data as $prosub)
                                 <tr>
                                     <td>
-                                        {{$prosub->user->first_name}} {{$prosub->user->last_name}}
+                                        {{$prosub->cp->subject->subject}}
                                     </td>
                                     <td>
-                                        {{$prosub->subject->subject}}
+                                        {{$prosub->cp->user->academic_title->academic_title}}{{$prosub->cp->user->first_name}} {{$prosub->cp->user->last_name}}
                                     </td>
-                                    <td>
-                                        {{$prosub->user->first_name}} {{$prosub->user->last_name}}
-                                    </td>
+                                        @foreach($asistents as $asistent)
+                                        <td>
+                                            {{$asistent->user->academic_title->academic_title}}{{$asistent->user->first_name}} {{$asistent->user->last_name}}
+                                        </td>
+                                        @endforeach
                                     <td>
                                         <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit</button>
                                         <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{$prosub->id}}"><i class="fa fa-trash-o"></i> Delete</button>
                                     </td>
                                 </tr>
+                                @empty
+                                    <div class="alert alert-info">
+                                        <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
+                                    </div>
+                                @endforelse
                                 </tbody>
                             </table>
-                            @empty
-                                <div class="alert alert-info">
-                                    <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
-                                </div>
-                            @endforelse
+                            {{$data->render()}}
                         </div>
                     </div>
                 </div>

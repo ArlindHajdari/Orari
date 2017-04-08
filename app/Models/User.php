@@ -92,7 +92,7 @@ class User extends Eloquent
 
 	public function ca()
 	{
-		return $this->hasOne(\App\Models\Ca::class);
+		return $this->belongsToMany(\App\Models\Ca::class,'ca');
 	}
 
 	public function cps()

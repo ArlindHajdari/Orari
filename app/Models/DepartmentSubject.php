@@ -45,10 +45,13 @@ class DepartmentSubject extends Eloquent
 	{
 		return $this->belongsTo(\App\Models\Subject::class);
 	}
+<<<<<<< HEAD
 
 //    public function departmentSubject()
 //    {
 //        return $this->belongsTo('id','subject_id');
 //    }
 
+=======
+>>>>>>> origin/master
 }

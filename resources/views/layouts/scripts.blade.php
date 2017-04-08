@@ -22,3 +22,4 @@
 <script src="{{asset('moment/min/moment.min.js')}}"></script>
 <script src="{{asset('bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('js/custom.min.js')}}"></script>
+<script src="{{asset('fullcalendar/dist/fullcalendar.min.js')}}"></script>
