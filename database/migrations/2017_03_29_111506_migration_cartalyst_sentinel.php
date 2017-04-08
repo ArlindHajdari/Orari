@@ -107,11 +107,11 @@ class MigrationCartalystSentinel extends Migration
 
         DB::table('roles')->insert([
             'slug'=>'admin',
-            'name' => 'Admin',
+            'name' => 'Admin_SuAdmin',
         ]);
         DB::table('roles')->insert([
             'slug'=>'user',
-            'name' => 'User',
+            'name' => 'User_Teacher',
         ]);
 
         Schema::create('throttle', function (Blueprint $table) {

@@ -3,41 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Ca;
-use DB;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Database\QueryException;
 
-class ProfLendeController extends Controller
+class ScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        DB::enableQueryLog();
-        try{
-            $data = Ca::with(['cp.subject'=>function($query) use ($request){
-                $query->where('subject','like','%'.$request->search.'%');
-            }])->with(['cp.user'=>function($query) use ($request){
-                $query->orWhere('first_name','like','%'.$request->search.'%');
-                $query->orWhere('last_name','like','%'.$request->search.'%');
-            }])->paginate(15);
-
-//            dd($assistents);
-            dd(DB::getQueryLog());
-//            dd($data);
-            return view('Menaxho.Profesor-Lende.panel')->with('data',$data);
-        }
-        catch(QueryException $e){
-            return response()->json([
-                'fails'=>true,
-                'title' => 'Gabim ne server',
-                'msg' => $e->getMessage()
-            ],500);
-        }
+        return view('Menaxho.Orari.scheduler');
     }
 
     /**
@@ -103,7 +79,6 @@ class ProfLendeController extends Controller
      */
     public function destroy($id)
     {
-        CP::where('id',$id)->delete();
-        return view('Menaxho.Profesor-Lende.panel');
+        //
     }
 }

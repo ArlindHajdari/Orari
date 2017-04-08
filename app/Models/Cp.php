@@ -49,7 +49,7 @@ class Cp extends Eloquent
 
 	public function ca()
 	{
-		return $this->hasOne(\App\Models\Ca::class, 'cps_id');
+		return $this->hasMany(\App\Models\Ca::class, 'cps_id');
 	}
 
 	public function schedules()
