@@ -74,13 +74,26 @@ Route::delete('lendet-delete/{id}','LendetController@destroy');
 
 Route::get('OrariPanel','OrariController@index');
 
+<<<<<<< HEAD
 Route::get('scheduler','ScheduleController@index');
+=======
+    Route::get('OrariPanel','OrariController@index');
+
+    Route::get('scheduler','ScheduleController@index');
+});
+>>>>>>> origin/master
 
 Route::post('register-mesimdhenesi','MesimdhenesitController@store');
 
+<<<<<<< HEAD
 Route::delete('mesimdhenesi-delete/{id}','MesimdhenesitController@destroy');
 
 Route::patch('mesimdhenesi-edit/{id}','MesimdhenesitController@edit');
+=======
+
+
+
+>>>>>>> origin/master
 
 Route::match(['post','get'],'mesimdhenesit','MesimdhenesitController@show');
 //Route::get('LendetPanel','LendetController@index');
