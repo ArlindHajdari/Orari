@@ -25,6 +25,10 @@ class UsersController extends Controller
         return view('login');
     }
 
+    public function showRegister(){
+        return view('register');
+    }
+
     public function login(Request $request)
     {
         try{
@@ -65,6 +69,13 @@ class UsersController extends Controller
                 'fails'=>true,
                 'title'=> 'Shumë tentime për qasje',
                 'msg'=>"Ju është ndaluar qasja në faqe për $delay sekonda"
+            ],400);
+        }
+        catch(NotActivatedException $e){
+            return response()->json([
+                'fails'=>true,
+                'title'=>'Aktivizim',
+                'msg'=> 'Ju duhet të aktivizoni llogarinë tuaj!'
             ],400);
         }
     }

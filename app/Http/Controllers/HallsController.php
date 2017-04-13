@@ -11,21 +11,7 @@ use DB;
 
 class HallsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('Menaxho.Sallat.panel');
-    }
     
-    public function create()
-    {
-        
-
-    }
 
     public function store(Request $request)
     {

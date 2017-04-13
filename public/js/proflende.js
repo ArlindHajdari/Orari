@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#form-register').submit(function(e){
+    $('#prosubRegister').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -54,7 +54,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#form-edit').submit(function(e){
+    $('#profLendeEdit').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -119,22 +119,13 @@ $(document).ready(function(){
 
         var subject = link.data('subject_id');
         var profesor = link.data('prof_id');
-        var asistent1 = (link.data('asis_id1') == null) ? 0 : link.data('asis_id1');
-        var asistent2 = (link.data('asis_id2') == null) ? 0 : link.data('asis_id2');
-        var asistent3 = (link.data('asis_id3') == null) ? 0 : link.data('asis_id3');
-        var asistent4 = (link.data('asis_id4') == null) ? 0 : link.data('asis_id4');
-        var asistent5 = (link.data('asis_id5') == null) ? 0 : link.data('asis_id5');
-        var id = link.data('id');
+        var asistent = link.data('asis_id');
 
         var modal = $(this);
-        modal.find("#prof_id").val(profesor);
         modal.find("#subject_id").val(subject);
-        modal.find("#asis_id1").val(asistent1);
-        modal.find("#asis_id2").val(asistent2);
-        modal.find("#asis_id3").val(asistent3);
-        modal.find("#asis_id4").val(asistent4);
-        modal.find("#asis_id5").val(asistent5);
+        modal.find("#user_id").val(profesor);
+        modal.find("#email").val(asistent);
 
-        $("#form-edit").attr('action','http://localhost:8000/prolende-edit/'+id+'/'+asistent1+'/'+asistent2+'/'+asistent3+'/'+asistent4+'/'+asistent5);
+        $("#prosub-edit").attr('action','http://localhost:8000/prolende-edit/'+id);
     });
 });

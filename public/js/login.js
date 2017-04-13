@@ -41,7 +41,7 @@ $(document).ready(function(){
                     });
                 },
                 200: function(data){
-                     window.location.replace(data.url);
+                    window.location.replace(data.url);
                 }
             }
         });

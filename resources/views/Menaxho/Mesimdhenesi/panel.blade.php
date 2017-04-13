@@ -3,7 +3,7 @@
     Orari
 @stop
 @section('other')
-    <script src="{{asset('js/dekanetRegjister.js')}}"></script>
+    <script src="{{asset('js/mesimdhenesitRegister.js')}}"></script>
 @stop
 @section('body')
     <!-- Modal Register-->
@@ -16,7 +16,7 @@
                     <h4 class="modal-title">Regjistrimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'dekanRegister','url'=>'register-dekan','novalidate']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'mesimdhensitRegister','url'=>'register-mesimdhenesi','novalidate']) }}
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
                             {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
@@ -39,13 +39,13 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',array_merge(['0'=>'Zgjedhe titullin akademik'],$academicalTitles),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
+                                {{FORM::select('academic_title_id',$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',array_merge(['0'=>'Zgjedhe profesor/asistent'],$cpas),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('cpa_id',$cpa_id,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,13 +61,13 @@
                                 {{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail','id'=>'email'])}}
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
                                 ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
@@ -104,7 +104,7 @@
                 </div>
                 <div class="modal-body">
                     {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true',
-                    'method'=>'PATCH','id'=>'dekan-edit']) }}
+                    'method'=>'PATCH','id'=>'mesimdhenesi-edit']) }}
                     <div class="col-md-10 col-md-offset-1">
                         <div class="form-group">
                             {{ FORM::label('Emri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
@@ -115,21 +115,25 @@
                         <div class="form-group">
                             {{ FORM::label('Mbiemri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::text('last_name',null,['class'=>'form-control','required',
-                                'placeholder'=>'Mbiemri','id'=>'last_name'])}}
+                                {{FORM::text('last_name',null,['class'=>'form-control','required','placeholder'=>'Mbiemri','id'=>'last_name'])}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Fjalëkalimi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{FORM::password('password',['class'=>'form-control','placeholder'=>'Fjalëkalimi','required','id'=>'password'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',array_merge(['0'=>'Zgjedhe titullin akademik'],
-                                $academicalTitles),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academic_title_id'])}}
+                                {{FORM::select('academic_title_id',$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',array_merge(['0'=>'Zgjedhe profesor/asistent'],$cpas),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('cpa_id',$cpa_id,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -145,13 +149,14 @@
                                 {{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail','id'=>'email'])}}
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
-                                ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role_id'])}}
+                                ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
                             </div>
-                        </div>
+                        </div> --}}
+                        
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right">
@@ -288,7 +293,7 @@
                         @endforelse
                         </tbody>
                     </table>
-                    {{$data->render()}}
+                    {{$data->render()}} 
                     <!-- end project list -->
                 </div>
 

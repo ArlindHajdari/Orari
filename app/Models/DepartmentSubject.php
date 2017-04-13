@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 08 Apr 2017 14:07:49 +0000.
+ * Date: Wed, 05 Apr 2017 11:11:13 +0000.
  */
 
 namespace App\Models;
@@ -34,6 +34,7 @@ class DepartmentSubject extends Eloquent
 		'department_id',
 		'subject_id'
 	];
+
 
 	public function department()
 	{

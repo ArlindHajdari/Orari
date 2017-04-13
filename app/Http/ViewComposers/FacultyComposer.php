@@ -6,14 +6,14 @@ use Illuminate\Contracts\View\View;
 use App\Models\Faculty;
 use Illuminate\Database\QueryException;
 
-class FacultyComposer
+class CPAsComposer
 {
-    public $faculty;
+    public $faculties;
 
     public function __construct()
     {
         try{
-            $this->faculty=Faculty::pluck('faculty','id')->toArray();
+            $this->faculties=Faculty::pluck('faculty','id')->toArray();
         }
         catch(QueryException $e){
             return response()->json([
@@ -26,6 +26,6 @@ class FacultyComposer
 
     public function compose(View $view)
     {
-        $view->with('faculty',$this->faculty);
+        $view->with('faculties',$this->faculties);
     }
 }

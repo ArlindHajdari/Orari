@@ -22,20 +22,21 @@
                         <div class="form-group">
                             {{ FORM::label('Emri Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('hall',null,['class'=>'form-control','required','placeholder'=>'Salla','id'=>'hall']) }}
+                                {{ FORM::text('hall',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Kapaciteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Kapaciteti','id'=>'capacity']) }}
+                                {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
                             </div>
                         </div>
+
                         <div class="form-group">
                             {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('halltype_id',$halls+[0=>'Zgjedh llojn e sallës'],0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'halltype_id']) }}
+                                {{ FORM::select('halltype_id',['1'=>'laborator','2'=>'teori'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
                             </div>
                         </div>
                     
@@ -86,7 +87,7 @@
                         <div class="form-group">
                             {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('halltype_id',$halls+[0=>'Zgjedh llojin e sallës'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'halltype_id']) }}
+                                {{ FORM::select('halltype_id',['1'=>'laborator','2'=>'teori'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti','id'=>'halltype_id']) }}
                             </div>
                         </div>  
 
@@ -182,7 +183,7 @@
                                 {{$hall->capacity}}
                             </td>
                             <td>
-                                {{$hall->halltype->hallType}}
+                                {{$hall->halltype->halltype}}
                             </td>
                           
                             <td>
