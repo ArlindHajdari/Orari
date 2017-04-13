@@ -65,8 +65,7 @@
                     <h4 class="modal-title">Ndryshimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true',
-                    'method'=>'PATCH','id'=>'salla-edit']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','method'=>'PATCH','id'=>'salla-edit']) }}
                     <div class="col-md-10 col-md-offset-1">
                  
                         <div class="form-group">
@@ -182,7 +181,7 @@
                                 {{$hall->capacity}}
                             </td>
                             <td>
-                                {{$hall->halltype->hallType}}
+                                {{$hall->hallType}}
                             </td>
                           
                             <td>

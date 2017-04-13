@@ -79,7 +79,9 @@ class HallsController extends Controller
     {
         DB::enableQueryLog();
         try{
-            $data = Hall::paginate(10);
+            $data = Hall::select('halls.id','halls.hall','halls.capacity','halltypes.hallType')->join('halltypes',
+                'halls.halltype_id','halltypes.id')->where('halls.hall','like','%'.$request->search.'%')->orWhere
+            ('halls.capacity','like','%'.$request->search.'%')->orWhere('halltypes.hallType','like','%'.$request->search.'%')->paginate(10);
 
             return view('Menaxho.Sallat.panel')->with('data',$data);
         }

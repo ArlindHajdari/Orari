@@ -84,14 +84,13 @@ Route::group(['middleware'=>'login'], function(){
 
     Route::delete('lendet-delete/{id}','LendetController@destroy');
 
+    Route::get('OrariPanel','OrariController@index');
+
     Route::get('scheduler','ScheduleController@index');
 });
 
 
-<<<<<<< HEAD
-=======
-Route::get('OrariPanel','OrariController@index');
 
-Route::get('scheduler','ScheduleController@index');
->>>>>>> origin/master
+
+
 
