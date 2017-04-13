@@ -88,4 +88,10 @@ Route::group(['middleware'=>'login'], function(){
 });
 
 
+<<<<<<< HEAD
+=======
+Route::get('OrariPanel','OrariController@index');
+
+Route::get('scheduler','ScheduleController@index');
+>>>>>>> origin/master
 

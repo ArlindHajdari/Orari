@@ -44,4 +44,5 @@ class DepartmentSubject extends Eloquent
 	{
 		return $this->belongsTo(\App\Models\Subject::class);
 	}
+
 }
