@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#form-register').submit(function(e){
+    $('#department-register').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -54,7 +54,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#form-edit').submit(function(e){
+    $('#department-edit').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -110,31 +110,63 @@ $(document).ready(function(){
     });
 
     $('#deleteModal').on('shown.bs.modal', function(e) {
-        var Id = $(e.relatedTarget).data('id');
-        $("#delete-form").attr('action','http://localhost:8000/prosub-delete/'+Id);
+        var id = $(e.relatedTarget).data('id');
+        $("#delete-form").attr('action','http://localhost:8000/departmentDelete/'+id);
     });
 
     $('#editModal').on('show.bs.modal', function(e) {
         var link = $(e.relatedTarget);
 
-        var subject = link.data('subject_id');
-        var profesor = link.data('prof_id');
-        var asistent1 = (link.data('asis_id1') == null) ? 0 : link.data('asis_id1');
-        var asistent2 = (link.data('asis_id2') == null) ? 0 : link.data('asis_id2');
-        var asistent3 = (link.data('asis_id3') == null) ? 0 : link.data('asis_id3');
-        var asistent4 = (link.data('asis_id4') == null) ? 0 : link.data('asis_id4');
-        var asistent5 = (link.data('asis_id5') == null) ? 0 : link.data('asis_id5');
+        var department = link.data('department');
+        var faculty_id = link.data('faculty_id');
+        
         var id = link.data('id');
 
         var modal = $(this);
-        modal.find("#prof_id").val(profesor);
-        modal.find("#subject_id").val(subject);
-        modal.find("#asis_id1").val(asistent1);
-        modal.find("#asis_id2").val(asistent2);
-        modal.find("#asis_id3").val(asistent3);
-        modal.find("#asis_id4").val(asistent4);
-        modal.find("#asis_id5").val(asistent5);
+        modal.find("#department").val(department);
+        modal.find("#faculty_id").val(faculty_id);
+        $("#department-edit").attr('action','http://localhost:8000/departmentEdit/'+id);
+    });
+});
 
-        $("#form-edit").attr('action','http://localhost:8000/prolende-edit/'+id+'/'+asistent1+'/'+asistent2+'/'+asistent3+'/'+asistent4+'/'+asistent5);
+$('#search-form').submit(function(e){
+    e.preventDefault();
+
+    $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN': $('meta[name=csrf-token]').attr('content')
+        }
+    });
+
+    var formData = new FormData(this),url = $(this).attr('action');
+
+    $.ajax({
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        url: url,
+        statusCode: {
+            500: function(data){
+                BootstrapDialog.show({
+                    title: data.responseJSON['title'],
+                    message: data.responseJSON['msg'],
+                    buttons: [{
+                        label: 'Close',
+                        action: function(dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+            },
+            400: function(data){
+                $.each(data.responseJSON['errors'], function(i,v){
+                    $.each(this, function(index,value){
+                        var errorID = '#'+i;
+                        $(errorID).tooltip({title: value,placement: "right"}).tooltip('show');
+                    })
+                });
+            }
+        }
     });
 });

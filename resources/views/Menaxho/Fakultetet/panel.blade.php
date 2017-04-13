@@ -3,6 +3,10 @@
     Orari
 @stop
 
+@section('other')
+    <script src="{{asset('js/faculty.js')}}"></script>
+@stop
+
 @section('body')
 
     <!-- Modal Register-->
@@ -15,15 +19,15 @@
                     <h4 class="modal-title">Regjistrimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'facultyRegister','url'=> 'register']) }}
 
                     <div class="col-md-10 col-md-offset-1">
 
                         <div class="form-group">
                             {{ FORM::label('Fakullteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('fakullteti',null,['class'=>'form-control','required',
-                                'placeholder'=>'Fakullteti']) }}
+                                {{ FORM::text('faculty',null,['class'=>'form-control','required',
+                                'placeholder'=>'Fakullteti','id'=>'faculty']) }}
                             </div>
                         </div>
                     </div>
@@ -52,14 +56,13 @@
                     <h4 class="modal-title">Ndryshimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','url'=>'lendEdit']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','method'=>'PATCH','id'=>'faculty-edit']) }}
 
                     <div class="col-md-10 col-md-offset-1">
-
                         <div class="form-group">
-                            {{ FORM::label('Fakullteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('fakullteti',null,['class'=>'form-control','required','placeholder'=>'Fakullteti']) }}
+                                {{ FORM::text('faculty',null,['class'=>'form-control','required','placeholder'=>'Fakulteti', 'id'=>'faculty']) }}
                             </div>
                         </div>
                     </div>
@@ -80,87 +83,98 @@
     <!-- Modal Delete-->
     <div class="modal fade" id="deleteModal" role="dialog">
         <div class="modal-dialog modal-sm">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-body" style="padding:25px 10px">
                     <div align="middle">
+                        {{FORM::open(['id'=>'delete-form','method'=>'DELETE'])}}
                         <div class="form-group">
                             <p class="modal-title" style="font-size: 16px;">A jeni të sigurt që dëshironi të fshini?</p><br>
-                            <form action="logout" method="POST" id="logout-form">
-                                {{ csrf_field() }}
-                                <button href="#" onclick="document.getElementById('logout-form').submit()" class="btn btn-success">Yes</button>
-                                <button data-dismiss="modal" class="btn btn-danger">No</button>
-                            </form>
+                            <button href="#" onclick="document.getElementById('delete-form').submit()" class="btn
+                            btn-success">Po</button>
+                            <button data-dismiss="modal" class="btn btn-danger">Jo</button>
                         </div>
+                        {{FORM::close()}}
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- /Modal /Delete-->
 
+
     <!-- page content -->
-            <div class="page-title">
-                <div class="title_left">
-                    <h3>Xalfa <small>Lista e fakulteteve</small></h3>
-                </div>
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Xalfa <small>Lista e Fakultetev</small></h3>
+        </div>
 
-                <div class="title_right">
-                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for...">
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                {{FORM::open(['novalidate','id'=>'search-form'])}}
+                <div class="input-group">
+                    {{FORM::text('search',null,['placeholder'=>'Kërko për...','class'=>'form-control','id'=>'search'])}}
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
+                      <button class="btn btn-default" type="button" onclick="document.getElementById('search-form').submit();">Kërko!
+                      </button>
                     </span>
-                        </div>
-                    </div>
+                </div>
+                {{FORM::close()}}
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Fakulteti</h2>
+                    <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <p>Tabela me të dhënat e fakultetit</p>
+
+                    <!-- start project list -->
+                    <table class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th style="width: 80%">Fakullteti</th>
+                            <th style="width: 20%">Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @forelse($faculty as $value)
+                        <tr>
+                            <td>{{ $value->faculty }}</td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
+                                        data-id="{{$value->id}}" data-target="#editModal"
+                                        data-faculty="{{$value->faculty}}"><i class="fa fa-pencil"></i>
+                                    Edit
+                                </button>
+                                <button type="button" class="btn btn-danger btn-xs" data-id="{{$value->id}}"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                        @empty
+                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
+                        @endforelse
+                        </tbody>
+                    </table>
+                    {{$faculty->render()}}
+                    <!-- end project list -->
+
                 </div>
             </div>
-
-            <div class="clearfix"></div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Fakulteti</h2>
-                            <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-
-                            <p>Tabela me të dhënat e fakultetit</p>
-
-                            <!-- start project list -->
-                            <table class="table table-striped projects">
-                                <thead>
-                                <tr>
-                                    <th style="width: 1%">#</th>
-                                    <th style="width: 20%">Fakullteti</th>
-                                    <th style="width: 20%">#Edit</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>#</td>
-                                    <td>Stërrsh</td>
-                                    <td>
-                                        <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
-                                        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil"></i> Edit</button>
-                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                            <!-- end project list -->
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
 
     <!-- /page content -->
 @stop

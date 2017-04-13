@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Faculty;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use View;
-use Validator;
+use App\Models\Department;
 use DB;
+use Validator;
 
-class FacultyController extends Controller
+class DepartmentController extends Controller
 {
+
     public function index()
     {
-        try {
-            $faculty = Faculty::all();
-            $a = 0;
-            return view('Menaxho.Fakultetet.panel')->with(['faculty' => $faculty, 'a' => $a]);
+        try{
+        $department = Department::all();
+        return view('Menaxho.Departamentet.panel')->with('department', $department);
 
         }catch(QueryException $e) {
             return response()->json([
@@ -30,14 +28,15 @@ class FacultyController extends Controller
 
     public function create()
     {
-        return View::make('menaxho.fakultetet.panel');
+        return View::make('menaxho.departmentet.panel');
     }
-    
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'faculty' => 'bail|required|alpha|max:250|min:6'
-        ]);
+        $validator = Validator::make($request->all(),[
+                'department' => 'required|alpha|max:250|min:2',
+                'faculty_id' => 'required|numeric|exists:faculties,id'
+            ]);
 
         if ($validator->fails()) {
             return response()->json([
@@ -46,30 +45,26 @@ class FacultyController extends Controller
                 ],400);
 
         }else{
-            $faculty = new Faculty;
-            $faculty->faculty = $request->faculty;
-            if($faculty->save()){
+            $department = new Department;
+            $department->department = $request->department;
+            $department->faculty_id = $request->faculty_id;
+
+            if($department->save()){
                 return response()->json([
                         'fails'=>'true',
-                        'title'=>'Sukses',
+                        'title'=>'sukses',
                         'msg'=>'Te dhenat u regjistruan me sukses'
                     ],200);
-            }else{
-                return response()->json([
-                    'fails'=>'true',
-                    'title'=>'Gabim',
-                    'msg'=>'Gabim gjatë insertimit të të dhënave!'
-                ],400);
             }
         }
     }
 
     public function show(Request $request)
     {
-        DB::enableQueryLog();
         try{
-            $faculty = Faculty::where('faculty','like','%'.$request->search.'%')->paginate(15);
-            return view('Menaxho.Fakultetet.panel')->with('faculty',$faculty);
+            $department = Department::select('departments.id','departments.department','faculties.faculty','faculties.id as faculty_id')->join('faculties','departments.faculty_id','faculties.id')->where('departments.department','like','%'.$request->search.'%')->orWhere('faculties.faculty','like','%'.$request->search.'%')->paginate(10);
+
+            return view('Menaxho.Departamentet.panel',['department'=>$department]);
         }
         catch(QueryException $e){
             return response()->json([
@@ -78,13 +73,15 @@ class FacultyController extends Controller
                 'msg' => $e->getMessage()
             ],500);
         }
+
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request,$id)
     {
         try{
             $validation = Validator::make($request->all(),[
-                'faculty' => 'bail|required|alpha|max:190'
+                'department' => 'bail|required|alpha|max:190',
+                'faculty_id' => 'bail|required|numeric|min:1|exists:faculties,id'
             ]);
 
             if($validation->fails()){
@@ -94,11 +91,12 @@ class FacultyController extends Controller
                 ],400);
             }
 
-            $faculty = Faculty::find($id);
+            $department = Department::find($id);
 
-            $faculty->faculty = $request->faculty;
+            $department->department = $request->department;
+            $department->faculty_id = $request->faculty_id;
 
-            if($faculty->save()){
+            if($department->save()){
                 return response()->json([
                     'success'=>true,
                     'title'=>'Sukses',
@@ -124,14 +122,14 @@ class FacultyController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     public function destroy($id)
     {
-        $faculty = Faculty::find($id);
-        $faculty->delete();
+        $department = Department::find($id);
+        $department->delete();
 
-        return redirect('FacultyPanel');
+        return redirect('departamentPanel');
     }
 }

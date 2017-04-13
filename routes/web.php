@@ -11,66 +11,81 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-//)->middleware('login');
-
 Route::get('login', 'UsersController@index');
-
-Route::post('logout','UsersController@logout');
-
-Route::get('dekanet','DekanController@index');
-
-Route::post('register-dekan','DekanController@store');
-
-Route::delete('dekan-delete/{id}','DekanController@destroy');
-
-Route::patch('dekan-edit/{id}/{photo}','DekanController@edit');
-
-Route::match(['post','get'],'dekanet','DekanController@show');
 
 Route::post('login','UsersController@login');
 
-Route::post('register','UsersController@store');
+Route::group(['middleware'=>'login'], function(){
+    Route::get('/', function () {
+        return view('index');
+    });
 
-Route::get('dekanReg','SuAdminController@showDekanRegister');
+    Route::post('logout','UsersController@logout');
 
-Route::post('dekanRegister','SuAdminController@store');
+    Route::get('dekanet','DekanController@index');
 
-Route::get('dekanEd','SuAdminController@showDekanEdit');
+    Route::post('register-dekan','DekanController@store');
 
-Route::get('lendetRegister','UsersController@LendetRegister');
+    Route::delete('dekan-delete/{id}','DekanController@destroy');
 
-Route::get('FacultyPanel','FacultyController@index');
+    Route::patch('dekan-edit/{id}/{photo}','DekanController@edit');
 
-Route::get('FacultyPanel','FacultyController@index'); 
+    Route::match(['post','get'],'dekanet','DekanController@show');
+    
+    Route::post('register','UsersController@store');
 
-Route::post('LendetReg','LendetController@store');
+    Route::post('dekanRegister','SuAdminController@store');
 
-Route::match(['post','get'],'LendetPanel','LendetController@search');
+    Route::get('dekanEd','SuAdminController@showDekanEdit');
 
-Route::match(['post','get'],'proflende','ProfLendeController@index');
+    Route::get('lendetRegister','UsersController@LendetRegister');
 
-Route::delete('delete-prosub/{id}','ProfLendeController@destroy');
+    Route::get('FacultyPanel','FacultyController@index');
 
-Route::patch('prolende-edit/{id}','ProfLendeController@edit');
+    Route::get('FacultyPanel','FacultyController@index');
 
-//Route::get('LendetSearch','LendetController@search');
-//
-//Route::get('LendetPanel','LendetController@index');
+    Route::post('LendetReg','LendetController@store');
 
-Route::post('salla-register','HallsController@store');
+    Route::match(['post','get'],'LendetPanel','LendetController@search');
 
-Route::delete('salla-delete/{id}','HallsController@destroy');
+    Route::match(['post','get'],'proflende','ProfLendeController@index');
 
-Route::patch('salla-edit/{id}','HallsController@edit');
+    Route::delete('prosub-delete/{id}','ProfLendeController@destroy');
 
-Route::match(['post','get'],'sallat','HallsController@show');
+    Route::patch('prolende-edit/{id}/{asis_id1}/{asis_id2}/{asis_id3}/{asis_id4}/{asis_id5}', 'ProfLendeController@edit');
 
-Route::patch('lendet-edit/{id}','LendetController@edit');
+    Route::post('register','ProfLendeController@store');
 
-Route::delete('lendet-delete/{id}','LendetController@destroy');
+    Route::match(['post','get'],'FacultyPanel','FacultyController@show');
 
-Route::get('scheduler','ScheduleController@index');
+    Route::post('register','FacultyController@store');
+
+    Route::delete('facultyDelete/{id}','FacultyController@destroy');
+
+    Route::patch('facultyEdit/{id}','FacultyController@edit');
+
+    Route::match(['post','get'],'departamentPanel','DepartmentController@show');
+
+    Route::post('departmentRegister','DepartmentController@store');
+
+    Route::delete('departmentDelete/{id}','DepartmentController@destroy');
+
+    Route::patch('departmentEdit/{id}','DepartmentController@edit');
+
+    Route::post('salla-register','HallsController@store');
+
+    Route::delete('salla-delete/{id}','HallsController@destroy');
+
+    Route::patch('salla-edit/{id}','HallsController@edit');
+
+    Route::match(['post','get'],'sallat','HallsController@show');
+
+    Route::patch('lendet-edit/{id}','LendetController@edit');
+
+    Route::delete('lendet-delete/{id}','LendetController@destroy');
+
+    Route::get('scheduler','ScheduleController@index');
+});
+
+
 

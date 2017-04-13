@@ -47,14 +47,14 @@
                         <div class="form-group">
                             {{ FORM::label('Lloji',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('subjecttype_id',array_merge(['0'=>'Cakto Llojin'],$subjecttype),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
+                                {{FORM::select('subjecttype_id',$subjecttype+[0=>'Zgjedh llojin e lëndës'],0,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Departamenti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('department',array_merge(['0'=>'Cakto Departamentin'],$department),null,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
+                                {{ FORM::select('department',$department+[0=>'Zgjedh departamentin'],0,['class'=>'form-control','required','style'=>'border-radius:2px'])}}
                             </div>
                         </div>
 
@@ -112,14 +112,14 @@
                         <div class="form-group">
                             {{ FORM::label('Lloji',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('subjecttype_id',array_merge(['0'=>'Cakto Llojin'],$subjecttype),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'subjecttype_id'])}}
+                                {{FORM::select('subjecttype_id',$subjecttype,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'subjecttype_id'])}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Departamenti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('department_id',array_merge(['0'=>'Cakto Departamentin'],$department),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'department_id'])}}
+                                {{ FORM::select('department_id',$department,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'department_id'])}}
                             </div>
                         </div>
 

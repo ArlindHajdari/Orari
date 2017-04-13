@@ -31,7 +31,7 @@
                         <ul class="nav child_menu">
                             <li><a href="{{ url('FacultyPanel') }}">Fakultetet</a>
                             </li>
-                            <li><a href="{{ url('dekanReg') }}">Departamentet</a>
+                            <li><a href="{{ url('departamentPanel') }}">Departamentet</a>
                             </li>
                             <li><a href="{{ url('dekanet') }}">Dekanët</a>
                             </li>
