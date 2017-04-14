@@ -139,8 +139,7 @@
                 <div class="input-group">
                     {{FORM::text('search',null,['placeholder'=>'Kërko për...','class'=>'form-control','id'=>'search'])}}
                     <span class="input-group-btn">
-                      <button class="btn btn-default" type="button" onclick="document
-                      .getElementById('search-form').submit();">Kërko!</button>
+                      <button class="btn btn-default" type="button" onclick="document.getElementById('search-form').submit();">Kërko!</button>
                     </span>
                 </div>
                 {{FORM::close()}}
@@ -170,9 +169,7 @@
                             <th style="width: 20%">#Edit</th>
                         </tr>
                         </thead>
-
                         <tbody>
-                       
                         @forelse($data as $hall)
                         <tr>
                             <td>
@@ -182,13 +179,8 @@
                                 {{$hall->capacity}}
                             </td>
                             <td>
-<<<<<<< HEAD
-                                {{$hall->halltype->halltype}}
-=======
                                 {{$hall->hallType}}
->>>>>>> origin/master
                             </td>
-                          
                             <td>
                                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
                                         data-id="{{$hall->id}}" data-target="#editModal"

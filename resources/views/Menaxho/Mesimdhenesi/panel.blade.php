@@ -39,13 +39,13 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
+                                {{FORM::select('academic_title_id',$academicalTitles+[0=>'Zgjedh titullin akademik!'],0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',$cpa_id,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('cpa_id',$cpas_nodekan+[0=>'Zgjedh profesor/asisntet'],0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -61,13 +61,6 @@
                                 {{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail','id'=>'email'])}}
                             </div>
                         </div>
-                        {{-- <div class="form-group">
-                            {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
-                                ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
-                            </div>
-                        </div> --}}
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
@@ -119,12 +112,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Fjalëkalimi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::password('password',['class'=>'form-control','placeholder'=>'Fjalëkalimi','required','id'=>'password'])}}
-                            </div>
-                        </div>
-                        <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('academic_title_id',$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
@@ -133,7 +120,7 @@
                         <div class="form-group">
                             {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',$cpa_id,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('cpa_id',$cpas_nodekan,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -149,14 +136,6 @@
                                 {{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail','id'=>'email'])}}
                             </div>
                         </div>
-                        {{-- <div class="form-group">
-                            {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
-                                ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
-                            </div>
-                        </div> --}}
-                        
                         <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="input-group image-preview control-label pull-right">
@@ -241,11 +220,12 @@
                         <thead>
                         <tr>
                             <th style="width: 20%">Emri</th>
-                            <th>Email</th>
-                            <th>Numri personal</th>
-                            <th>Log ID</th>
-                            <th>Foto</th>
-                            <th style="width: 20%">#Edit</th>
+                            <th style="width: 20%">Email</th>
+                            <th style="width: 10%">CPA</th>
+                            <th style="width: 15%">Numri personal</th>
+                            <th style="width: 10%">Log ID</th>
+                            <th style="width: 10%">Foto</th>
+                            <th style="width: 15%">#Edit</th>
                         </tr>
                         </thead>
 
@@ -257,6 +237,9 @@
                             </td>
                             <td>
                                 {{$user->email}}
+                            </td>
+                            <td>
+                                {{$user->cpa}}
                             </td>
                             <td>
                                 {{$user->personal_number}}
@@ -278,7 +261,7 @@
                                         data-academic_title_id="{{$user->academic_title_id}}"
                                         data-cpa_id="{{$user->cpa_id}}"
                                         data-personal_number="{{$user->personal_number}}" data-email="{{$user->email}}"
-                                        data-photo="{{$user->photo}}" data-role_id="{{$user->role_id}}"><i
+                                        data-photo="{{$user->photo}}"><i
                                             class="fa
                                         fa-pencil"></i> Edit</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$user->id}}"

@@ -18,8 +18,8 @@ class LoginMiddleware
     {
         if(!Sentinel::check()){
             return redirect('login');
-        }else{
-            return $next($request);
         }
+
+        return $next($request);
     }
 }

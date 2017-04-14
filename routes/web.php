@@ -10,90 +10,74 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('index');
-});
-//)->middleware('login');
-
 Route::get('login', 'UsersController@index');
-
-Route::post('logout','UsersController@logout');
-
-Route::get('dekanet','DekanController@index');
-
-Route::post('register-dekan','DekanController@store');
-
-Route::delete('dekan-delete/{id}','DekanController@destroy');
-
-Route::patch('dekan-edit/{id}/{photo}','DekanController@edit');
-
-Route::match(['post','get'],'dekanet','DekanController@show');
 
 Route::post('login','UsersController@login');
 
-Route::post('register','UsersController@store');
+Route::group(['middleware'=>'login'], function(){
+    Route::get('/',function(){
+        return view('index');
+    });
 
-Route::get('dekanReg','SuAdminController@showDekanRegister');
+    Route::post('logout','UsersController@logout');
 
-Route::post('dekanRegister','SuAdminController@store');
+    Route::get('dekanet','DekanController@index');
 
-Route::get('dekanEd','SuAdminController@showDekanEdit');
+    Route::post('register-dekan','DekanController@store');
 
-Route::get('lendetRegister','UsersController@LendetRegister');
+    Route::delete('dekan-delete/{id}','DekanController@destroy');
 
-Route::get('FacultyPanel','FacultyController@index');
+    Route::patch('dekan-edit/{id}/{photo}','DekanController@edit');
 
-Route::get('FacultyPanel','FacultyController@index'); 
+    Route::match(['post','get'],'dekanet','DekanController@show');
 
-Route::post('LendetReg','LendetController@store');
+    Route::post('register','UsersController@store');
 
-Route::match(['post','get'],'LendetPanel','LendetController@search');
+    Route::get('dekanReg','SuAdminController@showDekanRegister');
 
-Route::match(['post','get'],'proflende','ProfLendeController@index');
+    Route::post('dekanRegister','SuAdminController@store');
 
-Route::delete('delete-prosub/{id}','ProfLendeController@destroy');
+    Route::get('dekanEd','SuAdminController@showDekanEdit');
 
-Route::patch('prolende-edit/{id}','ProfLendeController@edit');
+    Route::get('lendetRegister','UsersController@LendetRegister');
 
-//Route::get('LendetSearch','LendetController@search');
-//
-//Route::get('LendetPanel','LendetController@index');
+    Route::get('FacultyPanel','FacultyController@index');
 
-Route::post('salla-register','HallsController@store');
+    Route::get('FacultyPanel','FacultyController@index');
 
-Route::delete('salla-delete/{id}','HallsController@destroy');
+    Route::post('LendetReg','LendetController@store');
 
-Route::patch('salla-edit/{id}','HallsController@edit');
+    Route::match(['post','get'],'LendetPanel','LendetController@search');
 
-Route::match(['post','get'],'sallat','HallsController@show');
+    Route::match(['post','get'],'proflende','ProfLendeController@index');
 
-Route::patch('lendet-edit/{id}','LendetController@edit');
+    Route::delete('delete-prosub/{id}','ProfLendeController@destroy');
 
-Route::delete('lendet-delete/{id}','LendetController@destroy');
+    Route::patch('prolende-edit/{id}/{asis_id1}/{asis_id2}/{asis_id3}/{asis_id4}/{asis_id5}','ProfLendeController@edit');
 
-Route::get('OrariPanel','OrariController@index');
+    Route::post('salla-register','HallsController@store');
 
-<<<<<<< HEAD
-Route::get('scheduler','ScheduleController@index');
-=======
+    Route::delete('salla-delete/{id}','HallsController@destroy');
+
+    Route::patch('salla-edit/{id}','HallsController@edit');
+
+    Route::match(['post','get'],'sallat','HallsController@show');
+
+    Route::patch('lendet-edit/{id}','LendetController@edit');
+
+    Route::delete('lendet-delete/{id}','LendetController@destroy');
+
     Route::get('OrariPanel','OrariController@index');
 
     Route::get('scheduler','ScheduleController@index');
+
+    Route::get('OrariPanel','OrariController@index');
+
+    Route::post('register-mesimdhenesi','MesimdhenesitController@store');
+
+    Route::delete('mesimdhenesi-delete/{id}','MesimdhenesitController@destroy');
+
+    Route::patch('mesimdhenesi-edit/{id}/{photo}','MesimdhenesitController@edit');
+
+    Route::match(['post','get'],'mesimdhenesit','MesimdhenesitController@show');
 });
->>>>>>> origin/master
-
-Route::post('register-mesimdhenesi','MesimdhenesitController@store');
-
-<<<<<<< HEAD
-Route::delete('mesimdhenesi-delete/{id}','MesimdhenesitController@destroy');
-
-Route::patch('mesimdhenesi-edit/{id}','MesimdhenesitController@edit');
-=======
-
-
-
->>>>>>> origin/master
-
-Route::match(['post','get'],'mesimdhenesit','MesimdhenesitController@show');
-//Route::get('LendetPanel','LendetController@index');

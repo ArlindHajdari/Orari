@@ -36,16 +36,16 @@ public function store(Request $request)
                 ],400);
             }
 
-           
-            if($request->hasFile('photo')){
-                $file = $request->file('photo');
+            $data = $request->all();
 
-                $filename = str_random(8).'-'.$file->getClientOriginalName();
+            $file = $request->file('photo');
 
-                $file->move($destinationFolder,$filename);
+            $filename = str_random(8).'-'.$file->getClientOriginalName();
 
-                $data['photo']=$destinationFolder.$filename;
-            }
+            $file->move($destinationFolder,$filename);
+
+            $data['photo']=$destinationFolder.$filename;
+
 
             $log_ids = User::select('log_id')->get()->toArray();
             
@@ -54,19 +54,19 @@ public function store(Request $request)
             }while(in_array($log_id,$log_ids));
 
             $data['log_id'] = $log_id;
-           // $data['puna_ids']=$puna_ids;
-            unset($data['role_id']);
-             $data = new User();
-            $data->first_name=$request->first_name;
-            $data->last_name=$request->last_name;
-            $data->log_id=$log_id;
-            $data->password=$request->password;
-            $data->personal_number=$request->personal_number;
-            $data->cpa_id=$request->cpa_id;
-            $data->academic_title_id=$request->academic_title_id;
-            $data->email=$request->email;
+
+            $user = new User();
+            $user->first_name=$data['first_name'];
+            $user->last_name=$data['last_name'];
+            $user->log_id = $data['log_id'];
+            $user->password=$data['password'];
+            $user->personal_number=$data['personal_number'];
+            $user->cpa_id=$data['cpa_id'];
+            $user->academic_title_id=$data['academic_title_id'];
+            $user->email=$data['email'];
+            $user->photo = $data['photo'];
             
-            if($user = Sentinel::registerAndActivate($data)){
+            if($user = Sentinel::registerAndActivate($user)){
                 if($role = Sentinel::findRoleBySlug('user')){
                     $role->users()->attach($user);
 
@@ -108,21 +108,18 @@ public function store(Request $request)
      */
     public function show(Request $request)
     {
-         $cpa_id=cpa::where('cpa','!=','Dekan')->pluck('cpa','id')->toArray();
-         $academicalTitles=AcademicTitle::pluck('academic_title','id');
         DB::enableQueryLog();
         try{
-            $data = User::select('users.id','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo', 'role_users.role_id')->join('role_users','role_users.user_id','users.id')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','Dekan')->where(function($query) use ($request){
+            $data = User::select('users.id','cpas.cpa','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','<>','Dekan')->where(function($query) use ($request){
                 $query->orWhere('users.last_name','like','%'.$request->search.'%');
                 $query->orWhere('users.email','like','%'.$request->search.'%');
                 $query->orWhere('users.personal_number','like','%'.$request->search.'%');
                 $query->orWhere('users.log_id','like','%'.$request->search.'%');
                 $query->orWhere('users.first_name','like','%'.$request->search.'%');
-            })->paginate(10);
+                $query->orWhere('cpas.cpa','like','%'.$request->search.'%');
+            })->paginate(15);
 
-            return view('Menaxho.Mesimdhenesi.panel')->with('data',$data)
-                                                ->with('cpa_id',$cpa_id)
-                                                ->with('academicalTitles',$academicalTitles);;
+            return view('Menaxho.Mesimdhenesi.panel')->with('data',$data);
         }
         catch(QueryException $e){
             return response()->json([
@@ -183,6 +180,7 @@ public function store(Request $request)
                 $dekan->cpa_id = $data['cpa_id'];
                 $dekan->academic_title_id = $data['academic_title_id'];
                 $dekan->photo = $data['photo'];
+                
                 if($dekan->save()){
                     if(RoleUser::where('user_id',$dekan->id)->update(['role_id'=>$request->role_id])){
                         return response()->json([

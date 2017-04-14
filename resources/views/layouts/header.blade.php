@@ -29,21 +29,30 @@
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-cogs"></i>Menaxho<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ url('FacultyPanel') }}">Fakultetet</a>
-                            </li>
-                            <li><a href="{{ url('dekanReg') }}">Departamentet</a>
-                            </li>
-                            <li><a href="{{ url('dekanet') }}">Dekanët</a>
-                            </li>
-                            <li><a href="{{ url('LendetPanel') }}">Lëndët</a>
-                            </li>
-                            <li><a href="{{ url('sallat') }}">Sallë</a>
-                            </li>
-                            <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a>
-                            </li>
-                            </li>
+                            @if(Sentinel::getUser()->roles()->first()->slug == 'admin')
+                                <li><a href="{{ url('FacultyPanel') }}">Fakultetet</a>
+                                </li>
+                                <li><a href="{{ url('dekanReg') }}">Departamentet</a>
+                                </li>
+                                <li><a href="{{ url('dekanet') }}">Dekanët</a>
+                                </li>
+                                <li><a href="{{ url('LendetPanel') }}">Lëndët</a>
+                                </li>
+                                <li><a href="{{ url('sallat') }}">Sallë</a>
+                                </li>
+                            @elseif(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
+                                <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a>
+                                </li>
+                                <li><a href="{{ url('mesimdhenesit') }}">Mësimdhënësit</a>
+                                </li>
+                            @else
+                                <li><a href="{{ url('availability') }}">Disponueshmëria</a>
+                                </li>
+                            @endif
+
                         </ul>
-                    </ul>
+                    </li>
+                </ul>
             <div class="menu_section">
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -115,95 +124,98 @@
             <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
             </div>
-
+            {{FORM::open(['url'=>'logout','id'=>'logout-forma'])}}
             <ul class="nav navbar-nav navbar-right">
-                <li class="">
+
+                <li class="" id="user_info">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="images/img.jpg" alt="">
+                        <img src="{{Sentinel::getUser()->photo}}" alt="Foto">
                         @if(Sentinel::check())
                             {{Sentinel::getUser()->first_name}} {{Sentinel::getUser()->last_name}}
                         @endif
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> Profile</a></li>
                         <li>
-                            <a href="javascript:;">
-                                <span class="badge bg-red pull-right">50%</span>
-                                <span>Settings</span>
+                            <a href="#">
+                                <span class="badge bg-red pull-right">100%</span>
+                                <span>Profili</span>
                             </a>
                         </li>
-                        <li><a href="javascript:;">Help</a></li>
+                        <li><a href="javascript:;">Kontakto</a></li>
                         <li>
-
+                            <a href="#" onclick="document.getElementById('logout-forma').submit()">
+                                <i class="fa fa-sign-out pull-right"></i>
+                                Ç'kyçu
+                            </a>
                         </li>
                     </ul>
                 </li>
-
-                <li role="presentation" class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="badge bg-green">6</span>
-                    </a>
-                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="text-center">
-                                <a>
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                {{FORM::close()}}
+                {{--<li role="presentation" class="dropdown">--}}
+                    {{--<a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">--}}
+                        {{--<i class="fa fa-envelope-o"></i>--}}
+                        {{--<span class="badge bg-green">6</span>--}}
+                    {{--</a>--}}
+                    {{--<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">--}}
+                        {{--<li>--}}
+                            {{--<a>--}}
+                                {{--<span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>--}}
+                        {{--<span>--}}
+                          {{--<span>John Smith</span>--}}
+                          {{--<span class="time">3 mins ago</span>--}}
+                        {{--</span>--}}
+                        {{--<span class="message">--}}
+                          {{--Film festivals used to be do-or-die moments for movie makers. They were where...--}}
+                        {{--</span>--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<a>--}}
+                                {{--<span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>--}}
+                        {{--<span>--}}
+                          {{--<span>John Smith</span>--}}
+                          {{--<span class="time">3 mins ago</span>--}}
+                        {{--</span>--}}
+                        {{--<span class="message">--}}
+                          {{--Film festivals used to be do-or-die moments for movie makers. They were where...--}}
+                        {{--</span>--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<a>--}}
+                                {{--<span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>--}}
+                        {{--<span>--}}
+                          {{--<span>John Smith</span>--}}
+                          {{--<span class="time">3 mins ago</span>--}}
+                        {{--</span>--}}
+                        {{--<span class="message">--}}
+                          {{--Film festivals used to be do-or-die moments for movie makers. They were where...--}}
+                        {{--</span>--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<a>--}}
+                                {{--<span class="image"><img src="{{asset('images/img.jpg')}}" alt="Profile Image" /></span>--}}
+                        {{--<span>--}}
+                          {{--<span>John Smith</span>--}}
+                          {{--<span class="time">3 mins ago</span>--}}
+                        {{--</span>--}}
+                        {{--<span class="message">--}}
+                          {{--Film festivals used to be do-or-die moments for movie makers. They were where...--}}
+                        {{--</span>--}}
+                            {{--</a>--}}
+                        {{--</li>--}}
+                        {{--<li>--}}
+                            {{--<div class="text-center">--}}
+                                {{--<a>--}}
+                                    {{--<strong>See All Alerts</strong>--}}
+                                    {{--<i class="fa fa-angle-right"></i>--}}
+                                {{--</a>--}}
+                            {{--</div>--}}
+                        {{--</li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
             </ul>
         </nav>
     </div>

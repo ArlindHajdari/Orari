@@ -126,6 +126,7 @@ $(document).ready(function(){
         var cpa_id = link.data('cpa_id');
         var role_id = link.data('role_id');
         var photo = link.data('photo');
+        
         var id = link.data('id');
 
         var modal = $(this);

@@ -8,12 +8,13 @@ use Illuminate\Database\QueryException;
 
 class CPAsComposer
 {
-    public $cpas;
+    public $cpas,$cpas_noDekan;
 
     public function __construct()
     {
         try{
             $this->cpas=Cpa::pluck('cpa','id')->toArray();
+            $this->cpas_noDekan=Cpa::where('cpa','!=','Dekan')->pluck('cpa','id')->toArray();
         }
         catch(QueryException $e){
             return response()->json([
@@ -26,6 +27,6 @@ class CPAsComposer
 
     public function compose(View $view)
     {
-        $view->with('cpas',$this->cpas);
+        $view->with('cpas',$this->cpas)->with('cpas_nodekan',$this->cpas_noDekan);
     }
 }

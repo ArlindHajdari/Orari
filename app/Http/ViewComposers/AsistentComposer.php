@@ -14,9 +14,9 @@ class AsistentComposer
     function __construct()
     {
         try{
-            $this->asistent = User::select('users.id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"))->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','Ligjërues')->orWhere('cpas.cpa','Asistent')->pluck('full_name','id')
-                ->toArray();
-        }catch(QueryException $e){
+            $this->asistent = User::select('users.id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"))->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','Ligjërues')->orWhere('cpas.cpa','Asistent')->pluck('full_name','id')->toArray();
+        }
+        catch(QueryException $e){
             return response()->json([
                 'fails'=>true,
                 'title'=>'Gabim në databazë!',

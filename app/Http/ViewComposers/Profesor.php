@@ -25,7 +25,7 @@ class Profesor
     }
 
     public function compose(View $view)
-    {   
+    {
         $view->with('profesoret',$this->profesoret);
     }
 }

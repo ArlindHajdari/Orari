@@ -14,9 +14,10 @@ class ComposerProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['login','Menaxho.Dekanet.panel'],'App\Http\ViewComposers\AcademicalTitleComposer');
+        View::composer(['login','Menaxho.Dekanet.panel','Menaxho.Mesimdhenesi.panel'],'App\Http\ViewComposers\AcademicalTitleComposer');
 
-        View::composer(['login','Menaxho.Dekanet.panel'],'App\Http\ViewComposers\CPAsComposer');
+        View::composer(['login','Menaxho.Dekanet.panel','Menaxho.Mesimdhenesi.panel'],
+            'App\Http\ViewComposers\CPAsComposer');
 
         View::composer(['LendetPanel','Menaxho.Lendet.panel'],'App\Http\ViewComposers\LlojiLendesComposer');
 
@@ -29,11 +30,6 @@ class ComposerProvider extends ServiceProvider
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\AsistentComposer');
 
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\LendetComposer');
-
-//        View::composer('Menaxho.Dekanet.panel','App\Http\ViewComposers\DekansComposer');
-
-        // View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
-
     }
 
     /**

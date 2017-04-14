@@ -252,7 +252,7 @@ class DekanController extends Controller
      */
     public function destroy($id)
     {
-        $dekan = User::find($id);
+        $dekan = Sentinel::findById($id);
         $dekan->delete();
 
         return redirect('dekanet');
