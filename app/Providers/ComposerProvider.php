@@ -30,6 +30,10 @@ class ComposerProvider extends ServiceProvider
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\AsistentComposer');
 
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\LendetComposer');
+
+        View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\DekansComposer');
+
+        View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\HallsTypeComposer');
     }
 
     /**

@@ -88,4 +88,7 @@ Route::group(['middleware'=>'login'], function(){
     Route::patch('mesimdhenesi-edit/{id}/{photo}','MesimdhenesitController@edit');
 
     Route::match(['post','get'],'mesimdhenesit','MesimdhenesitController@show');
+       
+     Route::get('/kontakti','UsersController@getKontakti');
+     Route::post('/kontakti','UsersController@postKontakti');        
 });

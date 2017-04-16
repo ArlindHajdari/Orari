@@ -12,7 +12,7 @@ use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Illuminate\Database\QueryException;
 use ErrorException;
 use App\Models\User;
-
+use App\Models\Hall;
 class UsersController extends Controller
 {
     /**
@@ -28,6 +28,40 @@ class UsersController extends Controller
     public function showRegister(){
         return view('register');
     }
+
+    public function getKontakti()
+    {
+        return view('Menaxho.Kontakti.contact');
+    }
+    public function postKontakti(Request $request)
+    {
+            $dekan_id=$request->dekan_id;
+            $user=User::where('id',$dekan_id)->first(['email','first_name','last_name','academic_title_id']);
+            $titulli=$user->academic_title->academic_title;
+            
+            $salla_id=$request->salla_id;
+            $salla=Hall::where('id',$salla_id)->first(['hall']);
+
+            $dita=$request->ditet;
+            $oraprej=$request->oraprej;
+            $oraderi=$request->oraderi;
+            $this->sendMaill($user,$salla,$oraprej,$oraderi,$dita,$titulli);
+    }
+    private function sendMaill($user,$salla,$oraprej,$oraderi,$dita,$titulli)
+    {
+          Mail::send('emails.contact',[
+              'user'=>$user,
+              'salla'=>$salla,
+              'oraprej'=>$oraprej,
+              'oraderi'=>$oraderi,
+              'dita'=>$dita,
+              'titulli'=>$titulli
+          ],function($message) use($user){
+            $message->to($user->email);
+            $message->subject("Pershendetje,$user->first_name ");
+          });
+    }
+
 
     public function login(Request $request)
     {
