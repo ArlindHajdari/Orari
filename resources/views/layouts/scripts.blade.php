@@ -22,15 +22,5 @@
 <script src="{{asset('moment/min/moment.min.js')}}"></script>
 <script src="{{asset('bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 <script src="{{asset('js/custom.min.js')}}"></script>
-<script src="{{asset('fullcalendar/dist/fullcalendar.min.js')}}"></script>
-<script>
-    $(document).ready(function(){
-        $('#user_info').click(function(){
-            if($('#user_info').attr('class') == 'open'){
-                $('#user_info').removeClass('open');
-            }else{
-                $('#user_info').addClass('open');
-            }
-        });
-    });
-</script>
+<script src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
+<script src="{{asset('moment/locale/sq.js')}}"></script>

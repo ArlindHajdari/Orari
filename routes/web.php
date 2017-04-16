@@ -71,6 +71,14 @@ Route::group(['middleware'=>'login'], function(){
 
     Route::get('scheduler','ScheduleController@index');
 
+    Route::get('disponueshmeria','AvailabilityController@index');
+
+    Route::post('disponueshmeria','AvailabilityController@store');
+
+    Route::delete('delete-availability/{id}','AvailabilityController@destroy');
+
+    Route::patch('edit-availability/{id}','AvailabilityController@destroy');
+
     Route::get('OrariPanel','OrariController@index');
 
     Route::post('register-mesimdhenesi','MesimdhenesitController@store');

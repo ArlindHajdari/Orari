@@ -10,6 +10,7 @@
 <link href="{{asset('bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet">
 <link href="{{asset('jqvmap/dist/jqvmap.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+<link href="{{asset('fullcalendar/fullcalendar.min.css')}}" rel="stylesheet">
 <link href="{{asset('css/custom.min.css')}}" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>

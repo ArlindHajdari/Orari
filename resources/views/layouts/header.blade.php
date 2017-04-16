@@ -46,7 +46,7 @@
                                 <li><a href="{{ url('mesimdhenesit') }}">Mësimdhënësit</a>
                                 </li>
                             @else
-                                <li><a href="{{ url('availability') }}">Disponueshmëria</a>
+                                <li><a href="{{ url('disponueshmeria') }}">Disponueshmëria</a>
                                 </li>
                             @endif
 

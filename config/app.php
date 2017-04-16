@@ -170,7 +170,7 @@ return [
          */
         Laravel\Tinker\TinkerServiceProvider::class,
         Reliese\Coders\CodersServiceProvider::class,
-       
+        MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -179,7 +179,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*
@@ -233,6 +232,7 @@ return [
         'Activation' => Cartalyst\Sentinel\Laravel\Facades\Activation::class,
         'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
+        'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
     ],
 
 ];
