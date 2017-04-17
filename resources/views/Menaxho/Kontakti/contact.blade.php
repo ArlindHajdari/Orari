@@ -3,6 +3,10 @@
 @section('body')
  {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'message','url'=>'kontakti','novalidate']) }}
                     <div class="col-md-10 col-md-offset-1">
+<<<<<<< HEAD
+=======
+                       
+>>>>>>> origin/master
                         <div class="form-group">
                             {{ FORM::label('Dekani',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
@@ -15,29 +19,51 @@
                                 {{FORM::select('salla_id',$halls,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'salla_id'])}}
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
                         <div class="form-group">
                             {{ FORM::label('Ditet',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('ditet',$ditet,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'ditet'])}}
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
                         <div class="form-group">
                             {{ FORM::label('OraPrej',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('oraprej',$oraprej,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'oraprej'])}}
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
                         <div class="form-group">
                             {{ FORM::label('OraDeri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('oraderi',$oraderi,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'oraderi'])}}
                             </div>
                         </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
                     <div class="form-group">
                         <div class="col-md-7 col-sm-7 col-xs-12 col-md-offset-4">
                             {{ FORM::submit('Dergo',['class'=>'btn btn-success pull-right']) }}
                         </div>
                     </div>
+<<<<<<< HEAD
             {{ FORM::close() }}
+=======
+                
+            {{ FORM::close() }}
+        
+>>>>>>> origin/master
         </div>
 @stop

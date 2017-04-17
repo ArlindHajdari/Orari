@@ -13,7 +13,7 @@ class DekansComposer
     public function __construct()
     {
         try{
-            $this->dekanet=User::paginate(20);
+            $this->dekanet=User::pluck('first_name','id');
         }
         catch(QueryException $e){
             return response()->json([
@@ -26,6 +26,6 @@ class DekansComposer
 
     public function compose(View $view)
     {
-        $view->with('data',$this->dekanet);
+        $view->with('dekanet',$this->dekanet);
     }
 }
