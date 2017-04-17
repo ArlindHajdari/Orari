@@ -106,12 +106,8 @@ class MigrationCartalystSentinel extends Migration
         });
 
         DB::table('roles')->insert([
-            'slug'=>'admin',
-            'name' => 'Admin_SuAdmin',
-        ]);
-        DB::table('roles')->insert([
-            'slug'=>'user',
-            'name' => 'User_Teacher',
+            ['slug'=>'admin', 'name' => 'Admin_SuAdmin'],
+            ['slug'=>'user', 'name' => 'User_Mësimdhënës']
         ]);
 
         Schema::create('throttle', function (Blueprint $table) {
@@ -136,6 +132,12 @@ class MigrationCartalystSentinel extends Migration
             'academic_title_id'=>1,
             'photo'=>'Uploads/asdasd_12312.jpg',
             'log_id'=> '123'
+        ]);
+
+        DB::table('activations')->insert([
+            'user_id'=>1,
+            'code'=>'asuldigasygfhasa##!asdhiayg64987432',
+            'completed'=>true
         ]);
 
         Schema::create('role_users', function (Blueprint $table) {

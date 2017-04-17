@@ -12,7 +12,6 @@ $(document).ready(function(){
 
         $.ajax({
             type: 'POST',
-            
             data: formData,
             url: url,
             processData: false,

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\Subject;
 use App\Models\DepartmentSubject;
-use Illuminate\Validation\DatabasePresenceVerifier;
 use Validator;
 use DB;
 
@@ -108,7 +107,6 @@ class LendetController extends Controller
                $depSub->subject_id = $subject->id;
 
                if($depSub->save()){
-
                    return response()->json([
                        'success'=>true,
                        'title'=>'Sukses',

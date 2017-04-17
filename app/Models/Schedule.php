@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 11:11:13 +0000.
+ * Date: Mon, 17 Apr 2017 13:10:52 +0000.
  */
 
 namespace App\Models;
@@ -13,17 +13,17 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Schedule
  * 
  * @property int $id
- * @property string $groups
  * @property \Carbon\Carbon $start_time
  * @property \Carbon\Carbon $end_time
- * @property string $day
  * @property int $cps_id
  * @property int $hall_id
  * @property int $lush_id
  * @property int $department_id
+ * @property int $group_id
  * 
  * @property \App\Models\Cp $cp
  * @property \App\Models\Department $department
+ * @property \App\Models\Group $group
  * @property \App\Models\Hall $hall
  * @property \App\Models\Lush $lush
  *
@@ -38,7 +38,8 @@ class Schedule extends Eloquent
 		'cps_id' => 'int',
 		'hall_id' => 'int',
 		'lush_id' => 'int',
-		'department_id' => 'int'
+		'department_id' => 'int',
+		'group_id' => 'int'
 	];
 
 	protected $dates = [
@@ -47,14 +48,13 @@ class Schedule extends Eloquent
 	];
 
 	protected $fillable = [
-		'groups',
 		'start_time',
 		'end_time',
-		'day',
 		'cps_id',
 		'hall_id',
 		'lush_id',
-		'department_id'
+		'department_id',
+		'group_id'
 	];
 
 	public function cp()
@@ -65,6 +65,11 @@ class Schedule extends Eloquent
 	public function department()
 	{
 		return $this->belongsTo(\App\Models\Department::class);
+	}
+
+	public function group()
+	{
+		return $this->belongsTo(\App\Models\Group::class);
 	}
 
 	public function hall()

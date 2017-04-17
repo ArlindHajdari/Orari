@@ -20,8 +20,8 @@ class HallsController extends Controller
             $validation = Validator::make($request->all(),[
                 'hall' => 'bail|required|alpha_num|max:190',
                 'capacity' => 'bail|required|numeric|max:190',
-                'halltype_id' => 'bail|required|numeric|max:190',
-          
+                'halltype_id' => 'bail|required|numeric|exists:halltypes,id',
+                'faculty_id' => 'bail|required|numeric|exists:faculties,id'
             ]);
 
             if($validation->fails()){
@@ -34,6 +34,8 @@ class HallsController extends Controller
             $hall->hall=$request->hall;
             $hall->capacity=$request->capacity;
             $hall->halltype_id=$request->halltype_id;
+            $hall->faculty_id = $request->faculty_id;
+            
             if($hall->save())
             {
                     return response()->json([
@@ -65,7 +67,13 @@ class HallsController extends Controller
     {
         DB::enableQueryLog();
         try{
-            $data = Hall::select('halls.id','halls.hall','halls.capacity','halltypes.hallType')->join('halltypes', 'halls.halltype_id','halltypes.id')->where('halls.hall','like','%'.$request->search.'%')->orWhere('halls.capacity','like','%'.$request->search.'%')->orWhere('halltypes.hallType','like','%'.$request->search.'%')->paginate(10);
+            $data = Hall::with(['halltype'=>function($query) use ($request){
+                $query->orWhere('halltypes.hallType','like','%'.$request->search.'%');
+            }])->with(['faculty'=>function($query) use ($request){
+                $query->orWhere('faculties.faculty','like','%'.$request->search.'%');
+            }])->paginate(15);
+//            select('halls.id','halls.hall','halls.capacity','halltypes.hallType','halltypes.id as
+//            type_id','halls.faculty_id','faculties.id')->join('halltypes', 'halls.halltype_id','halltypes.id')->where('halls.hall','like','%'.$request->search.'%')->orWhere('halls.capacity','like','%'.$request->search.'%')->orWhere('halltypes.hallType','like','%'.$request->search.'%')->paginate(10);
 
             return view('Menaxho.Sallat.panel')->with('data',$data);
         }
@@ -88,7 +96,7 @@ class HallsController extends Controller
                 'hall' => 'bail|required|alpha_num|max:190',
                 'capacity' => 'bail|required|numeric|max:190',
                 'halltype_id' => 'bail|required|numeric|max:190',
-                
+                'faculty_id' => 'bail|required|numeric|exists:faculties,id'
             ]);
 
             if($validation->fails()){
@@ -104,7 +112,8 @@ class HallsController extends Controller
                 $hall->hall = $data['hall'];
                 $hall->capacity = $data['capacity'];
                 $hall->halltype_id = $data['halltype_id'];
-                
+                $hall->faculty_id = $data['faculty_id'];
+
                 if($hall->save()){
                         return response()->json([
                             'success'=>true,
@@ -115,7 +124,7 @@ class HallsController extends Controller
                         return response()->json([
                             'fails'=>true,
                             'title'=>'Gabim gjatë ndryshimit',
-                            'msg'=>'Të dhënat nuk u ndryshuan!'
+                            'msg'=>'Të dhënat nuk u ndryshuan me sukses!'
                         ],500);
                     }
             }

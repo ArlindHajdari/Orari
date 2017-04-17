@@ -17,8 +17,8 @@ class AvailabilityMigration extends Migration
 
         Schema::create('availability', function (Blueprint $table) {
             $table->increments('id');
-            $table->time('TimeFrom');
-            $table->time('TimeTo');
+            $table->dateTime('TimeFrom');
+            $table->dateTime('TimeTo');
             $table->integer('user_id')->unsigned();
 
             $table->index('user_id');

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 11:11:13 +0000.
+ * Date: Mon, 17 Apr 2017 13:10:52 +0000.
  */
 
 namespace App\Models;
@@ -49,7 +49,7 @@ class Cp extends Eloquent
 
 	public function ca()
 	{
-		return $this->hasMany(\App\Models\Ca::class, 'cps_id');
+		return $this->hasOne(\App\Models\Ca::class, 'cps_id');
 	}
 
 	public function schedules()

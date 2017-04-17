@@ -22,24 +22,28 @@
                         <div class="form-group">
                             {{ FORM::label('Emri Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('hall',null,['class'=>'form-control','required','placeholder'=>'Emri']) }}
+                                {{ FORM::text('hall',null,['class'=>'form-control','required','placeholder'=>'Salla']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Kapaciteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Titulli']) }}
+                                {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Kapaciteti']) }}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('halltype_id',['1'=>'laborator','2'=>'teori'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti']) }}
+                                {{ FORM::select('halltype_id',[0=>'Zgjedh llojin e sallës']+$halltypes,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required']) }}
                             </div>
                         </div>
-                    
+                        <div class="form-group">
+                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('faculty_id',[0=>'Zgjedh fakultetin']+$faculty,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'faculty_id']) }}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -72,25 +76,29 @@
                         <div class="form-group">
                             {{ FORM::label('Emri Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('hall',null,['class'=>'form-control','required','placeholder'=>'Emri','id'=>'hall']) }}
+                                {{ FORM::text('hall',null,['class'=>'form-control','required','placeholder'=>'Salla','id'=>'hall']) }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ FORM::label('Kapaciteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Titulli','id'=>'capacity']) }}
+                                {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Kapaciteti','id'=>'capacity']) }}
                             </div>
                         </div>
-
                         <div class="form-group">
                             {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('halltype_id',['1'=>'laborator','2'=>'teori'],null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','placeholder'=>'Fakulteti','id'=>'halltype_id']) }}
+                                {{ FORM::select('halltype_id',$halltypes,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'halltype_id']) }}
                             </div>
-                        </div>  
-
-                  </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('faculty_id',$faculty,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'faculty_id']) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="form-group">
@@ -130,7 +138,7 @@
     <!-- page content -->
     <div class="page-title">
         <div class="title_left">
-            <h3>Xalfa <small>Lista e dekanëve</small></h3>
+            <h3>Xalfa <small>Lista e sallave</small></h3>
         </div>
 
         <div class="title_right">
@@ -153,20 +161,21 @@
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Projects</h2>
+                    <h2>XALFA</h2>
                     <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Tabela me të dhënat e mësimdhënësve</p>
+                    <p>Tabela me të dhënat e sallave</p>
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
                             <th style="width: 20%">Emri</th>
-                            <th>Kapaciteti</th>
-                            <th>Lloji i salles</th>
-                            <th style="width: 20%">#Edit</th>
+                            <th style="width: 10%">Kapaciteti</th>
+                            <th style="width: 10%">Lloji i salles</th>
+                            <th style="width: 40%">Fakulteti</th>
+                            <th style="width: 20%">Edit</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -179,12 +188,13 @@
                                 {{$hall->capacity}}
                             </td>
                             <td>
-                                {{$hall->hallType}}
+                                {{$hall->halltype->hallType}}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
-                                        data-id="{{$hall->id}}" data-target="#editModal"
-                                        data-hall="{{$hall->hall}}" data-capacity="{{$hall->capacity}}" data-halltype_id="{{$hall->halltype_id}}"> 
+                                {{$hall->faculty->faculty}}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-id="{{$hall->id}}" data-target="#editModal" data-halltype_id="{{$hall->halltype_id}}" data-faculty_id="{{$hall->faculty_id}}" data-capacity="{{$hall->capacity}}" data-hall="{{$hall->hall}}">
                                         <i class="fa fa-pencil"></i> Edit</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$hall->id}}"
                                         data-toggle="modal"

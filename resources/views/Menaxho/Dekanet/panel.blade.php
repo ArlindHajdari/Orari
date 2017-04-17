@@ -248,7 +248,8 @@
                         @forelse($data as $user)
                         <tr>
                             <td>
-                                <a>{{$user->full_name}}</a>
+                                <a>{{$user->academic_title->academic_title}}{{$user->first_name}}
+                                    {{$user->last_name}}</a>
                             </td>
                             <td>
                                 {{$user->email}}

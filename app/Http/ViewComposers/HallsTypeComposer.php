@@ -8,13 +8,13 @@ use Illuminate\Database\QueryException;
 
 class HallsTypeComposer
 {
-    public $halls;
+    public $halltypes;
 
     public function __construct()
     {
         try
         {
-            $this->halls=Halltype::pluck('halltype','id')->toArray();
+            $this->halltypes=Halltype::pluck('halltype','id')->toArray();
         }
         catch(QueryException $e)
         {
@@ -28,6 +28,6 @@ class HallsTypeComposer
     public function compose(View $view)
     {
         
-        $view->with('halls',$this->halls);
+        $view->with('halltypes',$this->halltypes);
     }
 }

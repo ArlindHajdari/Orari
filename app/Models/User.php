@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 11:11:13 +0000.
+ * Date: Mon, 17 Apr 2017 13:10:52 +0000.
  */
 
 namespace App\Models;
@@ -92,7 +92,7 @@ class User extends Eloquent
 
 	public function ca()
 	{
-		return $this->belongsToMany(\App\Models\Ca::class,'ca');
+		return $this->hasOne(\App\Models\Ca::class);
 	}
 
 	public function cps()

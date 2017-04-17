@@ -22,63 +22,21 @@ class AcademicTitlesMigration extends Migration
         });
 
         DB::table('academic_titles')->insert([
-            'academic_title'=>'Dr.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Prof.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Sc.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'MSc.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Ass.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'BSc.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'PHd.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'PHd.Can.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Prof.Assoc.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Doc.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Dr.Sc.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Prof.Ass'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Prof.Ass.Dr.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Prof.Asoc.Dr.'
-        ]);
-
-        DB::table('academic_titles')->insert([
-            'academic_title'=>'Mr.Sc.'
+            ['academic_title'=>'Dr.'],
+            ['academic_title'=>'Prof.'],
+            ['academic_title'=>'Sc.'],
+            ['academic_title'=>'MSc.'],
+            ['academic_title'=>'Ass.'],
+            ['academic_title'=>'BSc.'],
+            ['academic_title'=>'PHd.'],
+            ['academic_title'=>'PHd.Can.'],
+            ['academic_title'=>'Prof.Assoc.'],
+            ['academic_title'=>'Doc.'],
+            ['academic_title'=>'Dr.Sc.'],
+            ['academic_title'=>'Prof.Ass'],
+            ['academic_title'=>'Prof.Ass.Dr.'],
+            ['academic_title'=>'Prof.Asoc.Dr.'],
+            ['academic_title'=>'Mr.Sc.']
         ]);
     }
 

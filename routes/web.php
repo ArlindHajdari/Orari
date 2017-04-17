@@ -41,9 +41,21 @@ Route::group(['middleware'=>'login'], function(){
 
     Route::get('lendetRegister','UsersController@LendetRegister');
 
-    Route::get('FacultyPanel','FacultyController@index');
+    Route::match(['post','get'],'FacultyPanel','FacultyController@show');
 
-    Route::get('FacultyPanel','FacultyController@index');
+    Route::post('facultyRegister','FacultyController@store');
+
+    Route::delete('facultyDelete/{id}','FacultyController@destroy');
+
+    Route::patch('facultyEdit/{id}','FacultyController@edit');
+    
+    Route::match(['post','get'],'departamentPanel','DepartmentController@show');
+
+    Route::post('departmentRegister','DepartmentController@store');
+
+    Route::delete('departmentDelete/{id}','DepartmentController@destroy');
+
+    Route::patch('departmentEdit/{id}','DepartmentController@edit');
 
     Route::post('LendetReg','LendetController@store');
 
@@ -70,6 +82,14 @@ Route::group(['middleware'=>'login'], function(){
     Route::get('OrariPanel','OrariController@index');
 
     Route::get('scheduler','ScheduleController@index');
+
+    Route::get('disponueshmeria','AvailabilityController@index');
+
+    Route::post('disponueshmeria','AvailabilityController@store');
+
+    Route::delete('delete-availability/{id}','AvailabilityController@destroy');
+
+    Route::patch('edit-availability/{id}','AvailabilityController@edit');
 
     Route::get('OrariPanel','OrariController@index');
 

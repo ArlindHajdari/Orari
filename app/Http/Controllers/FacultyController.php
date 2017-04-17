@@ -2,83 +2,121 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Faculty;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use View;
+use Validator;
+use DB;
 
 class FacultyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('Menaxho.Fakultetet.panel');
+        //code here
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return View::make('Menaxho.Fakultetet.panel');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'faculty' => 'bail|required|string'
+        ]);
 
+        if ($validator->fails()) {
+            return response()
+                ->json([
+                    'fails'=>'true',
+                    'title'=>'Gabim gjatë regjistrimit',
+                    'errors'=>$validator->getMessageBag()->toArray()
+                ],400);
+
+        } else {
+            $faculty = new Faculty;
+            $faculty->faculty = $request->faculty;
+            if($faculty->save()){
+                return response()
+                    ->json([
+                        'fails'=>'true',
+                        'title'=>'Sukses',
+                        'msg'=>'Te dhenat u regjistruan me sukses!'
+                    ],200);
+            }
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Request $request)
     {
-
+        DB::enableQueryLog();
+        try{
+            $faculty = Faculty::where('faculty','like','%'.$request->search.'%')->paginate(15);
+            return view('Menaxho.Fakultetet.panel')->with('faculty',$faculty);
+        }
+        catch(QueryException $e){
+            return response()->json([
+                'fails'=>true,
+                'title' => 'Gabim ne server',
+                'msg' => $e->getMessage()
+            ],500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        try{
+            $validation = Validator::make($request->all(),[
+                'faculty' => 'bail|required|alpha|max:190'
+            ]);
+
+            if($validation->fails()){
+                return response()->json([
+                    'fails'=>true,
+                    'errors'=>$validation->getMessageBag()->toArray()
+                ],400);
+            }
+
+            $faculty = Faculty::find($id);
+
+            $faculty->faculty = $request->faculty;
+
+            if($faculty->save()){
+                return response()->json([
+                    'success'=>true,
+                    'title'=>'Sukses',
+                    'msg' => 'Të dhënat u ndryshuan me sukses!'
+                ],200);
+            }else{
+                return response()->json([
+                    'fails'=>true,
+                    'title'=>'Gabim internal',
+                    'msg'=>'Ju lutemi kontaktoni mbështetësit e faqes!'
+                ],500);
+            }
+
+        }catch (QueryException $e){
+            return response()->json([
+                'fails'=>true,
+                'title' => 'Gabim ne server',
+                'msg' => $e->getMessage(),
+                'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
+            ],500);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $faculty = Faculty::find($id);
+        $faculty->delete();
+
+        return redirect('FacultyPanel');
     }
 }

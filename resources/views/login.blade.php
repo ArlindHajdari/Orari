@@ -16,11 +16,10 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css">
     <!-- Custom Theme Style -->
     <link href="{{asset('css/custom.min.css')}}" rel="stylesheet">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.min.js"></script>
+      <link rel="stylesheet" href="{{asset('node_modules/bootstrap3-dialog/dist/css/bootstrap-dialog.css')}}">
+      <script src="{{asset('jquery/dist/jquery.min.js')}}"></script>
+      <script src="{{asset('bootstrap/dist/js/bootstrap.min.js')}}"></script>
+      <script src="{{asset('node_modules/bootstrap3-dialog/dist/js/bootstrap-dialog.js')}}"></script>
       <script src="{{asset('js/login.js')}}"></script>
       <style>
           @charset "utf-8";

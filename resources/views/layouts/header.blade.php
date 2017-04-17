@@ -9,7 +9,7 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
             <div class="profile_pic">
-                <img src="{{asset('images/img.jpg')}}" alt="..." class="img-circle profile_img">
+                <img src="{{asset(Sentinel::getUser()->photo)}}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 @if(Sentinel::check())
@@ -32,7 +32,7 @@
                             @if(Sentinel::getUser()->roles()->first()->slug == 'admin')
                                 <li><a href="{{ url('FacultyPanel') }}">Fakultetet</a>
                                 </li>
-                                <li><a href="{{ url('dekanReg') }}">Departamentet</a>
+                                <li><a href="{{ url('departamentPanel') }}">Departamentet</a>
                                 </li>
                                 <li><a href="{{ url('dekanet') }}">Dekanët</a>
                                 </li>
@@ -46,7 +46,7 @@
                                 <li><a href="{{ url('mesimdhenesit') }}">Mësimdhënësit</a>
                                 </li>
                             @else
-                                <li><a href="{{ url('availability') }}">Disponueshmëria</a>
+                                <li><a href="{{ url('disponueshmeria') }}">Disponueshmëria</a>
                                 </li>
                             @endif
 
@@ -142,7 +142,9 @@
                                 <span>Profili</span>
                             </a>
                         </li>
-                        <li><a href="javascript:;">Kontakto</a></li>
+                        @if(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
+                            <li><a href="javascript:;">Kontakto</a></li>
+                        @endif
                         <li>
                             <a href="#" onclick="document.getElementById('logout-forma').submit()">
                                 <i class="fa fa-sign-out pull-right"></i>

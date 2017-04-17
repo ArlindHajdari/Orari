@@ -125,14 +125,14 @@ class DekanController extends Controller
     {
         DB::enableQueryLog();
         try{
-            $data = User::select('users.id','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo', 'role_users.role_id')->join('role_users','role_users.user_id','users.id')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','Dekan')->where(function($query) use ($request){
-                $query->orWhere('users.last_name','like','%'.$request->search.'%');
-                $query->orWhere('users.email','like','%'.$request->search.'%');
-                $query->orWhere('users.personal_number','like','%'.$request->search.'%');
-                $query->orWhere('users.log_id','like','%'.$request->search.'%');
-                $query->orWhere('users.first_name','like','%'.$request->search.'%');
+            $data = User::with('academic_title')->where(function($query) use ($request){
+                $query->orWhere('first_name', 'like','%' .$request->search.'%');
+                $query->orWhere('last_name','like','%'.$request->search.'%');
+                $query->orWhere('email','like','%' .$request->search.'%');
+            })->whereHas('cpa',function($query) use($request){
+                $query->where('cpas.cpa','Dekan');
             })->paginate(10);
-
+//        dd(DB::getQueryLog());
             return view('Menaxho.Dekanet.panel')->with('data',$data);
         }
         catch(QueryException $e){

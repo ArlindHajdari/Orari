@@ -25,10 +25,6 @@ class UsersController extends Controller
         return view('login');
     }
 
-    public function showRegister(){
-        return view('register');
-    }
-
     public function login(Request $request)
     {
         try{
@@ -47,12 +43,12 @@ class UsersController extends Controller
             if(Sentinel::authenticate(['email'=>$request->log_id, 'password'=>$request->password])){
                 return response()->json([
                     'success'=>true,
-                    'url' => 'http://'.env('APP_URL'),
+                    'url' => 'http://localhost:8000',
                 ],200);
             }elseif(Sentinel::authenticate(['log_id'=>$request->log_id, 'password'=>$request->password])){
                 return response()->json([
                     'success'=>true,
-                    'url' => 'http://'.env('APP_URL'),
+                    'url' => 'http://localhost:8000',
                 ],200);
             }else{
                 return response()->json([
