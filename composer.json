@@ -11,11 +11,7 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.2.0",
         "maddhatter/laravel-fullcalendar": "^1.2",
-<<<<<<< HEAD
-        "reliese/laravel": "^0.0.13",
-=======
         "reliese/laravel": "^0.0.13"
->>>>>>> origin/master
     },
 
     "require-dev": {

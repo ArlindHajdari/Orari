@@ -36,7 +36,7 @@
                 selectOverlap: false,				// me selektu evente mbi njera tjetren
                 eventOverlap: false,				// zevendesim pa ngaterresa
                 slotDuration: '00:15:00',
-<<<<<<< HEAD
+
                 eventConstraint:{
                     start: "08:00:00",
                     end: "20:00:00"
@@ -45,8 +45,6 @@
                     start: "2017-04-17",
                     end: "2017-04-22"
                 },
-=======
->>>>>>> origin/master
                 height: 1218,
                 locale:'sq',
                 color: 'green',
@@ -65,13 +63,10 @@
                     var mEnd = $.fullCalendar.moment(end);
                     var mStart = $.fullCalendar.moment(start);
 
-<<<<<<< HEAD
+
                     var difference = mStart.diff(mEnd, 'minutes')*-1;
 
                     if (mEnd.isAfter(mStart, 'day') || difference <= 44) {
-=======
-                    if (mEnd.isAfter(mStart, 'day')) {
->>>>>>> origin/master
                         $('#calendar2').fullCalendar('unselect');
                     } else {
                         endtime = $.fullCalendar.moment(end).format('h:mm');
@@ -86,27 +81,17 @@
                         $('#createEventModal').modal('toggle');
                     }
                 },
-<<<<<<< HEAD
                 eventDrop: function(event){
-=======
-                eventDrop: function(event, delta){
-                    console.log(event.id);
->>>>>>> origin/master
                     $.ajax({
                         url: 'http://localhost:8000/edit-availability/'+event.id,
                         data: {
                             start: moment(event.start).format(),
-<<<<<<< HEAD
                             end: moment(event.end).format(),
                             _token: '{{csrf_token()}}'
-=======
-                            end: moment(event.end).format()
->>>>>>> origin/master
                         },
                         type: "PATCH",
                         success: function(json) {
                             //alert(json);
-<<<<<<< HEAD
                         },
                         error: function(json){
                             BootstrapDialog.show({
@@ -119,31 +104,20 @@
                                     }
                                 }]
                             });
-=======
->>>>>>> origin/master
                         }
                     });
                 },
                 eventResize: function(event) {
-<<<<<<< HEAD
-=======
-                    console.log('hini');
->>>>>>> origin/master
                      $.ajax({
                          url: 'http://localhost:8000/edit-availability/'+event.id,
                          data: {
                              start: moment(event.start).format(),
-<<<<<<< HEAD
                              end: moment(event.end).format(),
                              _token: '{{csrf_token()}}'
-=======
-                             end: moment(event.end).format()
->>>>>>> origin/master
                          },
                          type: "PATCH",
                          success: function(json) {
                             //alert(json);
-<<<<<<< HEAD
                          },
                          error: function(){
                              BootstrapDialog.show({
@@ -156,8 +130,6 @@
                                      }
                                  }]
                              });
-=======
->>>>>>> origin/master
                          }
                      });
                  }

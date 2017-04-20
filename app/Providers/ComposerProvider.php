@@ -29,17 +29,15 @@ class ComposerProvider extends ServiceProvider
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\AsistentComposer');
 
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\LendetComposer');
-
-<<<<<<< HEAD
+        
         View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
 
         View::composer(['Menaxho.Departamentet.panel','Menaxho.Sallat.panel'],'App\Http\ViewComposers\FacultyComposer');
-=======
+
         View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\DekansComposer');
 
         View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\HallsTypeComposer');
->>>>>>> origin/master
-    }
+   }
 
     /**
      * Register the application services.

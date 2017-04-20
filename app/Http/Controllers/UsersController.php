@@ -24,13 +24,6 @@ class UsersController extends Controller
     {
         return view('login');
     }
-
-<<<<<<< HEAD
-=======
-    public function showRegister(){
-        return view('register');
-    }
-
     public function getKontakti()
     {
         return view('Menaxho.Kontakti.contact');
@@ -65,7 +58,6 @@ class UsersController extends Controller
     }
 
 
->>>>>>> origin/master
     public function login(Request $request)
     {
         try{

@@ -81,7 +81,7 @@ class AvailabilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
+
     public function edit(Request $request,$id)
     {
         try{
@@ -105,22 +105,13 @@ class AvailabilityController extends Controller
             $avail = Availability::find($id);
             $avail->TimeFrom = $start->toDateTimeString();
             $avail->TimeTo = $end->toDateTimeString();
-=======
-    public function edit(Response $response,$id)
-    {
-        dd($response->all());
-        try{
-            $avail = Availability::find($id);
-            $avail->TimeFrom = $response->start;
-            $avail->TimeTo = $response->end;
->>>>>>> origin/master
 
             if($avail->save()){
                 return response()->json([
                     'success'=>true
                 ],200);
             }
-            
+
         }catch(QueryException $e){
             return response()->json([
                 'fails'=>true,
