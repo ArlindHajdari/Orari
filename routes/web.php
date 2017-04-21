@@ -104,4 +104,10 @@ Route::group(['middleware'=>'login'], function(){
     Route::get('kontakti','UsersController@getKontakti');
 
     Route::post('kontakti','UsersController@postKontakti');
+
+    Route::post('recover','ResetPasswordController@resetPassword');
+
+    Route::get('reset/{email}/{code}','ResetPasswordController@getResetFields');
+
+    Route::post('reset/{email}/{code}','ResetPasswordController@postRecover');
 });

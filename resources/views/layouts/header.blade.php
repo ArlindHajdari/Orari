@@ -34,15 +34,13 @@
                                 </li>
                                 <li><a href="{{ url('dekanet') }}">Dekanët</a>
                                 </li>
-                                <li><a href="{{ url('LendetPanel') }}">Lëndët</a>
-                                </li>
                                 <li><a href="{{ url('sallat') }}">Sallë</a>
                                 </li>
                                 <li><a href="{{ url('mesimdhenesit') }}">Mësimdhënësit</a>
                                 </li>
                             @elseif(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
-                                <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a>
-                                </li>
+                                <li><a href="{{ url('LendetPanel') }}">Lëndët</a></li>
+                                <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a></li>
                             @else
                                 <li><a href="{{ url('disponueshmeria') }}">Disponueshmëria</a>
                                 </li>
