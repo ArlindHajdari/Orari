@@ -89,11 +89,7 @@ Route::group(['middleware'=>'login'], function(){
 
     Route::delete('delete-availability/{id}','AvailabilityController@destroy');
 
-<<<<<<< HEAD
     Route::patch('edit-availability/{id}','AvailabilityController@edit');
-=======
-    Route::patch('edit-availability/{id}','AvailabilityController@destroy');
->>>>>>> origin/master
 
     Route::get('OrariPanel','OrariController@index');
 
@@ -104,7 +100,8 @@ Route::group(['middleware'=>'login'], function(){
     Route::patch('mesimdhenesi-edit/{id}/{photo}','MesimdhenesitController@edit');
 
     Route::match(['post','get'],'mesimdhenesit','MesimdhenesitController@show');
-       
-     Route::get('/kontakti','UsersController@getKontakti');
-     Route::post('/kontakti','UsersController@postKontakti');        
+
+    Route::get('kontakti','UsersController@getKontakti');
+
+    Route::post('kontakti','UsersController@postKontakti');
 });

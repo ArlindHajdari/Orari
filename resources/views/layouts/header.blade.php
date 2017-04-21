@@ -126,9 +126,8 @@
             </div>
             {{FORM::open(['url'=>'logout','id'=>'logout-forma'])}}
             <ul class="nav navbar-nav navbar-right">
-
                 <li class="" id="user_info">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <img src="{{Sentinel::getUser()->photo}}" alt="Foto">
                         @if(Sentinel::check())
                             {{Sentinel::getUser()->first_name}} {{Sentinel::getUser()->last_name}}
@@ -138,12 +137,11 @@
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         <li>
                             <a href="#">
-                                <span class="badge bg-red pull-right">100%</span>
                                 <span>Profili</span>
                             </a>
                         </li>
                         @if(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
-                            <li><a href="javascript:;">Kontakto</a></li>
+                            <li><a href="{{url('kontakti')}}">Kontakto</a></li>
                         @endif
                         <li>
                             <a href="#" onclick="document.getElementById('logout-forma').submit()">

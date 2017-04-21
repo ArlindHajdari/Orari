@@ -36,4 +36,8 @@ class Role extends Eloquent
 		return $this->belongsToMany(\App\Models\User::class, 'role_users')
 					->withTimestamps();
 	}
+
+	public function getNameAttribute($value){
+		return explode('_',$value)[1];
+	}
 }

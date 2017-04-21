@@ -8,6 +8,7 @@ use Validator;
 use Sentinel;
 use App\Models\User;
 use App\Models\RoleUser;
+use App\Models\Cpa;
 use DB;
 
 class DekanController extends Controller
@@ -49,7 +50,6 @@ class DekanController extends Controller
                 'email' => 'bail|required|email|max:190',
                 'password'=>'bail|required|max:190',
                 'personal_number'=>'bail|required|numeric',
-                'cpa_id' => 'bail|required|numeric',
                 'academic_title_id' => 'bail|required|numeric',
                 'role_id' => 'bail|required|numeric',
                 'photo' => 'bail|required|image|mimes:jpeg,png|max:1000000'
@@ -81,6 +81,7 @@ class DekanController extends Controller
 
             $data['log_id'] = $log_id;
             unset($data['role_id']);
+            $data['cpa_id'] = CPA::select('id')->where('cpa','Dekan')->get()->toArray()[0]['id'];
             if($user = Sentinel::registerAndActivate($data)){
                 if($role = Sentinel::findRoleById($request->role_id)){
                     $role->users()->attach($user);
@@ -125,7 +126,7 @@ class DekanController extends Controller
     {
         DB::enableQueryLog();
         try{
-            $data = User::with('academic_title')->where(function($query) use ($request){
+            $data = User::with('academic_title','roles')->where(function($query) use ($request){
                 $query->orWhere('first_name', 'like','%' .$request->search.'%');
                 $query->orWhere('last_name','like','%'.$request->search.'%');
                 $query->orWhere('email','like','%' .$request->search.'%');
@@ -160,7 +161,6 @@ class DekanController extends Controller
                 'last_name' => 'bail|required|alpha|max:190',
                 'email' => 'bail|required|email|max:190',
                 'personal_number'=>'bail|required|string',
-                'cpa_id' => 'bail|required|numeric',
                 'academic_title_id' => 'bail|required|numeric',
                 'role_id' => 'bail|required|numeric'
             ]);
@@ -186,6 +186,8 @@ class DekanController extends Controller
             }
 
             unset($data['role_id']);
+            $data['cpa_id'] = CPA::select('id')->where('cpa','Dekan')->get()->toArray()[0]['id'];
+
             if($dekan = User::find($id)){
                 $dekan->first_name = $data['first_name'];
                 $dekan->last_name = $data['last_name'];

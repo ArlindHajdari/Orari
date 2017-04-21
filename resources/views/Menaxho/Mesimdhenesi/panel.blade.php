@@ -185,7 +185,7 @@
     <!-- page content -->
     <div class="page-title">
         <div class="title_left">
-            <h3>Xalfa <small>Lista e dekanëve</small></h3>
+            <h3>Xalfa <small>Lista e mësimdhënësve</small></h3>
         </div>
 
         <div class="title_right">
@@ -209,12 +209,11 @@
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Projects</h2>
+                    <h2>Mësimdhënësit</h2>
                     <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Tabela me të dhënat e mësimdhënësve</p>
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>

@@ -8,14 +8,6 @@
 
     <script>
         $(document).ready(function() {
-            $('#user_info').click(function(){
-                if($('#user_info').attr('class') == 'open'){
-                    $('#user_info').removeClass('open');
-                }else{
-                    $('#user_info').addClass('open');
-                }
-            });
-
             $('#calendar2').fullCalendar({
                 header: false,
                 selectable: true,  // perdoruesi mund ti selektoj kohen dhe diten

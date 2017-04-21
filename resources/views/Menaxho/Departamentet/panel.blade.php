@@ -5,10 +5,8 @@
 
 @section('other')
     <script src="{{asset('js/Department.js')}}"></script>
-    @stop
-
-    @section('body')
-
+@stop
+@section('body')
             <!-- Modal Register-->
     <div class="modal fade" id="registerModal" role="dialog">
         <div class="modal-dialog">
@@ -118,9 +116,8 @@
     <!-- page content -->
     <div class="page-title">
         <div class="title_left">
-            <h3>Xalfa <small>Lista e Departamentev</small></h3>
+            <h3>Xalfa <small>Lista e departamenteve</small></h3>
         </div>
-
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                 {{FORM::open(['novalidate','id'=>'search-form'])}}
@@ -147,9 +144,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
-                    <p>Tabela me të dhënat e fakultetit</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
@@ -180,7 +174,9 @@
                                 </td>
                             </tr>
                         @empty
-                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
+                            <div class="alert alert-info">
+                                <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
+                            </div>
                         @endforelse
                         </tbody>
                     </table>

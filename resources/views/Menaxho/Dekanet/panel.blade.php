@@ -39,20 +39,13 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',array_merge(['0'=>'Zgjedhe titullin akademik'],$academicalTitles),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',array_merge(['0'=>'Zgjedhe profesor/asistent'],$cpas),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('academic_title_id',['0'=>'Zgjedhe titullin akademik']+$academicalTitles,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Numri personal',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::text('personal_number',null,['class'=>'form-control','required','placeholder'=>'Numri personal','maxlength'=>'10','id'=>'personal_number'])}}
-
                             </div>
                         </div>
                         <div class="form-group">
@@ -64,7 +57,7 @@
                         <div class="form-group">
                             {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
+                                {{FORM::select('role_id',['0'=>'Zgjedhe rolin']+$roles,0,
                                 ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
                             </div>
                         </div>
@@ -122,14 +115,7 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',array_merge(['0'=>'Zgjedhe titullin akademik'],
-                                $academicalTitles),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academic_title_id'])}}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',array_merge(['0'=>'Zgjedhe profesor/asistent'],$cpas),null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('academic_title_id',['0'=>'Zgjedhe titullin akademik']+$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academic_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -148,7 +134,7 @@
                         <div class="form-group">
                             {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('role_id',array_merge(['0'=>'Zgjedhe rolin'],$roles),null,
+                                {{FORM::select('role_id',['0'=>'Zgjedhe rolin']+$roles,null,
                                 ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role_id'])}}
                             </div>
                         </div>
@@ -230,7 +216,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Tabela me të dhënat e mësimdhënësve</p>
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
@@ -274,7 +259,7 @@
                                         data-academic_title_id="{{$user->academic_title_id}}"
                                         data-cpa_id="{{$user->cpa_id}}"
                                         data-personal_number="{{$user->personal_number}}" data-email="{{$user->email}}"
-                                        data-photo="{{$user->photo}}" data-role_id="{{$user->role_id}}"><i
+                                        data-photo="{{$user->photo}}" data-role_id="{{$user->roles->first()->id}}"><i
                                             class="fa
                                         fa-pencil"></i> Edit</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$user->id}}"

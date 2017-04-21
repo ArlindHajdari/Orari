@@ -187,7 +187,7 @@
     <!-- page content -->
     <div class="page-title">
         <div class="title_left">
-            <h3>Lista <small>me të dhëna</small></h3>
+            <h3>XALFA <small>Lista me të dhënat për lidhjen profesor-lëndë</small></h3>
         </div>
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -213,7 +213,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Tabela me të dhënat e lidhjes profesor-lëndë-asistent</p>
                     <table class="table table-striped projects">
                         <thead>
                         <tr>

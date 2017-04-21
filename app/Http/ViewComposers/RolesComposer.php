@@ -12,7 +12,7 @@ class RolesComposer
     public function __construct()
     {
         try{
-            $this->roles = Role::where('slug','<>','admin')->pluck('name','id')->toArray();
+            $this->roles = Role::where('slug','<>','admin')->where('slug','<>','user')->pluck('name','id')->toArray();
         }
         catch(QueryException $e){
             return response()->json([

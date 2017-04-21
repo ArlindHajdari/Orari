@@ -154,19 +154,17 @@
             </div>
         </div>
     </div>
-
     <div class="clearfix"></div>
 
     <div class="row">
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>XALFA</h2>
+                    <h2>Sallat</h2>
                     <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Tabela me të dhënat e sallave</p>
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>

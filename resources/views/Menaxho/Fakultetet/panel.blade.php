@@ -102,14 +102,11 @@
         </div>
     </div>
     <!-- /Modal /Delete-->
-
-
     <!-- page content -->
     <div class="page-title">
         <div class="title_left">
-            <h3>Xalfa <small>Lista e Fakulteteve</small></h3>
+            <h3>Xalfa <small>Lista e fakulteteve</small></h3>
         </div>
-
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                 {{FORM::open(['novalidate','id'=>'search-form'])}}
@@ -124,9 +121,7 @@
             </div>
         </div>
     </div>
-
     <div class="clearfix"></div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="x_panel">
@@ -136,9 +131,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
-                    <p>Tabela me të dhënat e fakulteteve</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
@@ -165,7 +157,9 @@
                             </td>
                         </tr>
                         @empty
-                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
+                            <div class="alert alert-info">
+                                <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
+                            </div>
                         @endforelse
                         </tbody>
                     </table>

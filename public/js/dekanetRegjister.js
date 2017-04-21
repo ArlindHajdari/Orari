@@ -123,7 +123,6 @@ $(document).ready(function(){
         var email = link.data('email');
         var personal_number = link.data('personal_number');
         var academic_title_id = link.data('academic_title_id');
-        var cpa_id = link.data('cpa_id');
         var role_id = link.data('role_id');
         var photo = link.data('photo');
         
@@ -136,7 +135,6 @@ $(document).ready(function(){
         modal.find("#personal_number").val(personal_number);
         modal.find("#academic_title_id").val(academic_title_id);
         modal.find("#role_id").val(role_id);
-        modal.find("#cpa_id").val(cpa_id);
         var real_photo=photo.split('/')[1];
         $("#dekan-edit").attr('action','http://localhost:8000/dekan-edit/'+id+'/'+real_photo);
     });

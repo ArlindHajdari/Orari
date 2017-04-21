@@ -22,4 +22,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.min.js"></script>
 <script src="{{asset('node_modules/bootstrap3-dialog/dist/js/bootstrap-dialog.js')}}"></script>
 <style>body{padding-right: 0px !important;}</style>
+<script>
+    $('#user_info').click(function(){
+        if($('#user_info').attr('class') == 'open'){
+            $('#user_info').removeClass('open');
+        }else{
+            $('#user_info').addClass('open');
+        }
+    });
+</script>
 
