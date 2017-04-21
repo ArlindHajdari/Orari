@@ -6,7 +6,7 @@
     @yield('other')
 </head>
 <body class="nav-md">
-    <div class="container body">
+    <div class="container body" id="container">
         <div class="main_container">
             @include('layouts.header')
             <div class="right_col" role="main" style="min-height: 1704px;">

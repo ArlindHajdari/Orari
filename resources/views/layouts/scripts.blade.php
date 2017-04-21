@@ -24,3 +24,13 @@
 <script src="{{asset('js/custom.min.js')}}"></script>
 <script src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
 <script src="{{asset('moment/locale/sq.js')}}"></script>
+<script src="{{asset('fullscreen-master/release/jquery.fullscreen.js')}}"></script>
+<script>
+    $('#full_screen').click(function(){
+        if($.fullscreen.isFullScreen()){
+            $.fullscreen.exit();
+        }else {
+            $('#container').fullscreen();
+        }
+    });
+</script>
