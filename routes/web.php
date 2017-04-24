@@ -14,6 +14,14 @@ Route::get('login', 'UsersController@index');
 
 Route::post('login','UsersController@login');
 
+Route::get('recover','ResetPasswordController@index');
+
+Route::post('recover','ResetPasswordController@resetPassword');
+
+Route::get('reset/{email}/{code}','ResetPasswordController@recover');
+
+Route::post('reset/{email}/{code}','ResetPasswordController@postRecover');
+
 Route::group(['middleware'=>'login'], function(){
     Route::get('/',function(){
         return view('index');
@@ -104,10 +112,4 @@ Route::group(['middleware'=>'login'], function(){
     Route::get('kontakti','UsersController@getKontakti');
 
     Route::post('kontakti','UsersController@postKontakti');
-
-    Route::post('recover','ResetPasswordController@resetPassword');
-
-    Route::get('reset/{email}/{code}','ResetPasswordController@getResetFields');
-
-    Route::post('reset/{email}/{code}','ResetPasswordController@postRecover');
 });

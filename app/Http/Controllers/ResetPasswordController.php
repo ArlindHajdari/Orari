@@ -6,63 +6,106 @@ use Illuminate\Http\Request;
 use Sentinel;
 use Mail;
 use App\Models\User;
+use Validator;
+use Illuminate\Validation\Rule;
 use Reminder;
 use View;
 
 class ResetPasswordController extends Controller
 {
     public function index(){
-        if(View::exists('recoverpassword'))
-            return view('recoverpassword');
+        if(View::exists('password_recovery.recoverpassword'))
+            return view('password_recovery.recoverpassword');
         else{
             return view('errors.404');
         }
     }
 
-    public function getResetFields($email, $code){
-        $user = User::byEorU($email);
-        //$sentinelUser = Sentinel::findById($user->id);
-
-        if($reminder = Reminder::exists($user)){
-            if($reminder->code == $code)
-                return view('recoverpassword1');
-            else
-                return redirect('/')->with('error','Wrong URL link!');
-        }else
-            return redirect('/')->with('error','We haven\'t sent any email to this user!');
+    public function recover(){
+        if(View::exists('password_recovery.recoverpassword1'))
+            return view('password_recovery.recoverpassword1');
+        else{
+            return view('errors.404');
+        }
     }
 
     public function resetPassword(Request $request){
-        $user = User::byEorU($request->email);
+        \DB::enableQueryLog();
+        $validator = Validator::make($request->all(),[
+            'email'=>[
+                'required',
+            Rule::exists('users')->where(function($query) use ($request){
+              $query->where('email',$request->email);
+              $query->orWhere('log_id',$request->email);
+            })]
+        ]);
 
-        //$sentinelUser = Sentinel::findById($user->id);
+        if($validator->fails()){
+            return response()->json([
+                'email'=>'Të dhënat e shtypura nuk ekzistojnë'
+            ],400);
+        }
 
-        $reminder = Reminder::exists($user) ?: Reminder::create($user);
+        $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->get();
 
-        $this->sendMail($user, $reminder->code);
+        if($sentinel_user = Sentinel::findUserById($user->id)){
+            if($reminder = Reminder::exists($sentinel_user) ?: Reminder::create($sentinel_user)){
+                $this->sendMail($sentinel_user, $reminder->code);
 
-        return redirect('/')->with('mailsent','Please check your e-mail for further steps!');
+                return response()->json([
+                    'title'=>'Sukses',
+                    'msg'=>'Ju lutem kontrolloni postën tuaj elektronike për të vazhduar!',
+                    'url'=>url('login')
+                ],200);
+            }else{
+                return response()->json([
+                    'email'=>'Të dhënat e shtypura nuk ekzistojnë'
+                ],400);
+            }
+        }else{
+            return response()->json([
+                'email'=>'Të dhënat e shtypura nuk ekzistojnë'
+            ],400);
+        }
     }
 
     public function postRecover(Request $request, $email, $code){
-        $this->validate($request,[
+
+        $validator = Validator::make($request->all(),[
             'password' => 'confirmed|required|min:6|max:150',
             'password_confirmation' => 'required|min:6|max:150'
         ]);
 
-        $user = User::byEorU($email);
-        //$sentinelUser = Sentinel::findById($user->id);
+        if($validator->fails()){
+            return response()->json([
+                'errors'=>$validator->getMessageBag()->toArray()
+            ],400);
+        }
 
-        if($reminder = Reminder::exists($user)){
+        $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->get();
+
+        $sentinel_user = Sentinel::findUserById($user->id);
+
+        if($reminder = Reminder::exists($sentinel_user)){
             if($code == $reminder->code){
-                Reminder::complete($user, $code, $request->password);
+                Reminder::complete($sentinel_user, $code, $request->password);
                 Sentinel::authenticate(['email'=>$user->email,'password'=>$request->password]);
-                return redirect('recoverComplete');
+                return response()->json([
+                    'title'=>'Sukses',
+                    'msg'=>'Fjalëkalimi u ndërrua me sukses!',
+                    'url'=>url('/')
+                ],200);
             }else{
-                return redirect('/')->with('errors', 'Code doesn\'t match!');
+                return response()->json([
+                    'title'=>'Gabim',
+                    'msg'=>'Kodet nuk përputhen, ju lutem kontaktoni mirëmhajtësit e faqes!'
+                ],500);
             }
         }else{
-            return redirect('/')->with('errors', 'The reset password code can\'t be found!');
+            return response()->json([
+                'title'=>'Gabim',
+                'msg'=>'Kodi për ndryshimin e fjalekalimit nuk ekziston!'
+            ],500);
         }
     }
 
@@ -73,7 +116,7 @@ class ResetPasswordController extends Controller
         ],function($message) use($user){
             $message->to($user->email);
 
-            $message->subject("HOTEL | Recover password");
+            $message->subject("XALFA | Ndrysho fjalëkalimin");
         });
     }
 }

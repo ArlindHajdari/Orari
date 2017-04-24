@@ -21,7 +21,7 @@ public function store(Request $request)
             $validation = Validator::make($request->all(),[
                 'first_name' => 'bail|required|alpha|max:190',
                 'last_name' => 'bail|required|alpha|max:190',
-                'email' => 'bail|required|email|max:190',
+                'email' => 'bail|required|email|exists:|max:190',
                 'password'=>'bail|required|max:190',
                 'personal_number'=>'bail|required|numeric',
                 'cpa_id' => 'bail|required|numeric',
@@ -54,19 +54,8 @@ public function store(Request $request)
             }while(in_array($log_id,$log_ids));
 
             $data['log_id'] = $log_id;
-
-            $user = new User();
-            $user->first_name=$data['first_name'];
-            $user->last_name=$data['last_name'];
-            $user->log_id = $data['log_id'];
-            $user->password=$data['password'];
-            $user->personal_number=$data['personal_number'];
-            $user->cpa_id=$data['cpa_id'];
-            $user->academic_title_id=$data['academic_title_id'];
-            $user->email=$data['email'];
-            $user->photo = $data['photo'];
             
-            if($user = Sentinel::registerAndActivate($user)){
+            if($user = Sentinel::registerAndActivate($data)){
                 if($role = Sentinel::findRoleBySlug('user')){
                     $role->users()->attach($user);
 

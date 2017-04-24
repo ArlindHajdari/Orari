@@ -86,8 +86,8 @@ class AvailabilityController extends Controller
     {
         try{
             $validator = Validator::make($request->all(),[
-                'start' => 'bail|required|date|after_or_equal:2017-04-17|before_or_equal:2017-04-22',
-                'end' => 'bail|required|date|after_or_equal:2017-04-17|before_or_equal:2017-04-22',
+                'start' => 'bail|required|date',
+                'end' => 'bail|required|date',
             ]);
 
             $start = Carbon::parse($request->start);

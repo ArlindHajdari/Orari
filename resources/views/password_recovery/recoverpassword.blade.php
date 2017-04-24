@@ -194,7 +194,8 @@
               width: 600px;
           }
       </style>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <script src="{{asset('js/recover.js')}}"></script>
 </head>
 <body>
 <div class="main">
@@ -202,19 +203,15 @@
         <center>
             <div class="middle">
                 <div id="login">
-                    {{FORM::open(['id'=>'loginForm'])}}
+                    {{FORM::open(['id'=>'recover'])}}
                         <fieldset class="clearfix">
                         <p>
-                            <span class="fa fa-user"></span>{{FORM::text('log_id',null,['class'=>'form-control','required','placeholder'=>'ID ose E-mail'])}}
+                            <span class="fa fa-user"></span>{{FORM::text('email',null,['class'=>'form-control','required','placeholder'=>'ID ose E-mail','id'=>'email'])}}
                         </p>
-                        <p>
-                            <span class="fa fa-lock"></span>
-                        {{FORM::password('password',['placeholder'=>'Fjalëkalimi','class'=>'form-control','required'])}}
                         <div>
-                            <span style="width:68%; text-align:left;  display: inline-block;"><a href="{{url('recover')}}">Keni humbur
-                                    fjalëkalimin?</a></span>
+                            <span style="width:68%; text-align:left;  display: inline-block;"><a href="{{url('login')}}">Keni llogari?</a></span>
                             <span style="width:30%; text-align:right;  display: inline-block;">
-                                {{FORM::submit('Kyçu')}}
+                                {{FORM::submit('Vazhdo')}}
                             </span>
                         </div>
                         </fieldset>

@@ -15,31 +15,29 @@
                 slotEventOverlap: false,
                 hiddenDays: [0] ,                   // fsheh te Dielen
                 columnFormat: 'dddd',
-                allDaySlot: false,                  // tere dita slot
+//                allDaySlot: false,                  // tere dita slot
                 minTime: "08:00:00",
                 maxTime: "20:00:00",
                 defaultView: 'agendaWeek',
                 navLinks: false, // can click day/week names to navigate views
-                editable: true, // perdoruesi nuk mund te editoj eventet pasi i ka krijuar ato
+                editable: true, // perdoruesi mund te editoj eventet pasi i ka krijuar ato
                 eventLimit: true, // allow "more" link when too many events
                 draggable: true,					// te zhvendosshme
                 eventDurationEditable: true,		// perdoruesi nuk mund te ndryshoj kohen e eventit
-                events: {!!  $json!!},
+                events: {!!$json!!},
                 selectOverlap: false,				// me selektu evente mbi njera tjetren
                 eventOverlap: false,				// zevendesim pa ngaterresa
                 slotDuration: '00:15:00',
-
                 eventConstraint:{
                     start: "08:00:00",
                     end: "20:00:00"
                 },
-                visibleRange:{
-                    start: "2017-04-17",
-                    end: "2017-04-22"
+                visibleRange: {
+                    start: '2017-04-17',
+                    end: '2017-04-22'
                 },
                 height: 1218,
                 locale:'sq',
-                color: 'green',
                 eventClick:  function(event, jsEvent, view) {
                     endtime = $.fullCalendar.moment(event.end).format('h:mm');
                     starttime = $.fullCalendar.moment(event.start).format('dddd, h:mm');
@@ -74,6 +72,7 @@
                     }
                 },
                 eventDrop: function(event){
+                    console.log(moment(event.start).format(),moment(event.end).format());
                     $.ajax({
                         url: 'http://localhost:8000/edit-availability/'+event.id,
                         data: {
@@ -100,6 +99,7 @@
                     });
                 },
                 eventResize: function(event) {
+                    console.log(moment(event.start).format(),moment(event.end).format());
                      $.ajax({
                          url: 'http://localhost:8000/edit-availability/'+event.id,
                          data: {
