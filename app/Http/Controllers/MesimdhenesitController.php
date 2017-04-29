@@ -21,7 +21,7 @@ public function store(Request $request)
             $validation = Validator::make($request->all(),[
                 'first_name' => 'bail|required|alpha|max:190',
                 'last_name' => 'bail|required|alpha|max:190',
-                'email' => 'bail|required|email|exists:|max:190',
+                'email' => 'bail|required|email|max:190',
                 'password'=>'bail|required|max:190',
                 'personal_number'=>'bail|required|numeric',
                 'cpa_id' => 'bail|required|numeric',

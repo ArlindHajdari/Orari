@@ -95,9 +95,9 @@ Route::group(['middleware'=>'login'], function(){
 
     Route::post('disponueshmeria','AvailabilityController@store');
 
-    Route::delete('delete-availability/{id}','AvailabilityController@destroy');
+    Route::post('day-availability','AvailabilityController@store_allday');
 
-    Route::patch('edit-availability/{id}','AvailabilityController@edit');
+    Route::delete('delete-availability/{id}','AvailabilityController@destroy');
 
     Route::get('OrariPanel','OrariController@index');
 

@@ -8,23 +8,47 @@
 
     <script>
         $(document).ready(function() {
+            var data = {!! $json !!};
+
+            $.each(data, function(i,v){
+                if(v.allowed == false){
+                    v.color = '#a30606';
+                }
+            });
+
             $('#calendar2').fullCalendar({
                 header: false,
                 selectable: true,  // perdoruesi mund ti selektoj kohen dhe diten
                 selectHelper: true,
                 slotEventOverlap: false,
-                hiddenDays: [0] ,                   // fsheh te Dielen
+                hiddenDays: [0], // fsheh te Dielen
                 columnFormat: 'dddd',
-//                allDaySlot: false,                  // tere dita slot
+                dayClick: function(date, jsEvent, view, resourceObj) {
+                    var data,day,start_millis,end_millis;
+
+                    start_millis = view.minTime._milliseconds;
+                    end_millis = view.maxTime._milliseconds;
+
+                    data = $.fullCalendar.moment(date).format('dddd, YYYY-MM-DD');
+                    day = moment(date).format();
+
+                    $('#alldaymodal #day').val(day);
+                    $('#alldaymodal #start_milli').val(start_millis);
+                    $('#alldaymodal #end_milli').val(end_millis);
+                    $('#alldaymodal #when').text(data);
+                    $('#alldaymodal').modal('toggle');
+                },
+                allDaySlot: true,
+                allDayText: 'Tëkërëbitën',
+                timeFormat: 'HH:mm',
                 minTime: "08:00:00",
                 maxTime: "20:00:00",
                 defaultView: 'agendaWeek',
-                navLinks: false, // can click day/week names to navigate views
-                editable: true, // perdoruesi mund te editoj eventet pasi i ka krijuar ato
-                eventLimit: true, // allow "more" link when too many events
-                draggable: true,					// te zhvendosshme
-                eventDurationEditable: true,		// perdoruesi nuk mund te ndryshoj kohen e eventit
-                events: {!!$json!!},
+                defaultDate: '2017-04-18',
+                noEventsMessage:'Nuk ka të dhëna për ti shfaqur!',
+                navLinks: false,    // can click day/week names to navigate views
+                eventLimit: true,    // allow "more" link when too many events
+                events: data,
                 selectOverlap: false,				// me selektu evente mbi njera tjetren
                 eventOverlap: false,				// zevendesim pa ngaterresa
                 slotDuration: '00:15:00',
@@ -39,12 +63,21 @@
                 height: 1218,
                 locale:'sq',
                 eventClick:  function(event, jsEvent, view) {
-                    endtime = $.fullCalendar.moment(event.end).format('h:mm');
-                    starttime = $.fullCalendar.moment(event.start).format('dddd, h:mm');
-                    var mywhen = starttime + ' - ' + endtime; // nese klikohet eventi na shfaqet modali me detajet(oren e fillimit edhe mbarimit)
-                    $('#modalTitle').html(event.title);
+                    endtime = $.fullCalendar.moment(event.end).format('HH:mm');
+                    starttime = $.fullCalendar.moment(event.start).format('dddd, HH:mm');
+                    var mywhen = starttime + ' - ' + endtime;
+
+                    var title = "";
+                    if(event.color){
+                        title = 'I padisponueshëm!';
+                    }else{
+                        title = 'I disponueshëm';
+                    }
+                    $('#modalTitle').html(title);
                     $('#modalWhen').text(mywhen);
-                    $('#avail_id').val(event.id);
+                    $('#id').val(event.id);
+                    $('#start').val(event.start);
+                    $('#end').val(event.end);
                     $('#calendarModal').modal();
                 },
 
@@ -53,78 +86,46 @@
                     var mEnd = $.fullCalendar.moment(end);
                     var mStart = $.fullCalendar.moment(start);
 
+                    var diff = mStart.diff(mEnd,'minutes')*-1;
 
-                    var difference = mStart.diff(mEnd, 'minutes')*-1;
-
-                    if (mEnd.isAfter(mStart, 'day') || difference <= 44) {
+                    if (mEnd.isAfter(mStart, 'day') || diff < 60) {
                         $('#calendar2').fullCalendar('unselect');
                     } else {
-                        endtime = $.fullCalendar.moment(end).format('h:mm');
-                        starttime = $.fullCalendar.moment(start).format('dddd, h:mm');
+                        endtime = $.fullCalendar.moment(end).format('H:mm');
+                        starttime = $.fullCalendar.moment(start).format('dddd, H:mm');
                         var mywhen = starttime + ' - ' + endtime;
                         start = moment(start).format();
-                        end = moment(end).format();	// nese caktohen oret na shfaqet modali me oren e fillimit
-                        // edhe mbarimit
+                        end = moment(end).format();
                         $('#createEventModal #startTime').val(start);
                         $('#createEventModal #endTime').val(end);
                         $('#createEventModal #when').text(mywhen);
                         $('#createEventModal').modal('toggle');
                     }
-                },
-                eventDrop: function(event){
-                    console.log(moment(event.start).format(),moment(event.end).format());
-                    $.ajax({
-                        url: 'http://localhost:8000/edit-availability/'+event.id,
-                        data: {
-                            start: moment(event.start).format(),
-                            end: moment(event.end).format(),
-                            _token: '{{csrf_token()}}'
-                        },
-                        type: "PATCH",
-                        success: function(json) {
-                            //alert(json);
-                        },
-                        error: function(json){
-                            BootstrapDialog.show({
-                                title: 'Gabim gjatë modifikimit',
-                                message: 'Të dhënat nuk janë të sakta!',
-                                buttons: [{
-                                    label: 'OK',
-                                    action: function(dialog) {
-                                        window.location.reload();
-                                    }
-                                }]
-                            });
-                        }
-                    });
-                },
-                eventResize: function(event) {
-                    console.log(moment(event.start).format(),moment(event.end).format());
-                     $.ajax({
-                         url: 'http://localhost:8000/edit-availability/'+event.id,
-                         data: {
-                             start: moment(event.start).format(),
-                             end: moment(event.end).format(),
-                             _token: '{{csrf_token()}}'
-                         },
-                         type: "PATCH",
-                         success: function(json) {
-                            //alert(json);
-                         },
-                         error: function(){
-                             BootstrapDialog.show({
-                                 title: 'Gabim gjatë modifikimit',
-                                 message: 'Të dhënat nuk janë të sakta!',
-                                 buttons: [{
-                                     label: 'OK',
-                                     action: function(dialog) {
-                                         window.location.reload();
-                                     }
-                                 }]
-                             });
-                         }
-                     });
-                 }
+                }
+            });
+
+            $('#register-day-availability').submit(function(e){
+                // We don't want this to act as a link so cancel the link action
+                e.preventDefault();	// nese klikohet butoni add e shton te dhenen ne orar(tabele)
+
+                var forma = $(this), url=forma.attr('action'),formData = forma.serialize();
+
+                $.ajax({
+                    url: url,
+                    data: formData,//funksioni per regjistrimin e te dhenave
+                    type: "POST",
+                    success: function(json) {
+                        $("#calendar2").fullCalendar('renderEvent',
+                                {
+                                    id: json.id,
+                                    start: json.start.date,
+                                    end: json.end.date,
+                                    color:json.color,
+                                },
+                                true);
+                    }
+                });
+                $("#alldaymodal").modal('hide');
             });
 
             $('#register-availability').submit(function(e){
@@ -137,14 +138,15 @@
 
                 $.ajax({
                     url: url,
-                    data: formData,//funksioni per regjistrimin e te dhenave
+                    data: formData,
                     type: "POST",
                     success: function(json) {
                         $("#calendar2").fullCalendar('renderEvent',
                                 {
                                     id: json.id,
                                     start: startTime,
-                                    end: endTime
+                                    end: endTime,
+                                    color:json.color,
                                 },
                                 true);
                     }
@@ -161,19 +163,15 @@
                     }
                 });
 
-                var ID = $('#avail_id').val();
                 var form = $(this);
+                var ID = $('#calendarModal #id').val();
                 var url = form.attr('action')+'/'+ID;
-                console.log(url);
+
                 $.ajax({
                     url: url,
-                    data: ID,
                     type: "DELETE",
                     success: function(json) {
-                        if(json.success)
-                            $("#calendar2").fullCalendar('removeEvents',ID);
-                        else
-                            return false;
+                        $("#calendar2").fullCalendar('removeEvents',json.ID);
                     }
                 });
 
@@ -184,6 +182,61 @@
 @stop
 @section('body')
     <!-- Modal -->
+    <div id="alldaymodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                {{FORM::open(['id'=>'register-day-availability','novalidate','url'=>'day-availability'])}}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Shto në disponueshmëri</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="control-group">
+                        <table>
+                            <tr>
+                                <td style="min-height:15%">Mundesh </td>
+                                <td>
+                                    &nbsp;
+                                    <label id="" class="">
+                                        <div class="iradio_flat-green" style="position: relative;">
+                                            {{FORM::radio('allowed',1,0,['class'=>'flat','style'=>'position: absolute; opacity: 0;'])}}
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                        </div>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="min-height:15%">Nuk mundesh </td>
+                                <td>
+                                    &nbsp;
+                                    <label id="" class="">
+                                        <div class="iradio_flat-green" style="position: relative;">
+                                            {{FORM::radio('allowed',0,0,['class'=>'flat','style'=>'position: absolute; opacity: 0;'])}}
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                        </div>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    {{FORM::hidden('day',null,['id'=>'day'])}}
+                    {{FORM::hidden('start_milli',null,['id'=>'start_milli'])}}
+                    {{FORM::hidden('end_milli',null,['id'=>'end_milli'])}}
+                    <div class="control-group">
+                        <label class="control-label" for="when">Kur:</label>
+                        <div class="controls controls-row" id="when" style="margin-top:5px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Anulo</button>
+                    {{FORM::submit('Ruaj',['class'=>'btn btn-primary'])}}
+                </div>
+                {{FORM::close()}}
+            </div>
+        </div>
+    </div>
     <div id="createEventModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -194,6 +247,34 @@
                     <h4 class="modal-title">Shto në disponueshmëri</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="control-group">
+                        <table>
+                            <tr>
+                                <td style="min-height:15%">Mundesh </td>
+                                <td>
+                                    &nbsp;
+                                    <label id="" class="">
+                                        <div class="iradio_flat-green" style="position: relative;">
+                                            {{FORM::radio('allowed',1,0,['class'=>'flat','style'=>'position: absolute; opacity: 0;'])}}
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                        </div>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="min-height:15%">Nuk mundesh </td>
+                                <td>
+                                    &nbsp;
+                                    <label id="" class="">
+                                        <div class="iradio_flat-green" style="position: relative;">
+                                            {{FORM::radio('allowed',0,0,['class'=>'flat','style'=>'position: absolute; opacity: 0;'])}}
+                                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                                        </div>
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     {{FORM::hidden('startTime',null,['id'=>'startTime'])}}
                     {{FORM::hidden('endTime',null,['id'=>'endTime'])}}
                     <div class="control-group">
@@ -222,7 +303,9 @@
                     <h4 id="modalTitle" class="modal-title"></h4>
                     <div id="modalWhen" style="margin-top:5px;"></div>
                 </div>
-                {{FORM::hidden('id',null,['id'=>'avail_id'])}}
+                {{FORM::hidden('start',null,['id'=>'start'])}}
+                {{FORM::hidden('id',null,['id'=>'id'])}}
+                {{FORM::hidden('end',null,['id'=>'end'])}}
                 <div class="modal-footer">
                     <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
                     {{FORM::submit('Fshij',['class'=>'btn btn-danger'])}}
