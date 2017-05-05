@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#facultyRegister').submit(function(e){
+    $('#register-form').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -32,7 +32,7 @@ $(document).ready(function(){
                     });
                 },
                 400: function(data){
-                    $.each(data.responseJSON['errors'], function(i,v){
+                    $.each(data.responseJSON['errors'], function(i){
                         $.each(this, function(index,value){
                             var errorID = '#'+i;
                             $(errorID).tooltip({title: value,placement: "right"}).tooltip('show');
@@ -55,7 +55,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#faculty-edit').submit(function(e){
+    $('#edit-form').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -111,21 +111,19 @@ $(document).ready(function(){
     });
 
     $('#deleteModal').on('shown.bs.modal', function(e) {
-        var faculty_id = $(e.relatedTarget).data('id');
-        $("#delete-form").attr('action','http://localhost:8000/facultyDelete/'+faculty_id);
+        var cpa_id = $(e.relatedTarget).data('id');
+        $("#delete-form").attr('action','http://localhost:8000/cpaDelete/'+cpa_id);
     });
 
     $('#editModal').on('show.bs.modal', function(e) {
         var link = $(e.relatedTarget);
 
-        var faculty = link.data('faculty');
-        var academic_years = link.data('academic_years');
+        var cpa = link.data('cpa');
         var id = link.data('id');
 
         var modal = $(this);
-        modal.find("#faculty").val(faculty);
-        modal.find("#academic_years").val(academic_years);
-        $("#faculty-edit").attr('action','http://localhost:8000/facultyEdit/'+id);
+        modal.find("#cpa").val(cpa);
+        $("#edit-form").attr('action','http://localhost:8000/cpaEdit/'+id);
     });
 });
 

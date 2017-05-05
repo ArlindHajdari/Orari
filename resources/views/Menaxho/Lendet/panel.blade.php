@@ -206,12 +206,10 @@
                             </td>
                         </tr>
                         @empty
-                            <div class="alert alert-info" role="alert"><center><h4>Nuk ka te dhena per tu shfaqur!</h4></center></div>
+                            <div class="alert alert-info">
+                                <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
+                            </div>
                         @endforelse
-                        @if(session('message'))
-                            <div class="alert alert-success" role="alert"><center><h4>{{session('message')}}</h4></center></div>
-
-                        @endif
                         </tbody>
                     </table>
                     <center>{{ $lendet->links() }}</center>

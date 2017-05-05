@@ -4,9 +4,11 @@
 @stop
 
 @section('other')
-    <script src="{{asset('js/Department.js')}}"></script>
-@stop
-@section('body')
+    <script src="{{asset('js/cpa.js')}}"></script>
+    @stop
+
+    @section('body')
+
             <!-- Modal Register-->
     <div class="modal fade" id="registerModal" role="dialog">
         <div class="modal-dialog">
@@ -17,20 +19,13 @@
                     <h4 class="modal-title">Regjistrimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'department-register', 'url'=>'departmentRegister']) }}
-
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'register-form', 'url'=>'cpaRegister']) }}
                     <div class="col-md-10 col-md-offset-1">
-
                         <div class="form-group">
-                            {{ FORM::label('Departamenti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Thirrja mësimore',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('department',null,['class'=>'form-control','required','placeholder'=>'Departmenti', 'id'=>'department']) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ FORM::label('Fakullteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('faculty_id',['0'=>'Cakto Fakultetin']+$faculty,null,['class'=>'form-control','required','id'=>'faculty_id']) }}
+                                {{ FORM::text('cpa',null,['class'=>'form-control','required',
+                                'placeholder'=>'Thirrja mësimore','id'=>'cpa']) }}
                             </div>
                         </div>
                     </div>
@@ -51,7 +46,6 @@
     <!-- Modal Edit-->
     <div class="modal fade" id="editModal" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -59,20 +53,14 @@
                     <h4 class="modal-title">Ndryshimi</h4>
                 </div>
                 <div class="modal-body">
-                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true', 'method'=>'PATCH','id'=>'department-edit', 'url'=>'departmentEdit']) }}
+                    {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true', 'method'=>'PATCH','id'=>'edit-form']) }}
 
                     <div class="col-md-10 col-md-offset-1">
 
                         <div class="form-group">
-                            {{ FORM::label('Departamenti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Thirrja mësimore',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::text('department',null,['class'=>'form-control','required','placeholder'=>'Departmenti', 'id'=>'department']) }}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {{ FORM::label('Fakullteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('faculty_id',['0'=>'Cakto Fakultetin']+$faculty,null,['class'=>'form-control','required', 'id'=>'faculty_id']) }}
+                                {{ FORM::text('cpa',null,['class'=>'form-control','required','placeholder'=>'Thirrja mësimore', 'id'=>'cpa']) }}
                             </div>
                         </div>
                     </div>
@@ -116,8 +104,9 @@
     <!-- page content -->
     <div class="page-title">
         <div class="title_left">
-            <h3>Xalfa <small>Lista e departamenteve</small></h3>
+            <h3>Xalfa <small>Lista e Thirrjeve mësimore</small></h3>
         </div>
+
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                 {{FORM::open(['novalidate','id'=>'search-form'])}}
@@ -139,48 +128,45 @@
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Fakulteti</h2>
+                    <h2>Thirrja mësimore</h2>
                     <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+
+                    <p>Tabela me të dhënat e Thirrjes Mësimore</p>
+
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th style="width: 40%">Departamenti</th>
-                            <th style="width: 40%">Fakullteti</th>
-                            <th style="width: 20%">Edit</th>
+                            <th style="width: 80%">Thirrja Mësimore</th>
+                            <th style="width: 20%">Opstionet</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        @forelse($department as $value)
+                        @forelse($cpa as $value)
                             <tr>
-                                <td>{{ $value->department }}</td>
-                                <td>{{ $value->faculty }}</td>
+                                <td>{{ $value->cpa }}</td>
                                 <td>
                                     <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
                                             data-id="{{$value->id}}" data-target="#editModal"
-                                            data-department="{{$value->department}}"
-                                            data-faculty_id="{{$value->faculty_id}}">
-                                        <i class="fa fa-pencil"></i>
-                                        Edit
+                                            data-cpa="{{$value->cpa}}"><i class="fa fa-pencil"></i>
+                                        Ndrysho
                                     </button>
                                     <button type="button" class="btn btn-danger btn-xs" data-id="{{$value->id}}"
                                             data-toggle="modal"
-                                            data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete
+                                            data-target="#deleteModal"><i class="fa fa-trash-o"></i> Fshij
                                     </button>
                                 </td>
                             </tr>
                         @empty
-                            <div class="alert alert-info">
-                                <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
-                            </div>
+                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
                         @endforelse
                         </tbody>
                     </table>
-                    {{$department->render()}}
+                    {{$cpa->render()}}
                             <!-- end project list -->
 
                 </div>

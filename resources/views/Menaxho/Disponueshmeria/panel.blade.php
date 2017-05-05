@@ -38,9 +38,10 @@
                     $('#alldaymodal #when').text(data);
                     $('#alldaymodal').modal('toggle');
                 },
-                allDaySlot: true,
                 allDayText: 'Tëkërëbitën',
                 timeFormat: 'HH:mm',
+                draggable: true,
+                editable: true,
                 minTime: "08:00:00",
                 maxTime: "20:00:00",
                 defaultView: 'agendaWeek',
@@ -87,8 +88,8 @@
                     var mStart = $.fullCalendar.moment(start);
 
                     var diff = mStart.diff(mEnd,'minutes')*-1;
-
-                    if (mEnd.isAfter(mStart, 'day') || diff < 60) {
+                    console.log(diff);
+                    if (mEnd.isAfter(mStart, 'day') || (diff < 60)) {
                         $('#calendar2').fullCalendar('unselect');
                     } else {
                         endtime = $.fullCalendar.moment(end).format('H:mm');
@@ -101,6 +102,58 @@
                         $('#createEventModal #when').text(mywhen);
                         $('#createEventModal').modal('toggle');
                     }
+                },
+                eventDrop: function(event){
+                    $.ajax({
+                        url: 'http://localhost:8000/edit-availability/'+event.id,
+                        data: {
+                            start: moment(event.start).format(),
+                            end: moment(event.end).format(),
+                            _token: '{{csrf_token()}}'
+                        },
+                        type: "PATCH",
+                        success: function(json) {
+                            //alert(json);
+                        },
+                        error: function(json){
+                            BootstrapDialog.show({
+                                title: 'Gabim gjatë modifikimit',
+                                message: 'Të dhënat nuk janë të sakta!',
+                                buttons: [{
+                                    label: 'OK',
+                                    action: function(dialog) {
+                                        window.location.reload();
+                                    }
+                                }]
+                            });
+                        }
+                    });
+                },
+                eventResize: function(event) {
+                    $.ajax({
+                        url: 'http://localhost:8000/edit-availability/'+event.id,
+                        data: {
+                            start: moment(event.start).format(),
+                            end: moment(event.end).format(),
+                            _token: '{{csrf_token()}}'
+                        },
+                        type: "PATCH",
+                        success: function(json) {
+                            //alert(json);
+                        },
+                        error: function(){
+                            BootstrapDialog.show({
+                                title: 'Gabim gjatë modifikimit',
+                                message: 'Të dhënat nuk janë të sakta!',
+                                buttons: [{
+                                    label: 'OK',
+                                    action: function(dialog) {
+                                        window.location.reload();
+                                    }
+                                }]
+                            });
+                        }
+                    });
                 }
             });
 

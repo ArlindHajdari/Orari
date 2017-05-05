@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cp;
+use Illuminate\Support\Facades\Response;
 
 class ScheduleController extends Controller
 {
@@ -14,6 +16,13 @@ class ScheduleController extends Controller
     public function index()
     {
         return view('Menaxho.Orari.scheduler');
+    }
+
+    public function getProfByLende(Request $request)
+    {
+        $prof = Cp::select('users.id','users.first_name')->join('users','cps.user_id','users.id')->where('cps.subject_id',$request->id)->pluck('first_name','id');
+
+        return response()->json($prof,200);
     }
 
     /**

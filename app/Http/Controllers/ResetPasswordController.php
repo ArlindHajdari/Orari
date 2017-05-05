@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Sentinel;
 use Mail;
@@ -46,7 +47,7 @@ class ResetPasswordController extends Controller
             ],400);
         }
 
-        $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->get();
+        $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->first();
 
         if($sentinel_user = Sentinel::findUserById($user->id)){
             if($reminder = Reminder::exists($sentinel_user) ?: Reminder::create($sentinel_user)){
@@ -70,41 +71,47 @@ class ResetPasswordController extends Controller
     }
 
     public function postRecover(Request $request, $email, $code){
+        try{
+            $validator = Validator::make($request->all(),[
+                'password' => 'confirmed|required|min:6|max:150',
+                'password_confirmation' => 'required|min:6|max:150'
+            ]);
 
-        $validator = Validator::make($request->all(),[
-            'password' => 'confirmed|required|min:6|max:150',
-            'password_confirmation' => 'required|min:6|max:150'
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'errors'=>$validator->getMessageBag()->toArray()
-            ],400);
-        }
-
-        $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->get();
-
-        $sentinel_user = Sentinel::findUserById($user->id);
-
-        if($reminder = Reminder::exists($sentinel_user)){
-            if($code == $reminder->code){
-                Reminder::complete($sentinel_user, $code, $request->password);
-                Sentinel::authenticate(['email'=>$user->email,'password'=>$request->password]);
+            if($validator->fails()){
                 return response()->json([
-                    'title'=>'Sukses',
-                    'msg'=>'Fjalëkalimi u ndërrua me sukses!',
-                    'url'=>url('/')
-                ],200);
+                    'errors'=>$validator->getMessageBag()->toArray()
+                ],400);
+            }
+
+            $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->first();
+
+            $sentinel_user = Sentinel::findUserById($user->id);
+
+            if($reminder = Reminder::exists($sentinel_user)){
+                if($code == $reminder->code){
+                    Reminder::complete($sentinel_user, $code, $request->password);
+                    Sentinel::authenticate(['email'=>$user->email,'password'=>$request->password]);
+                    return response()->json([
+                        'title'=>'Sukses',
+                        'msg'=>'Fjalëkalimi u ndërrua me sukses!',
+                        'url'=>url('/')
+                    ],200);
+                }else{
+                    return response()->json([
+                        'title'=>'Gabim',
+                        'msg'=>'Kodet nuk përputhen, ju lutem kontaktoni mirëmhajtësit e faqes!'
+                    ],500);
+                }
             }else{
                 return response()->json([
                     'title'=>'Gabim',
-                    'msg'=>'Kodet nuk përputhen, ju lutem kontaktoni mirëmhajtësit e faqes!'
+                    'msg'=>'Kodi për ndryshimin e fjalekalimit nuk ekziston!'
                 ],500);
             }
-        }else{
+        }catch(QueryException $e){
             return response()->json([
                 'title'=>'Gabim',
-                'msg'=>'Kodi për ndryshimin e fjalekalimit nuk ekziston!'
+                'msg'=>'Problem me server!'
             ],500);
         }
     }

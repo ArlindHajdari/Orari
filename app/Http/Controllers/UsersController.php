@@ -230,6 +230,36 @@ class UsersController extends Controller
         }
     }
 
+    public function lock()
+    {
+        $photo = Sentinel::getUser()->photo;
+        $log_id = Sentinel::getUser()->log_id;
+        $name = Sentinel::getUser()->first_name.' '.Sentinel::getUser()->last_name;
+
+        Sentinel::Logout();
+        return view('lock')->with('photo',$photo)->with('log_id',$log_id)->with('name',$name);
+    }
+    public function postlock(Request $request)
+    {
+        if(Sentinel::authenticate(['log_id'=>$request->log_id,'password'=>$request->password]))
+        {
+            return response()->json([
+                'success'=>true,
+                'url'=>url('/')
+            ],200);
+        }
+        else
+        {
+            return response()->json([
+                'fails'=>true,
+                'title'=>'Gabim',
+                'msg'=>'Fjalëkalimi i shtypur është gabim!'
+            ],500);
+        }
+
+    }
+
+
     /**
      * Display the specified resource.
      *

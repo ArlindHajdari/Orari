@@ -22,14 +22,11 @@ class CpaMigration extends Migration
 
         DB::table('cpas')->insert([
             'cpa'=> 'Profesor'
-        ]);
-        DB::table('cpas')->insert([
+        ],[
             'cpa'=> 'Asistent'
-        ]);
-        DB::table('cpas')->insert([
+        ],[
             'cpa'=> 'Ligjërues'
-        ]);
-        DB::table('cpas')->insert([
+        ],[
             'cpa'=> 'Dekan'
         ]);
     }

@@ -1,4 +1,4 @@
-@extends('layouts.errors')
+           @extends('layouts.errors')
 @section('page_title')
   Forbidden
 @stop

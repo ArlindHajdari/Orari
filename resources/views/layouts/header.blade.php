@@ -28,6 +28,10 @@
                     <li><a><i class="fa fa-cogs"></i>Menaxho<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             @if(Sentinel::getUser()->roles()->first()->slug == 'admin')
+                                <li><a href="{{ url('academicTitlePanel') }}">Titujt akademik</a>
+                                </li>
+                                <li><a href="{{ url('cpaPanel') }}">Thirrjet mësimore</a>
+                                </li>
                                 <li><a href="{{ url('FacultyPanel') }}">Fakultetet</a>
                                 </li>
                                 <li><a href="{{ url('departamentPanel') }}">Departamentet</a>
@@ -39,8 +43,8 @@
                                 <li><a href="{{ url('mesimdhenesit') }}">Mësimdhënësit</a>
                                 </li>
                             @elseif(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
-                                <li><a href="{{ url('LendetPanel') }}">Lëndët</a></li>
                                 <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a></li>
+                                <li><a href="{{ url('LendetPanel') }}">Lëndët</a></li>
                             @else
                                 <li><a href="{{ url('disponueshmeria') }}">Disponueshmëria</a>
                                 </li>
@@ -53,7 +57,7 @@
                     @if(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
                         <li>
                             <a href="{{url('OrariPanel')}}"><i class="fa fa-calendar-plus-o">
-                                </i> Orari<span class="label label-success pull-right">Coming Soon</span>
+                                 Orari<span class="label label-success pull-right">Coming Soon</span>
                             </a>
                         </li>
                     @endif
@@ -93,13 +97,15 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </a>
+            @if(Sentinel::getUser()->roles()->first()->slug == 'admin')
+                <a data-toggle="tooltip" data-placement="top" href="{{url('settings')}}" title="Settings">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+            @endif
             <a data-toggle="tooltip" data-placement="top" title="FullScreen" id="full_screen">
                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Lock">
+            <a data-toggle="tooltip" href="{{url('lock')}}" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </a>
             {{FORM::open(['url'=>'logout','id'=>'logout-form'])}}
@@ -128,11 +134,14 @@
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li>
-                            <a href="#">
-                                <span>Profili</span>
-                            </a>
-                        </li>
+                        @if(Sentinel::getUser()->roles()->first()->slug == 'admin')
+                            <li>
+                                <a href="{{url('settings')}}">
+                                    <span class="badge bg-red pull-right">{{$percent}}%</span>
+                                    <span>Rregullat</span>
+                                </a>
+                            </li>
+                        @endif
                         @if(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
                             <li><a href="{{url('kontakti')}}">Kontakto</a></li>
                         @endif

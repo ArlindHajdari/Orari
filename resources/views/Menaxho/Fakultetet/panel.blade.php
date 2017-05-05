@@ -20,14 +20,18 @@
                 </div>
                 <div class="modal-body">
                     {{ FORM::open(['class'=>'form-horizontal form-label-left input_mask','files'=>'true','id'=>'facultyRegister', 'url'=>'facultyRegister']) }}
-
                     <div class="col-md-10 col-md-offset-1">
-
                         <div class="form-group">
                             {{ FORM::label('Fakullteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::text('faculty',null,['class'=>'form-control','required',
-                                'placeholder'=>'Fakullteti']) }}
+                                'placeholder'=>'Fakullteti','id'=>'faculty']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Vitet',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{FORM::number('academic_years',null,['class'=>'form-control','required','id'=>'academic_years'])}}
                             </div>
                         </div>
                     </div>
@@ -64,6 +68,12 @@
                             {{ FORM::label('Fakullteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{ FORM::text('faculty',null,['class'=>'form-control','required','placeholder'=>'Fakullteti', 'id'=>'faculty']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Vitet',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{FORM::number('academic_years',null,['class'=>'form-control','required','id'=>'academic_years'])}}
                             </div>
                         </div>
                     </div>
@@ -135,8 +145,9 @@
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th style="width: 80%">Fakullteti</th>
-                            <th style="width: 20%">Edit</th>
+                            <th style="width: 60%">Fakullteti</th>
+                            <th style="width: 20%">Vitet</th>
+                            <th style="width: 20%">Opsionet</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -144,15 +155,18 @@
                         @forelse($faculty as $value)
                         <tr>
                             <td>{{ $value->faculty }}</td>
+                            <td>{{ $value->academic_years }}</td>
                             <td>
                                 <button type="button" class="btn btn-info btn-xs" data-toggle="modal"
                                         data-id="{{$value->id}}" data-target="#editModal"
-                                        data-faculty="{{$value->faculty}}"><i class="fa fa-pencil"></i>
-                                    Edit
+                                        data-faculty="{{$value->faculty}}" data-academic_years="{{$value->academic_years}}"><i
+                                            class="fa
+                                        fa-pencil"></i>
+                                    Ndrysho
                                 </button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$value->id}}"
                                         data-toggle="modal"
-                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete
+                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Fshij
                                 </button>
                             </td>
                         </tr>

@@ -22,6 +22,10 @@ Route::get('reset/{email}/{code}','ResetPasswordController@recover');
 
 Route::post('reset/{email}/{code}','ResetPasswordController@postRecover');
 
+Route::get('lock','UsersController@lock');
+
+Route::post('unlock','UsersController@postlock');
+
 Route::group(['middleware'=>'login'], function(){
     Route::get('/',function(){
         return view('index');
@@ -86,8 +90,8 @@ Route::group(['middleware'=>'login'], function(){
     Route::patch('lendet-edit/{id}','LendetController@edit');
 
     Route::delete('lendet-delete/{id}','LendetController@destroy');
-
-    Route::get('OrariPanel','OrariController@index');
+    
+    Route::get('getProfByLende','ScheduleController@getProfByLende');
 
     Route::get('scheduler','ScheduleController@index');
 
@@ -95,11 +99,13 @@ Route::group(['middleware'=>'login'], function(){
 
     Route::post('disponueshmeria','AvailabilityController@store');
 
+    Route::patch('edit-availability/{id}','AvailabilityController@edit');
+
     Route::post('day-availability','AvailabilityController@store_allday');
 
     Route::delete('delete-availability/{id}','AvailabilityController@destroy');
 
-    Route::get('OrariPanel','OrariController@index');
+    Route::get('OrariPanel','ScheduleController@index');
 
     Route::post('register-mesimdhenesi','MesimdhenesitController@store');
 
@@ -112,4 +118,24 @@ Route::group(['middleware'=>'login'], function(){
     Route::get('kontakti','UsersController@getKontakti');
 
     Route::post('kontakti','UsersController@postKontakti');
+
+    Route::get('settings','SettingsController@index');
+
+    Route::patch('settings/{id}','SettingsController@update');
+
+    Route::match(['post','get'],'academicTitlePanel','AcademicTitleController@show');
+
+    Route::post('academicTitleRegister','AcademicTitleController@store');
+
+    Route::delete('academicTitleDelete/{id}','AcademicTitleController@destroy');
+
+    Route::patch('academicTitleEdit/{id}','AcademicTitleController@edit');
+
+    Route::match(['post','get'],'cpaPanel','CpaController@show');
+
+    Route::post('cpaRegister','CpaController@store');
+
+    Route::delete('cpaDelete/{id}','CpaController@destroy');
+
+    Route::patch('cpaEdit/{id}','CpaController@edit');
 });

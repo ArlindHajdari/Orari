@@ -3,10 +3,10 @@
   Be right back
 @stop
 @section('number')
-  503
+  404
 @stop
 @section('title')
-  Be right back!
+  Page not found!
 @stop
 @section('message')
   Lorem ipsum de skuza makuza malluda di puza!

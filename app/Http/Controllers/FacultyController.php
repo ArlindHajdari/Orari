@@ -24,7 +24,8 @@ class FacultyController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'faculty' => 'bail|required|string'
+            'faculty' => 'bail|required|string',
+            'academic_years'=>'bail|required|numeric|min:1|max:6'
         ]);
 
         if ($validator->fails()) {
@@ -38,6 +39,8 @@ class FacultyController extends Controller
         } else {
             $faculty = new Faculty;
             $faculty->faculty = $request->faculty;
+            $faculty->academic_years = $request->academic_years;
+
             if($faculty->save()){
                 return response()
                     ->json([
@@ -54,6 +57,7 @@ class FacultyController extends Controller
         DB::enableQueryLog();
         try{
             $faculty = Faculty::where('faculty','like','%'.$request->search.'%')->paginate(15);
+
             return view('Menaxho.Fakultetet.panel')->with('faculty',$faculty);
         }
         catch(QueryException $e){
@@ -69,7 +73,8 @@ class FacultyController extends Controller
     {
         try{
             $validation = Validator::make($request->all(),[
-                'faculty' => 'bail|required|alpha|max:190'
+                'faculty' => 'bail|required|string|max:190',
+                'academic_years'=>'bail|required|numeric|min:1|max:6'
             ]);
 
             if($validation->fails()){
@@ -82,6 +87,7 @@ class FacultyController extends Controller
             $faculty = Faculty::find($id);
 
             $faculty->faculty = $request->faculty;
+            $faculty->academic_years = $request->academic_years;
 
             if($faculty->save()){
                 return response()->json([
@@ -114,9 +120,8 @@ class FacultyController extends Controller
 
     public function destroy($id)
     {
-        $faculty = Faculty::find($id);
-        $faculty->delete();
-
-        return redirect('FacultyPanel');
+        if(Faculty::find($id)->delete()){
+            return redirect('FacultyPanel');
+        }
     }
 }

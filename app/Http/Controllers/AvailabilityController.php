@@ -152,7 +152,41 @@ class AvailabilityController extends Controller
 
     public function edit(Request $request,$id)
     {
-        //code here
+        try{
+            $validator = Validator::make($request->all(),[
+                'start' => 'bail|required|date',
+                'end' => 'bail|required|date',
+            ]);
+
+            $start = Carbon::parse($request->start);
+            $end = Carbon::parse($request->end);
+
+            $diff = $end->diffInMinutes($start) < 45;
+
+            if($validator->fails() || $diff){
+                return response()->json([
+                    'errors'=>$validator->getMessageBag()->toArray(),
+                    'diffOnMinutesError'
+                ],400);
+            }
+
+            $avail = Availability::find($id);
+            $avail->start = $start->toDateTimeString();
+            $avail->end = $end->toDateTimeString();
+
+            if($avail->save()){
+                return response()->json([
+                    'success'=>true
+                ],200);
+            }
+
+        }catch(QueryException $e){
+            return response()->json([
+                'fails'=>true,
+                'title'=>'Gabim gjatë azhurnimit!',
+                'msg'=>'Të dhënat nuk mund të azhurnohen, ju lutem kontaktoni mirëmbajtësit e faqes!'
+            ],400);
+        }
     }
     
     

@@ -5,6 +5,7 @@ namespace App\Http\ViewComposers;
 use Illuminate\Contracts\View\View;
 use App\Models\User;
 use Illuminate\Database\QueryException;
+use DB;
 
 class DekansComposer
 {
@@ -12,8 +13,10 @@ class DekansComposer
 
     public function __construct()
     {
+        DB::enableQueryLog();
         try{
-            $this->dekanet=User::pluck('first_name','id');
+            $this->dekanet=User::select('')->where('cpa','Dekan')->pluck('academic_title'.'first_name'.' '.'last_name','id')->toArray();
+
         }
         catch(QueryException $e){
             return response()->json([
@@ -26,6 +29,7 @@ class DekansComposer
 
     public function compose(View $view)
     {
+//        dd(DB::getQueryLog());
         $view->with('dekanet',$this->dekanet);
     }
 }

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#facultyRegister').submit(function(e){
+    $('#register-form').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -55,7 +55,7 @@ $(document).ready(function(){
         });
     });
 
-    $('#faculty-edit').submit(function(e){
+    $('#edit-form').submit(function(e){
         e.preventDefault();
 
         $.ajaxSetup({
@@ -111,21 +111,19 @@ $(document).ready(function(){
     });
 
     $('#deleteModal').on('shown.bs.modal', function(e) {
-        var faculty_id = $(e.relatedTarget).data('id');
-        $("#delete-form").attr('action','http://localhost:8000/facultyDelete/'+faculty_id);
+        var acadmic_title_id = $(e.relatedTarget).data('id');
+        $("#delete-form").attr('action','http://localhost:8000/academicTitleDelete/'+acadmic_title_id);
     });
 
     $('#editModal').on('show.bs.modal', function(e) {
         var link = $(e.relatedTarget);
 
-        var faculty = link.data('faculty');
-        var academic_years = link.data('academic_years');
+        var academic_title = link.data('academic_title');
         var id = link.data('id');
 
         var modal = $(this);
-        modal.find("#faculty").val(faculty);
-        modal.find("#academic_years").val(academic_years);
-        $("#faculty-edit").attr('action','http://localhost:8000/facultyEdit/'+id);
+        modal.find("#academic_title").val(academic_title);
+        $("#edit-form").attr('action','http://localhost:8000/academicTitleEdit/'+id);
     });
 });
 

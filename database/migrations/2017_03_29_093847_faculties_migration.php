@@ -16,6 +16,7 @@ class FacultiesMigration extends Migration
         Schema::create('faculties', function (Blueprint $table) {
             $table->increments('id');
             $table->string('faculty',150);
+            $table->integer('academic_years');
 
             $table->engine = 'InnoDB';
         });
@@ -23,6 +24,18 @@ class FacultiesMigration extends Migration
         DB::unprepared("
         CREATE TRIGGER `tr_addRoleFromFaculty` AFTER INSERT ON `faculties` FOR EACH ROW BEGIN
             INSERT INTO roles(name,slug) VALUES(concat('Dekan_',NEW.faculty), concat('dekan_',NEW.faculty));
+        END
+        ");
+
+        DB::unprepared("
+        CREATE TRIGGER `tr_deleteRoleFromFaculty` AFTER DELETE ON `faculties` FOR EACH ROW BEGIN
+            DELETE FROM roles WHERE slug=concat('dekan_',OLD.faculty);
+        END
+        ");
+
+        DB::unprepared("
+        CREATE TRIGGER `tr_updateRoleFromFaculty` BEFORE UPDATE ON `faculties` FOR EACH ROW BEGIN
+            UPDATE roles SET slug=concat('dekan_',NEW.faculty), name=concat('Dekan_',NEW.faculty) WHERE slug=concat('dekan_',OLD.faculty);
         END
         ");
     }
@@ -36,5 +49,7 @@ class FacultiesMigration extends Migration
     {
         Schema::dropIfExists('faculties');
         DB::unprepared('DROP TRIGGER `tr_addRoleFromFaculty`');
+        DB::unprepared('DROP TRIGGER `tr_deleteRoleFromFaculty`');
+        DB::unprepared('DROP TRIGGER `tr_updateRoleFromFaculty`');
     }
 }

@@ -19,6 +19,7 @@
     </style>
 
     <script src="{{asset('js/proflende.js')}}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     @stop
 
     @section('body')
@@ -38,7 +39,7 @@
                         <div class="form-group">
                             {{ FORM::label('Profesor',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('prof_id',[0=>'Zgjedh profesorin']+$profesoret,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'prof_id']) }}
+                                {{ FORM::select('prof_id',[0=>'Zgjedh profesorin']+$profesoret,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'prof_id','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
@@ -241,15 +242,13 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                <td>
-                                    <button type="button" class="btn btn-info btn-xs"
-                                            data-toggle="modal" data-target="#editModal" data-prof_id="{{$prosub->user_id}}" data-id="{{$prosub->id}}" data-subject_id="{{$prosub->subject_id}}" @foreach($prosub->ca
-                                         as
-                                        $asistenti)
-                                            data-asis_id{{$loop->iteration}}="{{$asistenti->user->id}}"
-                                            @endforeach><i class="fa fa-pencil"></i> Edit</button>
-                                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{$prosub->id}}"><i class="fa fa-trash-o"></i> Delete</button>
-                                </td>
+                                {{--<td>--}}
+                                    {{--<button type="button" class="btn btn-info btn-xs"--}}
+                                            {{--data-toggle="modal" data-target="#editModal" data-prof_id="{{$prosub->user_id}}" data-id="{{$prosub->id}}" data-subject_id="{{$prosub->subject_id}}" @foreach($prosub->ca as $asistenti)--}}
+                                            {{--data-asis_id{{$loop->iteration}}="{{$asistenti->user->id}}"--}}
+                                            {{--@endforeach><i class="fa fa-pencil"></i> Edit</button>--}}
+                                    {{--<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{$prosub->id}}"><i class="fa fa-trash-o"></i> Delete</button>--}}
+                                {{--</td>--}}
                             </tr>
                         @empty
                             <div class="alert alert-info">

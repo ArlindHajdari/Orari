@@ -225,7 +225,7 @@
                             <th>Numri personal</th>
                             <th>Log ID</th>
                             <th>Foto</th>
-                            <th style="width: 20%">#Edit</th>
+                            <th style="width: 20%">Edit</th>
                         </tr>
                         </thead>
 

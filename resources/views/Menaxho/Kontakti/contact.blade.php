@@ -6,31 +6,31 @@
                         <div class="form-group">
                             {{ FORM::label('Dekani',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('dekan_id',$dekanet,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'dekan_id'])}}
+                                {{FORM::select('dekan_id',[0=>'Zgjedh dekanin!']+$dekanet,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'dekan_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Salla',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('salla_id',$halls,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'salla_id'])}}
+                                {{FORM::select('salla_id',[0=>'Zgjedh sallën!']+$halls,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'salla_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Ditet',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('ditet',$ditet,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'ditet'])}}
+                                {{FORM::select('ditet',[0=>'Zgjedh ditën!']+$ditet,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'ditet'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('OraPrej',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('oraprej',$oraprej,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'oraprej'])}}
+                                {{FORM::select('oraprej',[0=>'Zgjedh fillimin e orës!']+$oraprej,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'oraprej'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('OraDeri',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('oraderi',$oraderi,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'oraderi'])}}
+                                {{FORM::select('oraderi',[0=>'Zgjedh mbarimin e orës!']+$oraderi,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'oraderi'])}}
                             </div>
                         </div>
                     <div class="form-group">

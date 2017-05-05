@@ -21,9 +21,9 @@ public function store(Request $request)
             $validation = Validator::make($request->all(),[
                 'first_name' => 'bail|required|alpha|max:190',
                 'last_name' => 'bail|required|alpha|max:190',
-                'email' => 'bail|required|email|max:190',
+                'email' => 'bail|required|email|max:190|unique:users,email',
                 'password'=>'bail|required|max:190',
-                'personal_number'=>'bail|required|numeric',
+                'personal_number'=>'bail|required|numeric|unique:users,personal_number',
                 'cpa_id' => 'bail|required|numeric',
                 'academic_title_id' => 'bail|required|numeric',
                 'photo' => 'bail|required|image|mimes:jpeg,png|max:1000000'
@@ -46,7 +46,6 @@ public function store(Request $request)
 
             $data['photo']=$destinationFolder.$filename;
 
-
             $log_ids = User::select('log_id')->get()->toArray();
             
             do{
@@ -54,10 +53,10 @@ public function store(Request $request)
             }while(in_array($log_id,$log_ids));
 
             $data['log_id'] = $log_id;
-            
-            if($user = Sentinel::registerAndActivate($data)){
+
+            if($register = Sentinel::registerAndActivate($data)){
                 if($role = Sentinel::findRoleBySlug('user')){
-                    $role->users()->attach($user);
+                    $role->users()->attach($register);
 
                     return response()->json([
                         'success'=>true,
@@ -99,7 +98,7 @@ public function store(Request $request)
     {
         DB::enableQueryLog();
         try{
-            $data = User::select('users.id','cpas.cpa','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpas.cpa','<>','Dekan')->where(function($query) use ($request){
+            $data = User::select('users.id','cpas.cpa','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->join('role_users','users.id','role_users.user_id')->join('roles','role_users.role_id','roles.id')->where('cpas.cpa','<>','Dekan')->where('roles.slug','<>','admin')->where(function($query) use ($request){
                 $query->orWhere('users.last_name','like','%'.$request->search.'%');
                 $query->orWhere('users.email','like','%'.$request->search.'%');
                 $query->orWhere('users.personal_number','like','%'.$request->search.'%');

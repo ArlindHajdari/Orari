@@ -39,13 +39,13 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',$academicalTitles+[0=>'Zgjedh titullin akademik!'],0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
+                                {{FORM::select('academic_title_id',[0=>'Zgjedh titullin akademik!']+$academicalTitles,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',$cpas_nodekan+[0=>'Zgjedh profesor/asisntet'],0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('cpa_id',[0=>'Zgjedh profesor/asisntet']+$cpas_nodekan,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -224,7 +224,7 @@
                             <th style="width: 15%">Numri personal</th>
                             <th style="width: 10%">Log ID</th>
                             <th style="width: 10%">Foto</th>
-                            <th style="width: 15%">#Edit</th>
+                            <th style="width: 15%">Edit</th>
                         </tr>
                         </thead>
 

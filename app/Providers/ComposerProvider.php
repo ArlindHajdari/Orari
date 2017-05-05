@@ -37,6 +37,16 @@ class ComposerProvider extends ServiceProvider
         View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\DekansComposer');
 
         View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\HallsTypeComposer');
+
+        View::composer('Menaxho.Orari.scheduler','App\Http\ViewComposers\Profesor');
+
+        View::composer('Menaxho.Orari.scheduler','App\Http\ViewComposers\ProfLendeComposer');
+
+        View::composer('Menaxho.Orari.scheduler','App\Http\ViewComposers\HallByFacultyComposer');
+
+        View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\HallsComposer');
+
+        View::composer(['layouts.header','Menaxho.Rregullat.panel'],'App\Http\ViewComposers\SettingsComposer');
    }
 
     /**
