@@ -4,6 +4,10 @@
 @stop
 
 @section('other')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
+    <script src="{{asset('js/proflende.js')}}"></script>
+
     <style>
         .image-preview-input input[type=file] {
             position: absolute;
@@ -17,9 +21,6 @@
             filter: alpha(opacity=0);
         }
     </style>
-
-    <script src="{{asset('js/proflende.js')}}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     @stop
 
     @section('body')
@@ -39,43 +40,57 @@
                         <div class="form-group">
                             {{ FORM::label('Profesor',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('prof_id',[0=>'Zgjedh profesorin']+$profesoret,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'prof_id','data-live-search'=>'true']) }}
+
+                                {{ FORM::select('prof_id',[0=>'Zgjedh profesorin']+$profesoret,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'prof_id chosen-select','data-live-search'=>'true']) }}
+
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Lënda',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('subject_id',[0=>'Zgjedh lëndën']+$lendet,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'subject_id']) }}
+                                {{ FORM::select('subject_id',[0=>'Zgjedh lëndën']+$lendet,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'subject_id1','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id1',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id1']) }}
+                                {{ FORM::select('asis_id1',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id11']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id2',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id2']) }}
+                                {{ FORM::select('asis_id2',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id21','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id3',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id3']) }}
+                                {{ FORM::select('asis_id3',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id31','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id4',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id4']) }}
+                                {{ FORM::select('asis_id4',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id41','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id5',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id5']) }}
+                                {{ FORM::select('asis_id5',[0=>'Zgjedh asistentin']+$asistent,0,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id51','data-live-search'=>'true']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Ligjëratë',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::number('lecture_hours',null,['class'=>'form-control','required','placeholder'=>'Orë','id'=>'lecture_hours']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Ushtrime',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::number('exercise_hours',null,['class'=>'form-control','required','placeholder'=>'Orë','id'=>'exercise_hours']) }}
                             </div>
                         </div>
                     </div>
@@ -108,43 +123,55 @@
                         <div class="form-group">
                             {{ FORM::label('Profesor',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('prof_id',$profesoret,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'prof_id']) }}
+                                {{ FORM::select('prof_id',$profesoret,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'prof_id','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Lënda',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('subject_id',$lendet,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'subject_id']) }}
+                                {{ FORM::select('subject_id',$lendet,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'subject_id','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id1',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id1']) }}
+                                {{ FORM::select('asis_id1',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id1','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id2',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id2']) }}
+                                {{ FORM::select('asis_id2',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id2','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id3',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id3']) }}
+                                {{ FORM::select('asis_id3',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id3','data-live-search'=>'true']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id4',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id4']) }}
+                                {{ FORM::select('asis_id4',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','id'=>'asis_id4']) }}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Asistent',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('asis_id5',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id5']) }}
+                                {{ FORM::select('asis_id5',[0=>'Zgjedh asistentin']+$asistent,null,['class'=>'selectpicker form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'asis_id5']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Ligjëratë',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::number('lecture_hours',null,['class'=>'form-control','required','placeholder'=>'Orë','id'=>'lecture_hours']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Ushtrime',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::number('exercise_hours',null,['class'=>'form-control','required','placeholder'=>'Orë','id'=>'exercise_hours']) }}
                             </div>
                         </div>
                     </div>
@@ -217,9 +244,12 @@
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
-                            <th style="width: 15%">Lënda</th>
-                            <th style="width: 20%">Profesori</th>
-                            <th style="width: 50%">Asistentet...</th>
+                            <th style="width: 20%">Lënda</th>
+                            <th style="width: 18%">Profesori</th>
+                            <th style="width: 36%">Asistentet...</th>
+                            <th style="width: 5%">Orë ligjërata</th>
+                            <th style="width: 5%">Orë ushtrime</th>
+                            <th style="width: 16%">Opsionet</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -242,13 +272,19 @@
                                         @endif
                                     @endforeach
                                 </td>
-                                {{--<td>--}}
-                                    {{--<button type="button" class="btn btn-info btn-xs"--}}
-                                            {{--data-toggle="modal" data-target="#editModal" data-prof_id="{{$prosub->user_id}}" data-id="{{$prosub->id}}" data-subject_id="{{$prosub->subject_id}}" @foreach($prosub->ca as $asistenti)--}}
-                                            {{--data-asis_id{{$loop->iteration}}="{{$asistenti->user->id}}"--}}
-                                            {{--@endforeach><i class="fa fa-pencil"></i> Edit</button>--}}
-                                    {{--<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{$prosub->id}}"><i class="fa fa-trash-o"></i> Delete</button>--}}
-                                {{--</td>--}}
+                                <td>
+                                    {{$prosub->lecture_hours}}
+                                </td>
+                                <td>
+                                    {{$prosub->exercise_hours}}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-info btn-xs"
+                                            data-toggle="modal" data-target="#editModal" data-prof_id="{{$prosub->user_id}}" data-id="{{$prosub->id}}" data-subject_id="{{$prosub->subject_id}}" @foreach($prosub->ca as $asistenti)
+                                            data-asis_id{{$loop->iteration}}="{{$asistenti->user->id}}"
+                                            @endforeach data-lecture_hours="{{$prosub->lecture_hours}}" data-exercise_hours="{{$prosub->exercise_hours}}"><i class="fa fa-pencil"></i> Ndrysho</button>
+                                    <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteModal" data-id="{{$prosub->id}}"><i class="fa fa-trash-o"></i> Fshij</button>
+                                </td>
                             </tr>
                         @empty
                             <div class="alert alert-info">

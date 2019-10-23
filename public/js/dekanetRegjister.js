@@ -115,9 +115,8 @@ $(document).ready(function(){
         $("#delete-form").attr('action','http://localhost:8000/dekan-delete/'+dekans_Id);
     });
 
-    $('#editModal').on('show.bs.modal', function(e) {
+    $('#editModal').on('shown.bs.modal', function(e) {
         var link = $(e.relatedTarget);
-
         var first_name = link.data('first_name');
         var last_name = link.data('last_name');
         var email = link.data('email');
@@ -125,7 +124,8 @@ $(document).ready(function(){
         var academic_title_id = link.data('academic_title_id');
         var role_id = link.data('role_id');
         var photo = link.data('photo');
-        
+        var status_id = link.data('status_id');
+
         var id = link.data('id');
 
         var modal = $(this);
@@ -134,6 +134,7 @@ $(document).ready(function(){
         modal.find("#email").val(email);
         modal.find("#personal_number").val(personal_number);
         modal.find("#academic_title_id").val(academic_title_id);
+        modal.find("#status_id").val(status_id);
         modal.find("#role_id").val(role_id);
         var real_photo=photo.split('/')[1];
         $("#dekan-edit").attr('action','http://localhost:8000/dekan-edit/'+id+'/'+real_photo);

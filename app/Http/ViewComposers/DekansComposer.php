@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\View;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use DB;
+use Sentinel;
 
 class DekansComposer
 {
@@ -15,7 +16,7 @@ class DekansComposer
     {
         DB::enableQueryLog();
         try{
-            $this->dekanet=User::select('')->where('cpa','Dekan')->pluck('academic_title'.'first_name'.' '.'last_name','id')->toArray();
+            $this->dekanet = User::select(DB::raw("CONCAT(academic_titles.academic_title,' ',users.first_name,' ',users.last_name) AS fullname"),'users.id')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->where('cpa','Dekan')->where('users.id','<>',Sentinel::getUser()->id)->pluck('fullname', 'id')->toArray();
 
         }
         catch(QueryException $e){

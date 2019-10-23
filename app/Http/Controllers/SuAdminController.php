@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Illuminate\Http\Request;
 use Mail;
 use Sentinel;
 use Validator;
 use Activation;
-use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Illuminate\Database\QueryException;
 use ErrorException;
 use App\Models\User;
@@ -28,16 +26,6 @@ class SuAdminController extends Controller
     public function showDekanRegister()
     {
         return view('Menaxho.Dekanet.register');
-    }
-
-    public function showDekanEdit()
-    {
-        return view('Menaxho_Dekanet.edit');
-    }
-
-    public function showLendetRegister()
-    {
-        return view('Menaxho.Lendet.register');
     }
 
     /**

@@ -42,6 +42,7 @@ class MigrationCartalystSentinel extends Migration
             $table->string('personal_number');
             $table->integer('cpa_id')->unsigned();
             $table->integer('academic_title_id')->unsigned();
+            $table->integer('status_id')->unsigned();
             $table->string('photo');
             $table->text('permissions')->nullable();
             $table->timestamp('last_login')->nullable();
@@ -52,8 +53,10 @@ class MigrationCartalystSentinel extends Migration
             $table->unique('log_id');
             $table->index('cpa_id');
             $table->index('academic_title_id');
+            $table->index('status_id');
             $table->foreign('cpa_id')->references('id')->on('cpas');
             $table->foreign('academic_title_id')->references('id')->on('academic_titles');
+            $table->foreign('status_id')->references('id')->on('status');
         });
 
         Schema::create('activations', function (Blueprint $table) {
@@ -66,7 +69,7 @@ class MigrationCartalystSentinel extends Migration
 
             $table->engine = 'InnoDB';
             $table->index('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('persistences', function (Blueprint $table) {
@@ -105,11 +108,6 @@ class MigrationCartalystSentinel extends Migration
             $table->unique('slug');
         });
 
-        DB::table('roles')->insert([
-            ['slug'=>'admin', 'name' => 'Admin_SuAdmin'],
-            ['slug'=>'user', 'name' => 'User_Mësimdhënës']
-        ]);
-
         Schema::create('throttle', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
@@ -121,24 +119,6 @@ class MigrationCartalystSentinel extends Migration
             $table->index('user_id');
             $table->foreign('user_id')->references('id')->on('users');
         });
-        
-        DB::table('users')->insert([
-            'email'=> 'arlind.hajdari@gmail.com',
-            'password'=> bcrypt('admin'),
-            'last_name'=> 'Hajdari',
-            'first_name'=> 'Arlind',
-            'personal_number' => '1111111111',
-            'cpa_id' => 1,
-            'academic_title_id'=>1,
-            'photo'=>'Uploads/asdasd_12312.jpg',
-            'log_id'=> '123'
-        ]);
-
-        DB::table('activations')->insert([
-            'user_id'=>1,
-            'code'=>'asuldigasygfhasa##!asdhiayg64987432',
-            'completed'=>true
-        ]);
 
         Schema::create('role_users', function (Blueprint $table) {
             $table->integer('user_id')->unsigned();
@@ -148,21 +128,10 @@ class MigrationCartalystSentinel extends Migration
             $table->engine = 'InnoDB';
             $table->index('user_id');
             $table->index('role_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
             $table->primary(['user_id', 'role_id']);
         });
-
-        DB::table('role_users')->insert([
-            'user_id'=> 1,
-            'role_id'=> 1
-        ]);
-
-        DB::table('activations')->insert([
-            'user_id'=>1,
-            'code'=>bcrypt('code'),
-            'completed'=>1
-        ]);
     }
 
     /**
@@ -172,14 +141,6 @@ class MigrationCartalystSentinel extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activations');
-        Schema::dropIfExists('persistences');
-        Schema::dropIfExists('reminders');
-        Schema::dropIfExists('roles');
-        Schema::dropIfExists('role_users');
-        Schema::dropIfExists('throttle');
-        Schema::dropIfExists('users');
-
         Schema::table('activation',function(Blueprint $table){
             $table->dropForeign(['user_id']);
         });
@@ -202,5 +163,12 @@ class MigrationCartalystSentinel extends Migration
         Schema::table('persistences',function(Blueprint $table){
             $table->dropForeign(['user_id']);
         });
+        Schema::dropIfExists('activations');
+        Schema::dropIfExists('persistences');
+        Schema::dropIfExists('reminders');
+        Schema::dropIfExists('roles');
+        Schema::dropIfExists('role_users');
+        Schema::dropIfExists('throttle');
+        Schema::dropIfExists('users');
     }
 }

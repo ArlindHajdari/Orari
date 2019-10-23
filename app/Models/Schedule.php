@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -11,21 +11,23 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Schedule
- * 
+ *
  * @property int $id
- * @property \Carbon\Carbon $start_time
- * @property \Carbon\Carbon $end_time
- * @property int $cps_id
+ * @property \Carbon\Carbon $start
+ * @property \Carbon\Carbon $end
+ * @property int $user_id
  * @property int $hall_id
  * @property int $lush_id
- * @property int $department_id
+ * @property int $subject_id
  * @property int $group_id
- * 
- * @property \App\Models\Cp $cp
- * @property \App\Models\Department $department
+ * @property \Carbon\Carbon $from
+ * @property \Carbon\Carbon $to
+ *
  * @property \App\Models\Group $group
  * @property \App\Models\Hall $hall
  * @property \App\Models\Lush $lush
+ * @property \App\Models\Subject $subject
+ * @property \App\Models\User $user
  *
  * @package App\Models
  */
@@ -35,37 +37,31 @@ class Schedule extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'cps_id' => 'int',
+		'user_id' => 'int',
 		'hall_id' => 'int',
 		'lush_id' => 'int',
-		'department_id' => 'int',
+		'subject_id' => 'int',
 		'group_id' => 'int'
 	];
 
-	protected $dates = [
-		'start_time',
-		'end_time'
-	];
+	// protected $dates = [
+	// 	'start',
+	// 	'end',
+	// 	'from',
+	// 	'to'
+	// ];
 
 	protected $fillable = [
-		'start_time',
-		'end_time',
-		'cps_id',
+		'start',
+		'end',
+		'user_id',
 		'hall_id',
 		'lush_id',
-		'department_id',
-		'group_id'
+		'subject_id',
+		'group_id',
+		'from',
+		'to'
 	];
-
-	public function cp()
-	{
-		return $this->belongsTo(\App\Models\Cp::class, 'cps_id');
-	}
-
-	public function department()
-	{
-		return $this->belongsTo(\App\Models\Department::class);
-	}
 
 	public function group()
 	{
@@ -80,5 +76,15 @@ class Schedule extends Eloquent
 	public function lush()
 	{
 		return $this->belongsTo(\App\Models\Lush::class);
+	}
+
+	public function subject()
+	{
+		return $this->belongsTo(\App\Models\Subject::class);
+	}
+
+	public function user()
+	{
+		return $this->belongsTo(\App\Models\User::class);
 	}
 }

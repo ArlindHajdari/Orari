@@ -139,9 +139,9 @@ $(document).ready(function(){
                         title: data.title,
                         message: data.msg,
                         buttons: [{
-                            label: 'Close',
-                            action: function(dialog) {
-                                dialog.close();
+                            label: 'OK',
+                            action: function() {
+                                window.location.reload();
                             }
                         }]
                     });
@@ -155,7 +155,7 @@ $(document).ready(function(){
         $("#delete-form").attr('action','http://localhost:8000/lendet-delete/'+lendet_id);
     });
 
-    $('#editModal').on('show.bs.modal', function(e) {
+    $('#editModal').on('shown.bs.modal', function(e) {
         var link = $(e.relatedTarget);
 
         var subject = link.data('subject');
@@ -163,6 +163,7 @@ $(document).ready(function(){
         var semester = link.data('semester');
         var subjecttype_id = link.data('subjecttype_id');
         var department_id = link.data('department_id');
+
         var id = link.data('id');
 
         var modal = $(this);

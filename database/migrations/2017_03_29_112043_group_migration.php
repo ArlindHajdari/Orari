@@ -19,21 +19,6 @@ class GroupMigration extends Migration
 
             $table->engine = 'InnoDB';
         });
-
-        DB::table('groups')->insert([
-            ['group'=>'Gr. I'],
-            ['group'=>'Gr. II'],
-            ['group'=>'Gr. III'],
-            ['group'=>'Gr. IV'],
-            ['group'=>'Gr. V'],
-            ['group'=>'Gr. VI'],
-            ['group'=>'Gr. VII'],
-            ['group'=>'Gr. VIII'],
-            ['group'=>'Gr. IX'],
-            ['group'=>'Gr. X'],
-            ['group'=>'Gr. XI'],
-            ['group'=>'Gr. XII'],
-        ]);
     }
 
     /**

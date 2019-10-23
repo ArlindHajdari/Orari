@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -11,14 +11,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Role
- * 
+ *
  * @property int $id
  * @property string $slug
  * @property string $name
  * @property string $permissions
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * 
+ *
  * @property \Illuminate\Database\Eloquent\Collection $users
  *
  * @package App\Models

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -11,16 +11,19 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Subject
- * 
+ *
  * @property int $id
  * @property string $subject
  * @property int $ects
  * @property int $semester
  * @property int $subjecttype_id
- * 
+ * @property int $department_id
+ *
+ * @property \App\Models\Department $department
  * @property \App\Models\Subjecttype $subjecttype
  * @property \Illuminate\Database\Eloquent\Collection $cps
- * @property \Illuminate\Database\Eloquent\Collection $departments
+ * @property \Illuminate\Database\Eloquent\Collection $schedules
+ * @property \Illuminate\Database\Eloquent\Collection $lushes
  *
  * @package App\Models
  */
@@ -31,15 +34,22 @@ class Subject extends Eloquent
 	protected $casts = [
 		'ects' => 'int',
 		'semester' => 'int',
-		'subjecttype_id' => 'int'
+		'subjecttype_id' => 'int',
+		'department_id' => 'int'
 	];
 
 	protected $fillable = [
 		'subject',
 		'ects',
 		'semester',
-		'subjecttype_id'
+		'subjecttype_id',
+		'department_id'
 	];
+
+	public function department()
+	{
+		return $this->belongsTo(\App\Models\Department::class);
+	}
 
 	public function subjecttype()
 	{
@@ -51,8 +61,14 @@ class Subject extends Eloquent
 		return $this->hasMany(\App\Models\Cp::class);
 	}
 
-	public function departments()
+	public function schedules()
 	{
-		return $this->belongsToMany(\App\Models\Department::class, 'department_subjects');
+		return $this->hasMany(\App\Models\Schedule::class);
+	}
+
+	public function lushes()
+	{
+		return $this->belongsToMany(\App\Models\Lush::class, 'subject_lush')
+					->withPivot('id');
 	}
 }

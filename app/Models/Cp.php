@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -11,15 +11,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Cp
- * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int $subject_id
- * 
+ * @property int $lecture_hours
+ * @property int $exercise_hours
+ *
  * @property \App\Models\Subject $subject
  * @property \App\Models\User $user
  * @property \App\Models\Ca $ca
- * @property \Illuminate\Database\Eloquent\Collection $schedules
  *
  * @package App\Models
  */
@@ -29,12 +30,16 @@ class Cp extends Eloquent
 
 	protected $casts = [
 		'user_id' => 'int',
-		'subject_id' => 'int'
+		'subject_id' => 'int',
+		'lecture_hours' => 'int',
+		'exercise_hours' => 'int'
 	];
 
 	protected $fillable = [
 		'user_id',
-		'subject_id'
+		'subject_id',
+		'lecture_hours',
+		'exercise_hours'
 	];
 
 	public function subject()
@@ -49,11 +54,6 @@ class Cp extends Eloquent
 
 	public function ca()
 	{
-		return $this->hasOne(\App\Models\Ca::class, 'cps_id');
-	}
-
-	public function schedules()
-	{
-		return $this->hasMany(\App\Models\Schedule::class, 'cps_id');
+		return $this->hasMany(\App\Models\Ca::class, 'cps_id');
 	}
 }

@@ -4,6 +4,7 @@ namespace App\Http\ViewComposers;
 use Illuminate\View\View;
 use App\Models\Role;
 use Illuminate\Database\QueryException;
+use Sentinel;
 
 class RolesComposer
 {
@@ -12,7 +13,7 @@ class RolesComposer
     public function __construct()
     {
         try{
-            $this->roles = Role::where('slug','<>','admin')->where('slug','<>','user')->pluck('name','id')->toArray();
+            $this->roles = Role::where('slug','<>','admin')->where('slug','<>','user')->pluck('name', 'id')->toArray();
         }
         catch(QueryException $e){
             return response()->json([

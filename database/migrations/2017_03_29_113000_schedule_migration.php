@@ -17,24 +17,27 @@ class ScheduleMigration extends Migration
 
         Schema::create('schedule', function (Blueprint $table) {
             $table->increments('id');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->integer('cps_id')->unsigned();
+            $table->dateTime('start');
+            $table->dateTime('end');
+            $table->integer('user_id')->unsigned();
             $table->integer('hall_id')->unsigned();
             $table->integer('lush_id')->unsigned();
-            $table->integer('department_id')->unsigned();
-            $table->integer('group_id')->unsigned();
+            $table->integer('subject_id')->unsigned();
+            $table->integer('group_id')->nullable()->unsigned();
+            $table->date('from');
+            $table->date('to');
+            $table->boolean('to_be_deleted')->default(0);
 
-            $table->index('cps_id');
+            $table->index('user_id');
             $table->index('hall_id');
             $table->index('lush_id');
-            $table->index('department_id');
             $table->index('group_id');
-            $table->foreign('cps_id')->references('id')->on('cps');
-            $table->foreign('hall_id')->references('id')->on('halls');
-            $table->foreign('lush_id')->references('id')->on('lush');
-            $table->foreign('group_id')->references('id')->on('groups');
-            $table->foreign('department_id')->references('id')->on('departments');
+            $table->index('subject_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('hall_id')->references('id')->on('halls')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('lush_id')->references('id')->on('lush')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }
@@ -46,8 +49,6 @@ class ScheduleMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule');
-
         Schema::table('schedule',function(Blueprint $table){
             $table->dropForeign(['department_id']);
         });
@@ -59,9 +60,11 @@ class ScheduleMigration extends Migration
         Schema::table('schedule',function(Blueprint $table){
             $table->dropForeign(['lush_id']);
         });
-        
+
         Schema::table('schedule',function(Blueprint $table){
             $table->dropForeign(['hall_id']);
         });
+
+        Schema::dropIfExists('schedule');
     }
 }

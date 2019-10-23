@@ -133,15 +133,12 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
-                    <p>Tabela me të dhënat e Thirrjes Mësimore</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>
                         <tr>
                             <th style="width: 80%">Thirrja Mësimore</th>
-                            <th style="width: 20%">Opstionet</th>
+                            <th style="width: 20%">Opsionet</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -162,7 +159,9 @@
                                 </td>
                             </tr>
                         @empty
-                            <center><h4>Të dhënat nuk u gjenden!</h4></center>
+                            <div class="alert alert-info">
+                                <strong>Njoftim!</strong> Nuk ka të dhëna për tu shfaqur!
+                            </div>
                         @endforelse
                         </tbody>
                     </table>

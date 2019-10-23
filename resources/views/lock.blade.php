@@ -122,7 +122,6 @@
         }
         #login, .logo{
             display:inline-block;
-            width:40%;
         }
         .logo{
             color:#fff;
@@ -200,13 +199,10 @@
         <center>
             <div class="middle">
                 <div id="login">
+                    <fieldset class="clearfix">
                     {{FORM::open(['id'=>'lockForm','url'=>'unlock','method'=>'post'])}}
-
-                    {{-- <p>
-                        <span class="fa fa-user"></span>{{FORM::text('log_id',null,['class'=>'form-control','required','placeholder'=>'ID ose E-mail'])}}
-                    </p> --}}
                     <div class="logo">
-                        <img src="{{$photo}}" alt="" class="img-circle" height=200 width=200 style="padding-right:10%"/>
+                        <img src="{{$photo}}" alt="" class="img-circle" height=200 width=200 />
                     </div>
                     <h2>{{$name}}</h2>
                     <hr>
@@ -216,14 +212,17 @@
                     </p>
                     <div>
                         {{FORM::hidden('log_id',$log_id)}}
-                        <span class="glyphicon glyphicon-chevron-left">
-                            <a href="{{url('login')}}">Kthehu</a>
-                        </span>
+                        <a href="{{url('login')}}"><span class="glyphicon glyphicon-chevron-left">Kthehu</span></a>
                         <span style="width:30%; text-align:right; display: inline-block;">
                             {{FORM::submit('Kyçu')}}
                         </span>
                     </div>
+                    </fieldset>
+                    <div class="clearfix"></div>
                     {{FORM::close()}}
+                    <div class="clearfix"></div>
+
+                </div>
             </div>
         </center>
     </div>

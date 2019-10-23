@@ -5,6 +5,7 @@ namespace App\Http\ViewComposers;
 use Illuminate\Contracts\View\View;
 use App\Models\Department;
 use Illuminate\Database\QueryException;
+use Sentinel;
 
 class DepartamentetComposer
 {
@@ -13,7 +14,12 @@ class DepartamentetComposer
     public function __construct()
     {
         try{
-            $this->st=Department::pluck('department','id')->toArray();
+            $faculty = explode('_',Sentinel::getUser()->roles()->first()->name)[1];
+
+            $this->st=Department::select('departments.id','departments.department')->
+            join('faculties','departments.faculty_id','faculties.id')->
+            where('faculties.faculty',$faculty)->
+            pluck('department','id')->toArray();
         }
         catch (QueryException $e)
         {

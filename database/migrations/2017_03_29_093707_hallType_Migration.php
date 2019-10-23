@@ -19,6 +19,8 @@ class HallTypeMigration extends Migration
 
             $table->engine = 'InnoDB';
         });
+
+        
     }
 
     /**

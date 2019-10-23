@@ -5,6 +5,10 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Database\QueryException;
+use ErrorException;
+use Illuminate\Session\TokenMismatchException;
+use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +48,39 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+//         if($exception instanceof QueryException)
+//         {
+//             return response()->json([
+//                 'fails'=>true,
+//                 'title'=>'Gabim në server1!',
+//                 'msg'=>$exception->getMessage()
+//             ],400);
+//         }elseif($exception instanceof ErrorException) {
+//             return view('Menaxho.Orari.scheduler')->with('data',json_encode(['title'=>'Gabim në server2!','msg'=>$exception->getMessage()]));
+// //            return response()->json([
+// //                'fails'=>true,
+// //                'title'=>'Gabim në server2!',
+// //                'msg'=>$exception->getMessage()
+// //            ],400);
+//         }elseif($exception instanceof \BadMethodCallException){
+//             return response()->json([
+//                 'fails'=>true,
+//                 'title'=>'Gabim në server3!',
+//                 'msg'=>$exception->getMessage()
+//             ],400);
+//         }elseif($exception instanceof TokenMismatchException){
+//             return response()->json([
+//                 'fails'=>true,
+//                 'title'=>'Gabim në server4!',
+//                 'msg'=>$exception->getMessage()
+//             ],400);
+//         }elseif($exception instanceof ThrottlingException){
+//             return response()->json([
+//                 'fails'=>true,
+//                 'title'=>'Gabim në server5!',
+//                 'msg'=>$exception->getMessage()
+//             ],400);
+//         }
         return parent::render($request, $exception);
     }
 

@@ -21,9 +21,12 @@ class SubjectsMigration extends Migration
             $table->integer('ects');
             $table->tinyInteger('semester');
             $table->integer('subjecttype_id')->unsigned();
+            $table->integer('department_id')->unsigned();
 
+            $table->index('department_id');
             $table->index('subjecttype_id');
-            $table->foreign('subjecttype_id')->references('id')->on('subjecttypes');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('subjecttype_id')->references('id')->on('subjecttypes')->onDelete('cascade')->onUpdate('cascade');
             $table->engine ='InnoDB';
         });
     }
@@ -35,9 +38,10 @@ class SubjectsMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subjects');
         Schema::table('subjects', function(Blueprint $table){
             $table->dropForeign(['subjecttype_id']);
         });
+
+        Schema::dropIfExists('subjects');
     }
 }

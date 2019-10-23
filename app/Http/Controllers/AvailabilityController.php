@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Response;
 use Validator;
 use App\Models\Availability;
 use Sentinel;
 use Carbon\Carbon;
-use DateTime;
 
 class AvailabilityController extends Controller
 {
@@ -156,6 +154,7 @@ class AvailabilityController extends Controller
             $validator = Validator::make($request->all(),[
                 'start' => 'bail|required|date',
                 'end' => 'bail|required|date',
+                'semester'
             ]);
 
             $start = Carbon::parse($request->start);

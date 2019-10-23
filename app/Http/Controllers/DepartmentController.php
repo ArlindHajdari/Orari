@@ -13,18 +13,7 @@ class DepartmentController extends Controller
 
     public function index()
     {
-        try{
-        $department = Department::all();
-        return view('Menaxho.Departamentet.panel')->with('department', $department);
-
-        }catch(QueryException $e) {
-            return response()->json([
-                'fails'=>true,
-                'title' => 'Gabim ne server',
-                'msg' => $e->getMessage(),
-                'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
-            ],500);
-        }
+        //
     }
 
     public function create()
@@ -67,7 +56,7 @@ class DepartmentController extends Controller
     public function show(Request $request)
     {
         try{
-            $department = Department::select('departments.id','departments.department','faculties.faculty','faculties.id as faculty_id')->join('faculties','departments.faculty_id','faculties.id')->where('departments.department','like','%'.$request->search.'%')->paginate(10);
+            $department = Department::select('departments.id','departments.department','faculties.faculty','faculties.id as faculty_id')->join('faculties','departments.faculty_id','faculties.id')->where('departments.department','like','%'.$request->search.'%')->orWhere('faculties.faculty','like','%'.$request->search.'%')->paginate(10);
 
             return view('Menaxho.Departamentet.panel',['department'=>$department]);
         }

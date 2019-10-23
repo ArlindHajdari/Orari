@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cp;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Models\Cpa;

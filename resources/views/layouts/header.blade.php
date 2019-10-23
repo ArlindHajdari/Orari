@@ -1,7 +1,8 @@
-<div class="col-md-3 left_col">
+<div class="noprint col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{url('/')}}" class="site_title"><i class="fa fa-cubes"></i> <span>Orari</span></a>
+            <a href="{{url('/')}}" class="site_title">
+                <span><i class="glyphicon glyphicon-time" ></i>rari</span></a>
         </div>
         <div class="clearfix"></div>
         <!-- menu profile quick info -->
@@ -38,13 +39,26 @@
                                 </li>
                                 <li><a href="{{ url('dekanet') }}">Dekanët</a>
                                 </li>
-                                <li><a href="{{ url('sallat') }}">Sallë</a>
+                                <li><a href="{{ url('sallat') }}">Sallat</a>
                                 </li>
                                 <li><a href="{{ url('mesimdhenesit') }}">Mësimdhënësit</a>
+                                </li>
+                                <li><a href="{{ url('cpalushPanel') }}">Thirrjet mësimore për ligjëratë/ushtrime</a>
+                                </li>
+                                <li><a href="{{ url('statusPanel') }}">Titujt akademik për status</a>
+                                </li>
+                                <li><a href="{{ url('statusAdministration') }}">Status</a>
+                                </li>
+                                <li><a href="{{ url('showschedule') }}">Orari</a>
+                                </li>
+                                <li><a href="{{ url('hallsSchedule') }}">Orari i sallave</a>
                                 </li>
                             @elseif(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
                                 <li><a href="{{ url('proflende') }}">Profesor-Lëndë</a></li>
                                 <li><a href="{{ url('LendetPanel') }}">Lëndët</a></li>
+                                <li><a href="{{ url('secFaculty') }}">Fakulteti dytësor</a></li>
+                                <li><a href="{{ url('disponueshmeria') }}">Disponueshmëria</a></li>
+                                <li><a href="{{ url('groups-lush-subjects-panel') }}">Grupet për lëndë</a></li>
                             @else
                                 <li><a href="{{ url('disponueshmeria') }}">Disponueshmëria</a>
                                 </li>
@@ -56,8 +70,8 @@
                 <ul class="nav side-menu">
                     @if(explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan')
                         <li>
-                            <a href="{{url('OrariPanel')}}"><i class="fa fa-calendar-plus-o">
-                                 Orari<span class="label label-success pull-right">Coming Soon</span>
+                            <a href="{{url('scheduler')}}"><i class="fa fa-calendar-plus-o"></i>
+                                 Orari
                             </a>
                         </li>
                     @endif
@@ -97,9 +111,13 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-            @if(Sentinel::getUser()->roles()->first()->slug == 'admin')
+            @if((Sentinel::getUser()->roles()->first()->slug == 'admin') || (explode('_',Sentinel::getUser()->roles()->first()->slug)[0] == 'dekan'))
                 <a data-toggle="tooltip" data-placement="top" href="{{url('settings')}}" title="Settings">
                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+            @else
+                <a data-toggle="tooltip" data-placement="top" title="Settings">
+                    <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
                 </a>
             @endif
             <a data-toggle="tooltip" data-placement="top" title="FullScreen" id="full_screen">
@@ -109,7 +127,7 @@
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </a>
             {{FORM::open(['url'=>'logout','id'=>'logout-form'])}}
-            <a href="#" onclick="document.getElementById('logout-form').submit()">
+            <a href="#" data-toggle="modal" data-target="#logoutModal">
             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
             {{FORM::close()}}
@@ -117,7 +135,7 @@
         <!-- /menu footer buttons -->
     </div>
 </div>
-<div class="top_nav">
+<div class="noprint top_nav">
     <div class="nav_menu">
         <nav>
             <div class="nav toggle">
@@ -220,5 +238,25 @@
                 {{--</li>--}}
             </ul>
         </nav>
+    </div>
+    <!-- Modal Delete-->
+    <div class="modal fade" id="logoutModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body" style="padding:25px 10px">
+                    <div align="middle">
+                        {{FORM::open(['id'=>'logout-form','url'=>'logout'])}}
+                        <div class="form-group">
+                            <p class="modal-title" style="font-size: 16px;">A jeni të sigurt që dëshironi të ç'kyçeni?</p><br>
+                            <button href="#" onclick="document.getElementById('logout-form').submit()" class="btn
+                            btn-success">Po</button>
+                            <button data-dismiss="modal" class="btn btn-danger">Jo</button>
+                        </div>
+                        {{FORM::close()}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

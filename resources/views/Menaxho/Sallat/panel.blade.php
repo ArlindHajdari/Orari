@@ -4,6 +4,105 @@
 @stop
 @section('other')
     <script src="{{asset('js/sallatRegister.js')}}"></script>
+    <script>
+        $(document).ready(function() {
+            var caktoFakultet;
+            var caktoFakultet2;
+            var caktoFakultet3;
+            var caktoFakultet5;
+
+            $('#faculty_id2').attr('disabled','disabled');
+            $('#sec_faculty_id2').attr('disabled','disabled');
+
+            $('select[id="halltype_id2"]').on('change',function(e){
+
+                var caktoSalle = $(this).val();
+
+                if(caktoSalle == 0)
+                {
+                    $('#faculty_id2').attr('disabled','disabled');
+                    //$('#sec_faculty_id').val(null);
+                }else {
+                    $('#faculty_id2').removeAttr('disabled');
+                }
+            });
+
+            $('select[id="faculty_id2"]').on('change',function(e){
+
+                caktoFakultet = $(this).val();
+
+                if(caktoFakultet == 0)
+                {
+                    $('#sec_faculty_id2').attr('disabled','disabled');
+                    //$('#sec_faculty_id').val(null);
+                }else {
+                    $('#sec_faculty_id2').removeAttr('disabled');
+                }
+            });
+
+            $('select[id="sec_faculty_id2"]').on('change',function(e){
+                caktoFakultet2 = $(this).val();
+
+                if(caktoFakultet == caktoFakultet2)
+                {
+                    BootstrapDialog.show({
+                        title: 'Gabim gjatë futjes së të dhënave',
+                        message: 'Ju lutem caktoni fakultete te ndryshme!',
+                        buttons: [{
+                            label: 'OK',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+
+                    $('#faculty_id2').val('0');
+                    $('#sec_faculty_id2').attr('disabled','disabled');
+                    $('#sec_faculty_id2').val(null);
+                }
+            });
+
+            $('#editModal').on('shown.bs.modal', function (e) {
+                caktoFakultet3 = $('#faculty_id').val();
+            });
+
+            $('select[id="subjeect_id"]').on('change',function(e){
+
+                caktoFakultet5 = $(this).val();
+
+                if(caktoFakultet5 == 0)
+                {
+                    $('#sec_faculty_id').val('0');
+                    $('#sec_faculty_id').attr('disabled','disabled');
+                }else
+                {
+                    $('#sec_faculty_id').removeAttr('disabled');
+                }
+            });
+
+            $('select[id="sec_faculty_id"]').on('change',function(e){
+
+                var caktoFakultet4 = $(this).val();
+
+                if(caktoFakultet3 == caktoFakultet4 || caktoFakultet4 == caktoFakultet5)
+                {
+                    BootstrapDialog.show({
+                        title: 'Gabim gjatë futjes së të dhënave',
+                        message: 'Ju lutem caktoni fakultete te ndryshme!',
+                        buttons: [{
+                            label: 'OK',
+                            action: function(dialog) {
+                                dialog.close();
+                            }
+                        }]
+                    });
+
+                    $('#sec_faculty_id').val('0');
+                }
+            });
+
+        });
+    </script>
 @stop
 @section('body')
     <!-- Modal Register-->
@@ -32,18 +131,27 @@
                                 {{ FORM::text('capacity',null,['class'=>'form-control','required','placeholder'=>'Kapaciteti']) }}
                             </div>
                         </div>
+
                         <div class="form-group">
                             {{ FORM::label('Lloji Salles',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('halltype_id',[0=>'Zgjedh llojin e sallës']+$halltypes,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required']) }}
+                                {{ FORM::select('halltype_id',[0=>'Cakto llojin e sallës']+$halltypes,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'halltype_id2']) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ FORM::label('Cakto fakultetin primar',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('faculty_id',[0=>'Cakto fakultetin primar']+$faculty,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'faculty_id2']) }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Cakto fakultetin sekondar',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('faculty_id',[0=>'Zgjedh fakultetin']+$faculty,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'faculty_id']) }}
+                                {{ FORM::select('sec_faculty_id',[null=>'Cakto fakultetin sekondar']+$secfaculty,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','id'=>'sec_faculty_id2']) }}
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -93,9 +201,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Fakulteti primar',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{ FORM::select('faculty_id',$faculty,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'faculty_id']) }}
+                                {{ FORM::select('faculty_id',[0=>'Cakto fakultetin primar']+$faculty,0,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','required','id'=>'faculty_id']) }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Fakulteti sekondar',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{ FORM::select('sec_faculty_id',[null=>'Cakto fakultetin sekondar']+$secfaculty,null,['class'=>'form-control col-md-8 col-sm-8 col-xs-12','id'=>'sec_faculty_id']) }}
                             </div>
                         </div>
                     </div>
@@ -172,8 +286,9 @@
                             <th style="width: 20%">Emri</th>
                             <th style="width: 10%">Kapaciteti</th>
                             <th style="width: 10%">Lloji i salles</th>
-                            <th style="width: 40%">Fakulteti</th>
-                            <th style="width: 20%">Edit</th>
+                            <th style="width: 20%">Fakulteti primar</th>
+                            <th style="width: 20%">Fakulteti sekondar</th>
+                            <th style="width: 20%">Opsionet</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -186,17 +301,26 @@
                                 {{$hall->capacity}}
                             </td>
                             <td>
-                                {{$hall->halltype->hallType}}
+                                {{$hall->hallType}}
                             </td>
                             <td>
-                                {{$hall->faculty->faculty}}
+                                {{$hall->faculty }}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-id="{{$hall->id}}" data-target="#editModal" data-halltype_id="{{$hall->halltype_id}}" data-faculty_id="{{$hall->faculty_id}}" data-capacity="{{$hall->capacity}}" data-hall="{{$hall->hall}}">
-                                        <i class="fa fa-pencil"></i> Edit</button>
+                                {{$hall->sec_faculty }}
+                            </td>
+
+                            <td>
+                                <button type="button" id="btnEdit" class="btn btn-info btn-xs" data-toggle="modal" data-id="{{$hall->id}}" data-target="#editModal"
+                                        data-hall="{{$hall->hall}}"
+                                        data-capacity="{{$hall->capacity}}"
+                                        data-halltype_id="{{$hall->halltype_id}}"
+                                        data-faculty_id="{{$hall->faculty_id}}"
+                                        data-sec_faculty_id="{{$hall->sec_faculty_id}}">
+                                        <i class="fa fa-pencil"></i> Ndrysho</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$hall->id}}"
                                         data-toggle="modal"
-                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
+                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Fshij</button>
                             </td>
                         </tr>
                         @empty

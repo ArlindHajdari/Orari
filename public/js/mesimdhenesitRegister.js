@@ -12,7 +12,6 @@ $(document).ready(function(){
 
         $.ajax({
             type: 'POST',
-            
             data: formData,
             url: url,
             processData: false,
@@ -89,8 +88,9 @@ $(document).ready(function(){
                 400: function(data){
                     $.each(data.responseJSON['errors'], function(i,v){
                         $.each(this, function(index,value){
+                            console.log(i,value);
                             var errorID = '#'+i;
-                            $(errorID).tooltip({title: value,placement: "right"}).tooltip('show');
+                            $('#mesimdhenesi-edit').find(errorID).tooltip({title: value,placement: "right"}).tooltip('show');
                         })
                     });
                 },
@@ -115,7 +115,7 @@ $(document).ready(function(){
         $("#delete-form").attr('action','http://localhost:8000/mesimdhenesi-delete/'+id);
     });
 
-    $('#editModal').on('show.bs.modal', function(e) {
+    $('#editModal').on('shown.bs.modal', function(e) {
         var link = $(e.relatedTarget);
 
         var first_name = link.data('first_name');
@@ -126,8 +126,9 @@ $(document).ready(function(){
         var cpa_id = link.data('cpa_id');
         var role_id = link.data('role_id');
         var photo = link.data('photo');
+        var status_id = link.data('status_id');
         var id = link.data('id');
-
+        console.log(status_id);
         var modal = $(this);
         modal.find("#first_name").val(first_name);
         modal.find("#last_name").val(last_name);
@@ -136,6 +137,7 @@ $(document).ready(function(){
         modal.find("#academic_title_id").val(academic_title_id);
         modal.find("#role_id").val(role_id);
         modal.find("#cpa_id").val(cpa_id);
+        modal.find("#status_id").val(status_id);
         var real_photo=photo.split('/')[1];
         $("#mesimdhenesi-edit").attr('action','http://localhost:8000/mesimdhenesi-edit/'+id+'/'+real_photo);
     });

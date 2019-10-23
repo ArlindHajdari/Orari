@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -14,6 +14,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id
  * @property string $faculty
+ * @property int $academic_years
  * 
  * @property \Illuminate\Database\Eloquent\Collection $departments
  * @property \Illuminate\Database\Eloquent\Collection $halls
@@ -24,8 +25,13 @@ class Faculty extends Eloquent
 {
 	public $timestamps = false;
 
+	protected $casts = [
+		'academic_years' => 'int'
+	];
+
 	protected $fillable = [
-		'faculty'
+		'faculty',
+		'academic_years'
 	];
 
 	public function departments()
@@ -35,6 +41,6 @@ class Faculty extends Eloquent
 
 	public function halls()
 	{
-		return $this->hasMany(\App\Models\Hall::class);
+		return $this->hasMany(\App\Models\Hall::class, 'sec_faculty_id');
 	}
 }

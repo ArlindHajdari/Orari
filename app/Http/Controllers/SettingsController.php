@@ -8,14 +8,10 @@ use Sentinel;
 use App\Models\Setting;
 use Validator;
 use DB;
+use Carbon\Carbon;
 
 class SettingsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         DB::enableQueryLog();
@@ -33,62 +29,36 @@ class SettingsController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         try{
             $validator = Validator::make($request->all(),[
-                'max_hour_day_professor'=>'bail|numeric|max:6|nullable',
-                'max_hour_day_assistant'=>'bail|numeric|max:6|nullable'
+                'summer_semester'=>'bail|required|string',
+                'winter_semester'=>'bail|required|string',
+                'max_hour_day_professor'=>'bail|numeric|nullable',
+                'max_hour_day_assistant'=>'bail|numeric|nullable',
+                'start_schedule_time'=>'required|date_format:"H:i:s"',
+                'end_schedule_time'=>'required|date_format:"H:i:s"|after:start_schedule_time'
             ]);
 
             if($validator->fails()){
@@ -99,8 +69,14 @@ class SettingsController extends Controller
             }
 
             $setting = Setting::find($id);
-            $setting->max_hour_day_professor = $request->max_hour_day_professor;
-            $setting->max_hour_day_assistant = $request->max_hour_day_assistant;
+            $setting->start_summer_semester = Carbon::parse(explode(' ',trim($request->summer_semester))[0])->toDateString();
+            $setting->end_summer_semester = Carbon::parse(explode(' ',trim($request->summer_semester))[2])->toDateString();
+            $setting->start_winter_semester = Carbon::parse(explode(' ',trim($request->winter_semester))[0])->toDateString();
+            $setting->end_winter_semester = Carbon::parse(explode(' ',trim($request->winter_semester))[2])->toDateString();
+            $setting->start_schedule_time = Carbon::parse($request->start_schedule_time)->toTimeString();
+            $setting->end_schedule_time = Carbon::parse($request->end_schedule_time)->toTimeString();
+            $setting->max_hour_day_lecture = $request->max_hour_day_professor;
+            $setting->max_hour_day_exercise = $request->max_hour_day_assistant;
 
             if($setting->save()){
                 return response()->json([
@@ -125,12 +101,6 @@ class SettingsController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

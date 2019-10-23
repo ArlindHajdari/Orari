@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -15,6 +15,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id
  * @property string $cpa
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $lushes
  * @property \Illuminate\Database\Eloquent\Collection $users
  *
  * @package App\Models
@@ -26,6 +27,11 @@ class Cpa extends Eloquent
 	protected $fillable = [
 		'cpa'
 	];
+
+	public function lushes()
+	{
+		return $this->belongsToMany(\App\Models\Lush::class, 'lush_cpa');
+	}
 
 	public function users()
 	{

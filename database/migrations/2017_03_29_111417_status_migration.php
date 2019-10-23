@@ -19,12 +19,6 @@ class StatusMigration extends Migration
             
             $table->engine = 'InnoDB';
         });
-
-        DB::table('status')->insert([
-            'name'=>'Rregullt'
-        ],[
-            'name'=>'Angazhuar'
-        ]);
     }
 
     /**

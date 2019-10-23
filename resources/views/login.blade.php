@@ -22,25 +22,6 @@
       <script src="{{asset('node_modules/bootstrap3-dialog/dist/js/bootstrap-dialog.js')}}"></script>
       <script src="{{asset('js/login.js')}}"></script>
       <style>
-          @charset "utf-8";
-
-
-          @import url//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
-
-
-
-          div.main{
-              background: #0264d6; /* Old browsers */
-              background: -moz-radial-gradient(center, ellipse cover,  #0264d6 1%, #1c2b5a 100%); /* FF3.6+ */
-              background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,#0264d6), color-stop(100%,#1c2b5a)); /* Chrome,Safari4+ */
-              background: -webkit-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* Chrome10+,Safari5.1+ */
-              background: -o-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* Opera 12+ */
-              background: -ms-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* IE10+ */
-              background: radial-gradient(ellipse at center,  #0264d6 1%,#1c2b5a 100%); /* W3C */
-              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0264d6', endColorstr='#1c2b5a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-              height:calc(100vh);
-              width:100%;
-          }
 
           [class*="fontawesome-"]:before {
               font-family: 'FontAwesome', sans-serif;
@@ -60,7 +41,16 @@
           }
 
           body {
-
+              background: #0264d6; /* Old browsers */
+              background: -moz-radial-gradient(center, ellipse cover,  #0264d6 1%, #1c2b5a 100%); /* FF3.6+ */
+              background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,#0264d6), color-stop(100%,#1c2b5a)); /* Chrome,Safari4+ */
+              background: -webkit-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* Chrome10+,Safari5.1+ */
+              background: -o-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* Opera 12+ */
+              background: -ms-radial-gradient(center, ellipse cover,  #0264d6 1%,#1c2b5a 100%); /* IE10+ */
+              background: radial-gradient(ellipse at center,  #0264d6 1%,#1c2b5a 100%); /* W3C */
+              filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0264d6', endColorstr='#1c2b5a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+              height:calc(100vh);
+              width:100%;
               color: #606468;
               font: 87.5%/1.5em 'Open Sans', sans-serif;
               margin: 0;
@@ -123,7 +113,8 @@
           }
           #login{
               border-right:1px solid #fff;
-              padding: 0px 22px;
+              position:relative;
+              z-index:999999 !important;
               width: 59%;
           }
           .logo{
@@ -190,45 +181,49 @@
               padding-left: 5px;
           }
           .middle {
+              left: 50%;
+              position: fixed;
+              top: 50%;
+              transform: translate(-50%, -50%);
               display: flex;
               width: 600px;
           }
+          canvas{
+              display:block;
+          }
+
       </style>
+      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/coffee-script/1.1.2/coffee-script.min.js"></script>
+      <script src="{{asset('js/sketch/js/sketch.js')}}"></script>
+      <script type="text/coffeescript" src="{{asset('js/bubble_sketch.coffee')}}"></script>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class="main">
-    <div class="container">
-        <center>
-            <div class="middle">
-                <div id="login">
-                    {{FORM::open(['id'=>'loginForm'])}}
-                        <fieldset class="clearfix">
-                        <p>
-                            <span class="fa fa-user"></span>{{FORM::text('log_id',null,['class'=>'form-control','required','placeholder'=>'ID ose E-mail'])}}
-                        </p>
-                        <p>
-                            <span class="fa fa-lock"></span>
-                        {{FORM::password('password',['placeholder'=>'Fjalëkalimi','class'=>'form-control','required'])}}
-                        <div>
-                            <span style="width:68%; text-align:left;  display: inline-block;"><a href="{{url('recover')}}">Keni humbur
-                                    fjalëkalimin?</a></span>
-                            <span style="width:30%; text-align:right;  display: inline-block;">
-                                {{FORM::submit('Kyçu')}}
-                            </span>
-                        </div>
-                        </fieldset>
-                        <div class="clearfix"></div>
-                    {{FORM::close()}}
-                    <div class="clearfix"></div>
-                </div> <!-- end login -->
-                <div class="logo">
-                    {{HTML::image(asset('images/loginLogo.png'),null,['width'=>250,'height'=>190,'style'=>'padding-left:40px'])}}
-                    <div class="clearfix"></div>
-                </div>
+        <div class="middle">
+            <div id="login">
+                {{FORM::open(['id'=>'loginForm'])}}
+                <fieldset class="clearfix">
+                    <p>
+                        <span class="fa fa-user"></span>{{FORM::text('log_id',null,['class'=>'form-control','required','placeholder'=>'ID ose E-mail'])}}
+                    </p>
+                    <span class="fa fa-lock"></span>
+                    {{FORM::password('password',['placeholder'=>'Fjalëkalimi','class'=>'form-control','required'])}}
+                    <div>
+                    <span style="width:68%; text-align:left;  display: inline-block;"><a href="{{url('recover')}}">Keni humbur
+                            fjalëkalimin?</a></span>
+                    <span style="width:30%; text-align:right;  display: inline-block;">
+                        {{FORM::submit('Kyçu')}}
+                    </span>
+                    </div>
+                </fieldset>
+                <div class="clearfix"></div>
+                {{FORM::close()}}
+                <div class="clearfix"></div>
+            </div> <!-- end login -->
+            <div class="logo">
+                {{HTML::image(asset('images/loginLogo.png'),null,['width'=>250,'height'=>190,'style'=>'padding-left:40px'])}}
+                <div class="clearfix"></div>
             </div>
-        </center>
-    </div>
-</div>
+        </div>
   </body>
 </html>

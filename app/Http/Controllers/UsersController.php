@@ -13,6 +13,7 @@ use Illuminate\Database\QueryException;
 use ErrorException;
 use App\Models\User;
 use App\Models\Hall;
+
 class UsersController extends Controller
 {
     /**
@@ -30,21 +31,25 @@ class UsersController extends Controller
     }
     public function postKontakti(Request $request)
     {
-            $dekan_id=$request->dekan_id;
-            $user=User::where('id',$dekan_id)->first(['email','first_name','last_name','academic_title_id']);
-            $titulli=$user->academic_title->academic_title;
-            
-            $salla_id=$request->salla_id;
-            $salla=Hall::where('id',$salla_id)->first(['hall']);
+        $dekan_id=$request->dekan_id;
+        $user=User::where('id',$dekan_id)->first(['email','first_name','last_name','academic_title_id']);
+        $titulli=$user->academic_title->academic_title;
 
-            $dita=$request->ditet;
-            $oraprej=$request->oraprej;
-            $oraderi=$request->oraderi;
-            $this->sendMaill($user,$salla,$oraprej,$oraderi,$dita,$titulli);
+        $salla_id=$request->salla_id;
+        $salla=Hall::where('id',$salla_id)->first(['hall']);
+
+        $dita=$request->ditet;
+        $oraprej=$request->ora;
+        $oraderi=$request->ora2;
+        $this->sendMaill($user,$salla,$oraprej,$oraderi,$dita,$titulli);
+
+        return redirect('/');
     }
+
     private function sendMaill($user,$salla,$oraprej,$oraderi,$dita,$titulli)
     {
           Mail::send('emails.contact',[
+              'fakulteti'=>explode('_',Sentinel::getUser()->roles()->first()->slug)[1],
               'user'=>$user,
               'salla'=>$salla,
               'oraprej'=>$oraprej,
@@ -56,7 +61,6 @@ class UsersController extends Controller
             $message->subject("Pershendetje,$user->first_name ");
           });
     }
-
 
     public function login(Request $request)
     {
@@ -76,12 +80,12 @@ class UsersController extends Controller
             if(Sentinel::authenticate(['email'=>$request->log_id, 'password'=>$request->password])){
                 return response()->json([
                     'success'=>true,
-                    'url' => 'http://localhost:8000',
+                    'url' => url('/'),
                 ],200);
             }elseif(Sentinel::authenticate(['log_id'=>$request->log_id, 'password'=>$request->password])){
                 return response()->json([
                     'success'=>true,
-                    'url' => 'http://localhost:8000',
+                    'url' => url('/'),
                 ],200);
             }else{
                 return response()->json([
@@ -105,6 +109,13 @@ class UsersController extends Controller
                 'fails'=>true,
                 'title'=>'Aktivizim',
                 'msg'=> 'Ju duhet të aktivizoni llogarinë tuaj!'
+            ],400);
+        }
+        catch(\ErrorException $e){
+            return response()->json([
+                'fails'=>true,
+                'title'=>'Gabim ne server',
+                'msg'=> $e->getMessage()
             ],400);
         }
     }
@@ -168,7 +179,7 @@ class UsersController extends Controller
             }while(in_array($log_id,$log_ids));
 
             $data['log_id'] = $log_id;
-            
+
             if($user = Sentinel::register($data)){
                 if($activation = Activation::create($user)){
                     if($role = Sentinel::findRoleBySlug('user')){

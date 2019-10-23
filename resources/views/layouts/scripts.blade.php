@@ -1,4 +1,5 @@
 <script src="{{asset('jquery/dist/jquery.min.js')}}"></script>
+<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 <script src="{{asset('bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('fastclick/lib/fastclick.js')}}"></script>
 <script src="{{asset('nprogress/nprogress.js')}}"></script>
@@ -25,6 +26,10 @@
 <script src="{{asset('fullcalendar/fullcalendar.min.js')}}"></script>
 <script src="{{asset('moment/locale/sq.js')}}"></script>
 <script src="{{asset('fullscreen-master/release/jquery.fullscreen.js')}}"></script>
+<script src="{{asset('switchery/dist/switchery.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript" src="{{asset('js/bootstrap-multiselect.js')}}"></script>
 <script>
     $('#full_screen').click(function(){
         if($.fullscreen.isFullScreen()){

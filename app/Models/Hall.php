@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
@@ -17,6 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $capacity
  * @property int $halltype_id
  * @property int $faculty_id
+ * @property int $sec_faculty_id
  * 
  * @property \App\Models\Faculty $faculty
  * @property \App\Models\Halltype $halltype
@@ -31,19 +32,21 @@ class Hall extends Eloquent
 	protected $casts = [
 		'capacity' => 'int',
 		'halltype_id' => 'int',
-		'faculty_id' => 'int'
+		'faculty_id' => 'int',
+		'sec_faculty_id' => 'int'
 	];
 
 	protected $fillable = [
 		'hall',
 		'capacity',
 		'halltype_id',
-		'faculty_id'
+		'faculty_id',
+		'sec_faculty_id'
 	];
 
 	public function faculty()
 	{
-		return $this->belongsTo(\App\Models\Faculty::class);
+		return $this->belongsTo(\App\Models\Faculty::class, 'sec_faculty_id');
 	}
 
 	public function halltype()

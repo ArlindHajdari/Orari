@@ -8,6 +8,7 @@ use Validator;
 use Sentinel;
 use App\Models\User;
 use App\Models\RoleUser;
+use App\Models\Status;
 use App\Models\Cpa;
 use DB;
 
@@ -18,10 +19,6 @@ class DekanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('Menaxho.Dekanet.panel');
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,7 +40,6 @@ class DekanController extends Controller
     {
         try{
             $destinationFolder = 'Uploads/';
-
             $validation = Validator::make($request->all(),[
                 'first_name' => 'bail|required|alpha|max:190',
                 'last_name' => 'bail|required|alpha|max:190',
@@ -81,28 +77,46 @@ class DekanController extends Controller
 
             $data['log_id'] = $log_id;
             unset($data['role_id']);
-            $data['cpa_id'] = CPA::select('id')->where('cpa','Dekan')->get()->toArray()[0]['id'];
-            if($user = Sentinel::registerAndActivate($data)){
-                if($role = Sentinel::findRoleById($request->role_id)){
-                    $role->users()->attach($user);
-
+            $data['status_id'] = Status::select('id')->where('name','Rregullt')->orWhere('name','rregullt')->get()->toArray()[0]['id'];
+            if($data['status_id'] == null){
+                if($validation->fails()){
                     return response()->json([
-                        'success'=>true,
-                        'title'=>'Sukses',
-                        'msg'=>'Të dhënat u shtuan me sukses!'
-                    ],200);
+                        'fails'=>true,
+                        'title'=>'Statusi i profesorit',
+                        'msg'=>'Per titullin akademik te caktuar nuk ekziston statusi i Rregullt. Fillimisht shtoni statusin i Rregullt pastaj shtoni dekanët!'
+                    ],500);
+                }
+            }
+            if(CPA::select('id')->where('cpa','Dekan')->orWhere('cpa','dekan')->exists()){
+                $data['cpa_id'] = CPA::select('id')->where('cpa','Dekan')->orWhere('cpa','dekan')->get()->toArray()[0]['id'];
+                if($user = Sentinel::registerAndActivate($data)){
+                    if($role = Sentinel::findRoleById($request->role_id)){
+                        $role->users()->attach($user);
+
+                        return response()->json([
+                            'success'=>true,
+                            'title'=>'Sukses',
+                            'msg'=>'Të dhënat u shtuan me sukses!'
+                        ],200);
+                    }else{
+                        return response()->json([
+                            'fails'=>true,
+                            'title'=>'Gabim me rolin',
+                            'msg'=>'Ju lutemi kontaktoni mbështetësit e faqes!'
+                        ],500);
+                    }
                 }else{
                     return response()->json([
                         'fails'=>true,
-                        'title'=>'Gabim internal',
-                        'msg'=>'Ju lutemi kontaktoni mbështetësit e faqes!'
+                        'title'=>'Gabim gjatë regjistrimit',
+                        'msg'=>'Ju lutemi shikoni për parregullsi në të dhëna!'
                     ],500);
                 }
             }else{
                 return response()->json([
                     'fails'=>true,
                     'title'=>'Gabim gjatë regjistrimit',
-                    'msg'=>'Ju lutemi shikoni për parregullsi në të dhëna!'
+                    'msg'=>'Ju lutemi regjistroni dekan tek thirrjet akademike!'
                 ],500);
             }
         }
@@ -112,6 +126,13 @@ class DekanController extends Controller
                 'title' => 'Gabim ne server',
                 'msg' => $e->getMessage(),
                 'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
+            ],500);
+        }
+        catch(\ErrorException $e){
+            return response()->json([
+                'fails'=>true,
+                'title' => 'Gabim ne server',
+                'msg' => $e->getMessage()
             ],500);
         }
     }
@@ -126,14 +147,16 @@ class DekanController extends Controller
     {
         DB::enableQueryLog();
         try{
-            $data = User::with('academic_title','roles')->where(function($query) use ($request){
+            $data = User::with('academic_title','roles')->with(['status'=>function($query) use($request){
+                $query->orWhere('name','like','%'.$request->search.'%');
+            }])->where(function ($query) use ($request){
                 $query->orWhere('first_name', 'like','%' .$request->search.'%');
                 $query->orWhere('last_name','like','%'.$request->search.'%');
                 $query->orWhere('email','like','%' .$request->search.'%');
             })->whereHas('cpa',function($query) use($request){
                 $query->where('cpas.cpa','Dekan');
             })->paginate(10);
-//        dd(DB::getQueryLog());
+    //    dd(DB::getQueryLog());
             return view('Menaxho.Dekanet.panel')->with('data',$data);
         }
         catch(QueryException $e){
@@ -186,6 +209,7 @@ class DekanController extends Controller
             }
 
             unset($data['role_id']);
+            $data['status_id'] = Status::select('id')->where('name','Rregullt')->orWhere('name','rregullt')->get()->toArray()[0]['id'];
             $data['cpa_id'] = CPA::select('id')->where('cpa','Dekan')->get()->toArray()[0]['id'];
 
             if($dekan = User::find($id)){
@@ -195,6 +219,7 @@ class DekanController extends Controller
                 $dekan->personal_number = $data['personal_number'];
                 $dekan->cpa_id = $data['cpa_id'];
                 $dekan->academic_title_id = $data['academic_title_id'];
+                $dekan->status_id = $data['status_id'];
                 $dekan->photo = $data['photo'];
                 if($dekan->save()){
                     if(RoleUser::where('user_id',$dekan->id)->update(['role_id'=>$request->role_id])){

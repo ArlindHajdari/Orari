@@ -2,12 +2,12 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:31 +0000.
  */
 
 namespace App\Models;
 
-use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class User
@@ -21,6 +21,7 @@ use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
  * @property string $personal_number
  * @property int $cpa_id
  * @property int $academic_title_id
+ * @property int $status_id
  * @property string $photo
  * @property string $permissions
  * @property \Carbon\Carbon $last_login
@@ -29,6 +30,7 @@ use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
  * 
  * @property \App\Models\AcademicTitle $academic_title
  * @property \App\Models\Cpa $cpa
+ * @property \App\Models\Status $status
  * @property \Illuminate\Database\Eloquent\Collection $activations
  * @property \Illuminate\Database\Eloquent\Collection $availabilities
  * @property \App\Models\Ca $ca
@@ -36,16 +38,19 @@ use Cartalyst\Sentinel\Users\EloquentUser as SentinelUser;
  * @property \Illuminate\Database\Eloquent\Collection $persistences
  * @property \Illuminate\Database\Eloquent\Collection $reminders
  * @property \Illuminate\Database\Eloquent\Collection $roles
+ * @property \Illuminate\Database\Eloquent\Collection $schedules
+ * @property \Illuminate\Database\Eloquent\Collection $settings
  * @property \Illuminate\Database\Eloquent\Collection $throttles
  *
  * @package App\Models
  */
-class User extends SentinelUser
+class User extends Eloquent
 {
 	protected $casts = [
 		'log_id' => 'int',
 		'cpa_id' => 'int',
-		'academic_title_id' => 'int'
+		'academic_title_id' => 'int',
+		'status_id' => 'int'
 	];
 
 	protected $dates = [
@@ -65,6 +70,7 @@ class User extends SentinelUser
 		'personal_number',
 		'cpa_id',
 		'academic_title_id',
+		'status_id',
 		'photo',
 		'permissions',
 		'last_login'
@@ -78,6 +84,11 @@ class User extends SentinelUser
 	public function cpa()
 	{
 		return $this->belongsTo(\App\Models\Cpa::class);
+	}
+
+	public function status()
+	{
+		return $this->belongsTo(\App\Models\Status::class);
 	}
 
 	public function activations()
@@ -114,6 +125,16 @@ class User extends SentinelUser
 	{
 		return $this->belongsToMany(\App\Models\Role::class, 'role_users')
 					->withTimestamps();
+	}
+
+	public function schedules()
+	{
+		return $this->hasMany(\App\Models\Schedule::class);
+	}
+
+	public function settings()
+	{
+		return $this->hasMany(\App\Models\Setting::class);
 	}
 
 	public function throttles()

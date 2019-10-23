@@ -19,11 +19,13 @@ class CpsMigration extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('subject_id')->unsigned();
-            
+            $table->integer('lecture_hours');
+            $table->integer('exercise_hours')->nullable();
+
             $table->index('user_id');
             $table->index('subject_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('subject_id')->references('id')->on('subjects');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }
@@ -35,7 +37,6 @@ class CpsMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cps');
         Schema::table('cps', function(Blueprint $table){
             $table->dropForeign(['user_id']);
         });
@@ -43,5 +44,6 @@ class CpsMigration extends Migration
         Schema::table('cps', function(Blueprint $table){
             $table->dropForeign(['subject_id']);
         });
+        Schema::dropIfExists('cps');
     }
 }

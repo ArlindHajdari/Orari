@@ -21,8 +21,8 @@ class CaMigration extends Migration
 
             $table->index('cps_id');
             $table->index('user_id');
-            $table->foreign('cps_id')->references('id')->on('cps');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('cps_id')->references('id')->on('cps')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }
@@ -34,8 +34,6 @@ class CaMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ca');
-
         Schema::table('ca',function(Blueprint $table){
             $table->dropForeign(['user_id']);
         });
@@ -43,5 +41,7 @@ class CaMigration extends Migration
         Schema::table('ca',function(Blueprint $table){
             $table->dropForeign(['cps_id']);
         });
+
+        Schema::dropIfExists('ca');
     }
 }

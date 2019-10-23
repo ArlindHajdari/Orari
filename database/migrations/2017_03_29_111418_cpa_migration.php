@@ -19,16 +19,6 @@ class CpaMigration extends Migration
 
             $table->engine = 'InnoDB';
         });
-
-        DB::table('cpas')->insert([
-            'cpa'=> 'Profesor'
-        ],[
-            'cpa'=> 'Asistent'
-        ],[
-            'cpa'=> 'Ligjërues'
-        ],[
-            'cpa'=> 'Dekan'
-        ]);
     }
 
     /**

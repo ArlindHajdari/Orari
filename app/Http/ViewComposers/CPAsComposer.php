@@ -14,13 +14,14 @@ class CPAsComposer
     {
         try{
             $this->cpas=Cpa::pluck('cpa','id')->toArray();
-            $this->cpas_noDekan=Cpa::where('cpa','!=','Dekan')->pluck('cpa','id')->toArray();
+            $this->cpas_noDekan=Cpa::where('cpa','<>','Dekan')->orWhere('cpa','<>','dekan')->pluck('cpa','id')
+                ->toArray();
         }
         catch(QueryException $e){
             return response()->json([
-            'fails'=>true,
-            'title'=>'Gabim në databazë!',
-            'msg'=>'Të dhëna të caktuara nuk mundën të nxirren nga databaza!'
+                'fails'=>true,
+                'title'=>'Gabim në databazë!',
+                'msg'=>'Të dhëna të caktuara nuk mundën të nxirren nga databaza!'
             ],400);
         }
     }

@@ -39,13 +39,13 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',[0=>'Zgjedh titullin akademik!']+$academicalTitles,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
+                                {{FORM::select('academic_title_id',[0=>'Zgjedh titullin akademik!']+$titlesFromStatus,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academic_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
                             {{ FORM::label('Puna',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('cpa_id',[0=>'Zgjedh profesor/asisntet']+$cpas_nodekan,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
+                                {{FORM::select('cpa_id',[0=>'Zgjedh profesor/asistent']+$cpas_nodekan,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'cpa_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -62,8 +62,14 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            {{ FORM::label('Statusi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{FORM::select('status_id',[0=>'Zgjedh statusin']+$statusAcademicTitle,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'status_id'])}}
+                            </div>
+                        </div>
+                        <div class="form-group">
                             {{ FORM::label('Foto',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
-                            <div class="input-group image-preview control-label pull-right"><!-- don't give a name === doesn't send on POST/GET -->
+                            <div class="input-group image-preview control-label pull-right">
                                 <label class="btn btn-info">
                                     <span class="glyphicon glyphicon-add"> Zgjedh</span>
                                     {!! FORM::file('photo',['required','style'=>'display:none','id'=>'photo']) !!}
@@ -114,7 +120,7 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
+                                {{FORM::select('academic_title_id',$titlesFromStatus,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -134,6 +140,12 @@
                             {{ FORM::label('Email',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::email('email',null,['class'=>'form-control','required','placeholder'=>'E-mail','id'=>'email'])}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ FORM::label('Statusi',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                {{FORM::select('status_id',[0=>'Zgjedh statusin']+$statusAcademicTitle,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'status_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -221,10 +233,11 @@
                             <th style="width: 20%">Emri</th>
                             <th style="width: 20%">Email</th>
                             <th style="width: 10%">CPA</th>
-                            <th style="width: 15%">Numri personal</th>
-                            <th style="width: 10%">Log ID</th>
+                            <th style="width: 10%">Numri personal</th>
+                            <th style="width: 5%">ID</th>
+                            <th style="width: 10%">Statusi</th>
                             <th style="width: 10%">Foto</th>
-                            <th style="width: 15%">Edit</th>
+                            <th style="width: 15%">Opsionet</th>
                         </tr>
                         </thead>
 
@@ -247,6 +260,9 @@
                                 {{$user->log_id}}
                             </td>
                             <td>
+                                {{$user->name}}
+                            </td>
+                            <td>
                                 <ul class="list-inline">
                                     <li>
                                         <img src="{{$user->photo}}" class="avatar" alt="Avatar">
@@ -260,12 +276,11 @@
                                         data-academic_title_id="{{$user->academic_title_id}}"
                                         data-cpa_id="{{$user->cpa_id}}"
                                         data-personal_number="{{$user->personal_number}}" data-email="{{$user->email}}"
-                                        data-photo="{{$user->photo}}"><i
-                                            class="fa
-                                        fa-pencil"></i> Edit</button>
+                                        data-status_id="{{$user->status_id}}" data-photo="{{$user->photo}}"><i class="fa
+                                        fa-pencil"></i> Ndrysho</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$user->id}}"
                                         data-toggle="modal"
-                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
+                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Fshij</button>
                             </td>
                         </tr>
                         @empty
@@ -275,7 +290,7 @@
                         @endforelse
                         </tbody>
                     </table>
-                    {{$data->render()}} 
+                    {{$data->render()}}
                     <!-- end project list -->
                 </div>
 

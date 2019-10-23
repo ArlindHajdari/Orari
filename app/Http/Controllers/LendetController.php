@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\Subject;
+use App\Models\SubjectLush;
+use App\Models\Faculty;
 use App\Models\DepartmentSubject;
 use Validator;
 use DB;
+use Sentinel;
 
 class LendetController extends Controller
 {
@@ -16,22 +19,9 @@ class LendetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        try
-        {
-        $lendet = DepartmentSubject::select('subjects.id','subjects.subject','subjects.ects','subjects.semester','subjecttypes.subjecttype','departments.department','subjecttypes.id as subjecttype_id','departments.id as department_id')->join('departments','department_subjects.department_id','departments.id')->join('subjects','department_subjects.subject_id','subjects.id')->join('subjecttypes','subjects.subjecttype_id','subjecttypes.id')->orderBy('subjects.id','DESC')->paginate(10);
-
-        return view('Menaxho.Lendet.panel',['lendet'=>$lendet]);
-        }
-        catch(QueryException $e){
-            return response()->json([
-                'fails'=>true,
-                'title' => 'Gabim ne server',
-                'msg' => $e->getMessage(),
-                'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
-            ],500);
-        }
+        //
     }
 
     /**
@@ -53,64 +43,94 @@ class LendetController extends Controller
 
     public function search(Request $request)
     {
+        $faculty = explode('_',Sentinel::getUser()->roles()->first()->name)[1];
 
-        $lendet = DepartmentSubject::select('subjects.id','subjects.subject','subjects.ects','subjects.semester','subjecttypes.subjecttype','departments.department','subjecttypes.id as subjecttype_id','departments.id as department_id')->join('departments','department_subjects.department_id','departments.id')->join('subjects','department_subjects.subject_id','subjects.id')->join('subjecttypes','subjects.subjecttype_id','subjecttypes.id')->where
-                ('subject','like','%'.$request->search.'%')->paginate(10);
-            return view('Menaxho.Lendet.panel',['lendet'=>$lendet]);
+        $lendet = Subject::select('subjects.id','subjects.subject','subjects.ects','subjects.semester','subjects.subjecttype_id', 'subjects.department_id', 'subjecttypes.subjecttype', 'departments.department')->
+        join('departments','subjects.department_id', 'departments.id')->
+        join('faculties','departments.faculty_id','faculties.id')->
+        join('subjecttypes','subjects.subjecttype_id','subjecttypes.id')->
+        where(function($query) use($request){
+            $query->orWhere('subjects.subject','like','%'.$request->search.'%');
+            $query->orWhere('departments.department','like','%'.$request->search.'%');
+            $query->orWhere('subjecttypes.subjecttype','like','%'.$request->search.'%');
+        })->where('faculties.faculty',$faculty)->paginate(10);
+
+        return view('Menaxho.Lendet.panel',['lendet'=>$lendet]);
     }
-
 
     public function store(Request $request)
     {
-       try
-       {
-           $validation = Validator::make($request->all(),[
+        $isLush = array();
+       try{
+           $validation = Validator::make($request->except('subject_lush'),[
                'subject'=>'bail|required|string|max:190',
-               'ects'=>'bail|required|string|max:12',
-               'semester'=>'bail|required|string|max:1',
+               'ects'=>'bail|required|numeric|max:12',
+               'semester'=>'bail|required|numeric|min:1',
                'subjecttype_id'=>'bail|required|numeric|min:1',
-               'department'=>'bail|required|numeric|min:1'
+               'department_id'=>'bail|required|numeric|min:1'
            ]);
 
-           if($validation->fails())
-           {
+           if(empty($request->subject_lush)){
+               return response()->json([
+                   'fails'=>true,
+                   'title'=>'Gabim',
+                   'msg'=>'Ju lutem caktoni te pakten nje lush'
+               ],500);
+           }
+
+           if($validation->fails()){
                return response()->json([
                    'fails'=>true,
                    'errors'=>$validation->getMessageBag()->toArray()
                ],400);
            }
 
-//           $departmentSubject = DepartmentSubject::select('subjects.subject,departments.department')->join('departments','department_subjects.department_id','departments.id')->join('subjects','department_subjects.subject_id','subjects.id')->where('departments.department','=',$request->department)->orWhere('subjects.subject','=',$request->subject);
+           $vitet = Faculty::select('academic_years')->where('faculty',explode('_',Sentinel::getUser()->roles()->first()->name)[1])->get()->toArray()[0]['academic_years'];
+            if($request->semester > ($vitet*2)){
+                return response()->json([
+                    'fails'=>true,
+                    'title'=>'Gabim gjatë regjistrimit',
+                    'msg'=>'Semestri nuk mund të jetë më i madhë se '.($vitet*2).'!'
+                ],500);
+            }
 
-           $dS = DepartmentSubject::select('subjects.subject','departments.id')->join('departments','department_subjects.department_id','departments.id')->join('subjects','department_subjects.subject_id','subjects.id')->where([['departments.id',$request->department],['subjects.subject',$request->subject]])->exists();
+           $dS = Subject::select('subjects.subject','departments.id')->join('departments','subjects.department_id','departments.id')->where([['departments.id',$request->department_id],['subjects.subject',$request->subject]])->exists();
 
-           if($dS)
-           {
-//               dd(DB::getQueryLog());
+           if($dS){
                return response()->json([
                    'fails'=>true,
                    'title'=>'Gabim gjatë regjistrimit',
                    'msg'=>'Kjo lende eshte regjistruar nje here!'
                ],500);
-           }
-           else
-           {
+           } else{
                $subject = new Subject;
                $subject->subject = $request->subject;
                $subject->ects = $request->ects;
                $subject->semester = $request->semester;
                $subject->subjecttype_id = $request->subjecttype_id;
-               $subject->save();
+               $subject->department_id = $request->department_id;
 
-               $depSub = new DepartmentSubject;
-               $depSub->department_id = $request->department;
-               $depSub->subject_id = $subject->id;
+               if($subject->save()){
+                   foreach($request->subject_lush as $lush){
+                       $subLush = new SubjectLush;
+                       $subLush->subject_id = $subject->id;
+                       $subLush->lush_id = $lush;
 
-               if($depSub->save()){
-                   return response()->json([
-                       'success'=>true,
-                       'title'=>'Sukses',
-                       'msg'=>'Të dhënat u shtuan me sukses!'],200);
+                       $isLush[] = $subLush->save();
+                   }
+
+                   if(array_true($isLush)){
+                       return response()->json([
+                           'success'=>true,
+                           'title'=>'Sukses',
+                           'msg'=>'Të dhënat u shtuan me sukses!'],200);
+                   }else{
+                       return response()->json([
+                           'fails'=>true,
+                           'title'=>'Gabim',
+                           'msg'=>'Nuk munden te insertohen te gjithat lush per lenden!'
+                       ]);
+                   }
                }
                else{
 
@@ -121,7 +141,7 @@ class LendetController extends Controller
                    ],500);
                }
            }
-       }    
+       }
        catch(QueryException $e){
            return response()->json([
                'fails'=>true,
@@ -141,37 +161,7 @@ class LendetController extends Controller
      */
     public function show(Request $request)
     {
-        try{
-            $validator = Validator::make($request->all(),[
-                'search' => 'bail|required|string'
-            ]);
-
-            if($validator->fails()){
-                return response()->json([
-                    'fails'=>true,
-                    'errors'=>$validator->getMessageBag()->toArray()
-                ],400);
-            }
-
-            $data = User::select('users.id',DB::raw("concat(academic_titles.academic_title,'.',users.first_name,' ',users.last_name) as full_name"),'cpas.cpa','users.email','users.personal_number','users.log_id','users.photo')
-                ->join('cpas','users.cpa_id','cpas.id')->join('academic_titles','users.academic_title_id','academic_titles.id')->where
-                ('first_name',
-                    'like','%'.$request->search.'%')
-                ->orWhere
-                ('last_name',
-                    'like','%'
-                    .$request->search.'%')->orWhere('email','like','%'.$request->search.'%')->orWhere('personal_number','like','%'.$request->search.'%')->orWhere('log_id','like','%'.$request->search.'%')->where('cpa','Dekan')->paginate
-                (10);
-            return view('Menaxho.Dekanet.panel',['data'=>$data]);
-        }
-        catch(QueryException $e){
-            return response()->json([
-                'fails'=>true,
-                'title' => 'Gabim ne server',
-                'msg' => $e->getMessage(),
-                'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
-            ],500);
-        }
+        //code here
     }
 
     /**
@@ -187,10 +177,10 @@ class LendetController extends Controller
         try{
         $validation = Validator::make($request->all(),[
             'subject'=>'bail|required|string|max:190',
-            'ects'=>'bail|required|string|max:12',
-            'semester'=>'bail|required|string|max:1',
-            'subjecttype_id'=>'bail|required|int',
-            'department_id'=>'bail|required|int'
+            'ects'=>'bail|required|numeric|max:12',
+            'semester'=>'bail|required|numeric|min:1',
+            'subjecttype_id'=>'bail|required|numeric|min:1',
+            'department_id'=>'bail|required|numeric|min:1'
         ]);
 
             if($validation->fails()){
@@ -200,39 +190,36 @@ class LendetController extends Controller
                 ],400);
             }
 
-            $dS = DepartmentSubject::select('subjects.subject','departments.id')->join('departments','department_subjects.department_id','departments.id')->join('subjects','department_subjects.subject_id','subjects.id')->where([['departments.id',$request->department],['subjects.subject',$request->subject]])->exists();
-
-//            dd(DB::getQueryLog);
-
-            if($dS)
-            {
+            $vitet = Faculty::select('academic_years')->where('faculty',explode('_',Sentinel::getUser()->roles()->first()->name)[1])->get()->toArray()[0]['academic_years'];
+            if($request->semester > ($vitet*2)){
                 return response()->json([
                     'fails'=>true,
                     'title'=>'Gabim gjatë regjistrimit',
-                    'msg'=>'Kjo lende eshte regjistruar nje here!'
+                    'msg'=>'Semestri nuk mund të jetë më i madhë se '.($vitet*2).'!'
                 ],500);
             }
-           else
-           {
-                $data = $request->all();
 
-                $subject = Subject::find($id);
-                $subject->subject = $data['subject'];
-                $subject->ects = $data['ects'];
-                $subject->semester = $data['semester'];
-                $subject->subjecttype_id = $data['subjecttype_id'];
-                $subject->save();
+            $data = $request->all();
 
-                $debSub = DepartmentSubject::where('subject_id',$subject->id)->update(['department_id'=>$data['department_id']]);
+            $subject = Subject::find($id);
+            $subject->subject = $data['subject'];
+            $subject->ects = $data['ects'];
+            $subject->semester = $data['semester'];
+            $subject->subjecttype_id = $data['subjecttype_id'];
+            $subject->department_id = $data['department_id'];
 
-                if($debSub)
-                {
-                    return response()->json([
-                        'success'=>true,
-                        'title'=>'Sukses',
-                        'msg' => 'Të dhënat u ndryshuan me sukses!'
-                    ],200);
-                }
+            if($sub = $subject->save()){
+                return response()->json([
+                    'success'=>true,
+                    'title'=>'Sukses',
+                    'msg' => 'Të dhënat u ndryshuan me sukses!'
+                ],200);
+            }else{
+                return response()->json([
+                    'fails'=>true,
+                    'title'=>'Gabim',
+                    'msg' => 'Të dhënat nuk u ndryshuan!'
+                ],500);
             }
         }
         catch(QueryException $e){
@@ -241,7 +228,8 @@ class LendetController extends Controller
                 'title' => 'Gabim ne server',
                 'msg' => $e->getMessage(),
                 'msg1' => 'Për arsye të caktuar, nuk mundëm të kontaktojmë me serverin'
-            ],500);}
+            ],500);
+        }
     }
 
     /**
@@ -264,13 +252,8 @@ class LendetController extends Controller
      */
     public function destroy($id)
     {
-        $subject = Subject::find($id);
-        $subject->delete();
-
-        $debSub = DepartmentSubject::where('subject_id',$subject->id);
-        if($debSub->delete())
-        {
-            return redirect()->back()->with('message','Te dhenat u fshine me sukses');
+        if(Subject::find($id)->delete()){
+            return redirect('LendetPanel');
         }
     }
 }

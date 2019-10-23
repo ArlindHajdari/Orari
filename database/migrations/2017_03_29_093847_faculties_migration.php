@@ -47,9 +47,9 @@ class FacultiesMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faculties');
         DB::unprepared('DROP TRIGGER `tr_addRoleFromFaculty`');
         DB::unprepared('DROP TRIGGER `tr_deleteRoleFromFaculty`');
         DB::unprepared('DROP TRIGGER `tr_updateRoleFromFaculty`');
+        Schema::dropIfExists('faculties');
     }
 }

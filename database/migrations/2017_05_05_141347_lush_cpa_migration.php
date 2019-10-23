@@ -19,8 +19,8 @@ class LushCpaMigration extends Migration
 
             $table->index('cpa_id');
             $table->index('lush_id');
-            $table->foreign('cpa_id')->references('id')->on('cpas');
-            $table->foreign('lush_id')->references('id')->on('lush');
+            $table->foreign('cpa_id')->references('id')->on('cpas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('lush_id')->references('id')->on('lush')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
     }
@@ -32,7 +32,6 @@ class LushCpaMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lush_cpa');
         Schema::table('lush_cpa', function (Blueprint $table) {
             $table->dropForeign(['cpa_id']);
         });
@@ -40,5 +39,7 @@ class LushCpaMigration extends Migration
         Schema::table('lush_cpa', function (Blueprint $table) {
             $table->dropForeign(['lush_id']);
         });
+
+        Schema::dropIfExists('lush_cpa');
     }
 }

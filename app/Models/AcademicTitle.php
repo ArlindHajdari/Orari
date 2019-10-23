@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:30 +0000.
  */
 
 namespace App\Models;
@@ -17,6 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * 
+ * @property \Illuminate\Database\Eloquent\Collection $statuses
  * @property \Illuminate\Database\Eloquent\Collection $users
  *
  * @package App\Models
@@ -26,6 +27,12 @@ class AcademicTitle extends Eloquent
 	protected $fillable = [
 		'academic_title'
 	];
+
+	public function statuses()
+	{
+		return $this->belongsToMany(\App\Models\Status::class, 'status_academic_titles')
+					->withPivot('normal_hours', 'extra_hours');
+	}
 
 	public function users()
 	{

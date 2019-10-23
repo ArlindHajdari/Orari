@@ -1,19 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Validator;
 use Sentinel;
 use App\Models\User;
-use App\Models\AcademicTitle;
 use App\Models\RoleUser;
-use App\Models\cpa;
+use Mail;
 use DB;
 class MesimdhenesitController extends Controller
 {
-    
-public function store(Request $request)
+
+    private function sendTeachersData($user)
+    {
+          Mail::send('emails.teacher_data',[
+              'user'=>$user
+          ],function($message) use($user){
+            $message->to($user->email);
+            $message->subject("Të dhënat për përdorimin e aplikacionit XALFA");
+          });
+    }
+
+    public function store(Request $request)
     {
         try{
             $destinationFolder = 'Uploads/';
@@ -47,9 +57,9 @@ public function store(Request $request)
             $data['photo']=$destinationFolder.$filename;
 
             $log_ids = User::select('log_id')->get()->toArray();
-            
+
             do{
-                $log_id = rand(1000,99999);
+                $log_id = rand(1000,9999);
             }while(in_array($log_id,$log_ids));
 
             $data['log_id'] = $log_id;
@@ -57,6 +67,8 @@ public function store(Request $request)
             if($register = Sentinel::registerAndActivate($data)){
                 if($role = Sentinel::findRoleBySlug('user')){
                     $role->users()->attach($register);
+
+                    $this->sendTeachersData($register);
 
                     return response()->json([
                         'success'=>true,
@@ -98,13 +110,14 @@ public function store(Request $request)
     {
         DB::enableQueryLog();
         try{
-            $data = User::select('users.id','cpas.cpa','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo')->join('academic_titles','users.academic_title_id','academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->join('role_users','users.id','role_users.user_id')->join('roles','role_users.role_id','roles.id')->where('cpas.cpa','<>','Dekan')->where('roles.slug','<>','admin')->where(function($query) use ($request){
+            $data = User::select('users.id','cpas.cpa','users.first_name','users.last_name','users.cpa_id','users.academic_title_id',DB::raw("concat(academic_titles.academic_title,users.first_name,' ',users.last_name) as full_name"),'users.email','users.personal_number','users.log_id','users.photo','status.name','users.status_id')->join('academic_titles','users.academic_title_id', 'academic_titles.id')->join('cpas','users.cpa_id','cpas.id')->join('role_users','users.id','role_users.user_id')->join('status','users.status_id','status.id')->join('roles','role_users.role_id','roles.id')->where('cpas.cpa','<>','Dekan')->where('roles.slug','<>', 'admin')->where(function($query) use ($request){
                 $query->orWhere('users.last_name','like','%'.$request->search.'%');
                 $query->orWhere('users.email','like','%'.$request->search.'%');
                 $query->orWhere('users.personal_number','like','%'.$request->search.'%');
                 $query->orWhere('users.log_id','like','%'.$request->search.'%');
                 $query->orWhere('users.first_name','like','%'.$request->search.'%');
                 $query->orWhere('cpas.cpa','like','%'.$request->search.'%');
+                $query->orWhere('status.name','like','%'.$request->search.'%');
             })->paginate(15);
 
             return view('Menaxho.Mesimdhenesi.panel')->with('data',$data);
@@ -136,7 +149,6 @@ public function store(Request $request)
                 'personal_number'=>'bail|required|string',
                 'cpa_id' => 'bail|required|numeric|',
                 'academic_title_id' => 'bail|required|numeric',
-                'role_id' => 'bail|required|numeric'
             ]);
 
             if($validation->fails()){
@@ -168,9 +180,9 @@ public function store(Request $request)
                 $dekan->cpa_id = $data['cpa_id'];
                 $dekan->academic_title_id = $data['academic_title_id'];
                 $dekan->photo = $data['photo'];
-                
+
                 if($dekan->save()){
-                    if(RoleUser::where('user_id',$dekan->id)->update(['role_id'=>$request->role_id])){
+                    if(RoleUser::where('user_id',$dekan->id)->update(['role_id'=>Sentinel::findRoleBySlug('user')['id']])){
                         return response()->json([
                             'success'=>true,
                             'title'=>'Sukses',

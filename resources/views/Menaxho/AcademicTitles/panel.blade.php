@@ -135,9 +135,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
-                    <p>Tabela me të dhënat e fakultetit</p>
-
                     <!-- start project list -->
                     <table class="table table-striped projects">
                         <thead>

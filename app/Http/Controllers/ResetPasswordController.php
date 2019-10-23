@@ -8,7 +8,6 @@ use Sentinel;
 use Mail;
 use App\Models\User;
 use Validator;
-use Illuminate\Validation\Rule;
 use Reminder;
 use View;
 
@@ -31,39 +30,50 @@ class ResetPasswordController extends Controller
     }
 
     public function resetPassword(Request $request){
-        \DB::enableQueryLog();
-        $validator = Validator::make($request->all(),[
-            'email'=>[
-                'required',
-            Rule::exists('users')->where(function($query) use ($request){
-              $query->where('email',$request->email);
-              $query->orWhere('log_id',$request->email);
-            })]
-        ]);
+        try{
+            \DB::enableQueryLog();
+            $rules = [
+                'email'=>'required'
+            ];
+            if (filter_var($request->email, FILTER_VALIDATE_EMAIL))
+            {
+                $rules['email'] .= '|exists:users,email';
+            }
+            else
+            {
+                $rules['email'] .= '|exists:users,log_id';
+            }
 
-        if($validator->fails()){
-            return response()->json([
-                'email'=>'Të dhënat e shtypura nuk ekzistojnë'
-            ],400);
-        }
+            $validator = Validator::make($request->all(), $rules);
 
-        $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->first();
-
-        if($sentinel_user = Sentinel::findUserById($user->id)){
-            if($reminder = Reminder::exists($sentinel_user) ?: Reminder::create($sentinel_user)){
-                $this->sendMail($sentinel_user, $reminder->code);
-
+            if($validator->fails()){
                 return response()->json([
-                    'title'=>'Sukses',
-                    'msg'=>'Ju lutem kontrolloni postën tuaj elektronike për të vazhduar!',
-                    'url'=>url('login')
-                ],200);
+                    'email'=>'Gabim ne validim të fushës!'
+                ],400);
+            }
+
+            $user = User::where('email',$request->email)->orWhere('log_id',$request->email)->first();
+
+            if($sentinel_user = Sentinel::findUserById($user->id)){
+                if($reminder = Reminder::exists($sentinel_user) ?: Reminder::create($sentinel_user)){
+                    $this->sendMail($sentinel_user, $reminder->code);
+
+                    return response()->json([
+                        'title'=>'Sukses',
+                        'msg'=>'Ju lutem kontrolloni postën tuaj elektronike për të vazhduar!',
+                        'url'=>url('login')
+                    ],200);
+                }else{
+                    return response()->json([
+                        'email'=>'Të dhënat e shtypura nuk ekzistojnë'
+                    ],400);
+                }
             }else{
                 return response()->json([
                     'email'=>'Të dhënat e shtypura nuk ekzistojnë'
                 ],400);
             }
-        }else{
+        }catch(QueryException $e){
             return response()->json([
                 'email'=>'Të dhënat e shtypura nuk ekzistojnë'
             ],400);

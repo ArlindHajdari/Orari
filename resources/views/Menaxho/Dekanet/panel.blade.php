@@ -39,7 +39,7 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',['0'=>'Zgjedhe titullin akademik']+$academicalTitles,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
+                                {{FORM::select('academic_title_id',['0'=>'Zgjedhe titullin akademik']+$titlesFromStatus,0,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academid_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('role_id',['0'=>'Zgjedhe rolin']+$roles,0,
                                 ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role'])}}
@@ -115,7 +115,7 @@
                         <div class="form-group">
                             {{ FORM::label('Titulli akademik',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                {{FORM::select('academic_title_id',['0'=>'Zgjedhe titullin akademik']+$academicalTitles,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academic_title_id'])}}
+                                {{FORM::select('academic_title_id',['0'=>'Zgjedhe titullin akademik']+$titlesFromStatus,null,['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'academic_title_id'])}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ FORM::label('Roli',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
+                            {{ FORM::label('Fakulteti',null,['class'=>'control-label col-md-4 col-sm-4 col-xs-12']) }}
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 {{FORM::select('role_id',['0'=>'Zgjedhe rolin']+$roles,null,
                                 ['class'=>'form-control','required','style'=>'border-radius:2px','id'=>'role_id'])}}
@@ -211,7 +211,7 @@
         <div class="col-md-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Projects</h2>
+                    <h2>Dekanët</h2>
                     <button type="button" class="btn btn-success btn-md pull-right" data-toggle="modal" data-target="#registerModal">Regjistro</button>
                     <div class="clearfix"></div>
                 </div>
@@ -221,14 +221,14 @@
                         <thead>
                         <tr>
                             <th style="width: 20%">Emri</th>
-                            <th>Email</th>
-                            <th>Numri personal</th>
-                            <th>Log ID</th>
-                            <th>Foto</th>
-                            <th style="width: 20%">Edit</th>
+                            <th style="width: 20%">Email</th>
+                            <th style="width: 15%">Nr. personal</th>
+                            <th style="width: 15%">Fakulteti</th>
+                            <th style="width: 5%">ID</th>
+                            <th style="width: 5%">Foto</th>
+                            <th style="width: 20%">Opsionet</th>
                         </tr>
                         </thead>
-
                         <tbody>
                         @forelse($data as $user)
                         <tr>
@@ -241,6 +241,9 @@
                             </td>
                             <td>
                                 {{$user->personal_number}}
+                            </td>
+                            <td>
+                                {{$user->roles()->first()->name}}
                             </td>
                             <td>
                                 {{$user->log_id}}
@@ -259,12 +262,13 @@
                                         data-academic_title_id="{{$user->academic_title_id}}"
                                         data-cpa_id="{{$user->cpa_id}}"
                                         data-personal_number="{{$user->personal_number}}" data-email="{{$user->email}}"
-                                        data-photo="{{$user->photo}}" data-role_id="{{$user->roles->first()->id}}"><i
+                                        data-photo="{{$user->photo}}"
+                                        data-role_id="{{$user->roles->first()->id}}"><i
                                             class="fa
-                                        fa-pencil"></i> Edit</button>
+                                        fa-pencil"></i> Ndrysho</button>
                                 <button type="button" class="btn btn-danger btn-xs" data-id="{{$user->id}}"
                                         data-toggle="modal"
-                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete</button>
+                                        data-target="#deleteModal"><i class="fa fa-trash-o"></i> Fshij</button>
                             </td>
                         </tr>
                         @empty

@@ -21,7 +21,7 @@ class AcademicTitlesMigration extends Migration
             $table->engine = 'InnoDB';
         });
 
-        DB::table('academic_titles')->insert(['academic_title'=>'Prof.Dr.']);
+
     }
 
     /**

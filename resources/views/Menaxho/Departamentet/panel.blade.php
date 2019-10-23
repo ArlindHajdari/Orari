@@ -150,7 +150,7 @@
                         <tr>
                             <th style="width: 40%">Departamenti</th>
                             <th style="width: 40%">Fakullteti</th>
-                            <th style="width: 20%">Edit</th>
+                            <th style="width: 20%">Opsionet</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -165,11 +165,11 @@
                                             data-department="{{$value->department}}"
                                             data-faculty_id="{{$value->faculty_id}}">
                                         <i class="fa fa-pencil"></i>
-                                        Edit
+                                        Ndrysho
                                     </button>
                                     <button type="button" class="btn btn-danger btn-xs" data-id="{{$value->id}}"
                                             data-toggle="modal"
-                                            data-target="#deleteModal"><i class="fa fa-trash-o"></i> Delete
+                                            data-target="#deleteModal"><i class="fa fa-trash-o"></i> Fshij
                                     </button>
                                 </td>
                             </tr>

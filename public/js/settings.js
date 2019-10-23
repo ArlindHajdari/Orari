@@ -52,16 +52,24 @@ $(document).ready(function(){
         });
     });
 
-    $('#editModal').on('show.bs.modal', function(e) {
+    $('#editModal').on('shown.bs.modal', function(e) {
         var link = $(e.relatedTarget);
-        
+
         var max_hour_p = link.data('max_hour_p');
         var max_hour_a = link.data('max_hour_a');
+        var summer_semester = link.data('summer_semester');
+        var winter_semester = link.data('winter_semester');
+        var start_schedule_time = link.data('start_schedule_time');
+        var end_schedule_time = link.data('end_schedule_time');
         var id = link.data('id');
 
         var modal = $(this);
         modal.find("#max_hour_day_professor").val(max_hour_p);
         modal.find("#max_hour_day_assistant").val(max_hour_a);
+        modal.find("#summer_semester").val(summer_semester);
+        modal.find("#winter_semester").val(winter_semester);
+        modal.find("#start_schedule_time").val(start_schedule_time);
+        modal.find("#end_schedule_time").val(end_schedule_time);
         $("#settings-edit").attr('action','http://localhost:8000/settings/'+id);
     });
 });

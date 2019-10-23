@@ -21,12 +21,15 @@ class HallsMigration extends Migration
             $table->tinyInteger('capacity');
             $table->integer('halltype_id')->unsigned();
             $table->integer('faculty_id')->unsigned();
+            $table->integer('sec_faculty_id')->unsigned()->nullable();
 
             $table->engine = 'InnoDB';
             $table->index('halltype_id');
             $table->index('faculty_id');
+            $table->index('sec_faculty_id');
             $table->foreign('halltype_id')->references('id')->on('halltypes');
             $table->foreign('faculty_id')->references('id')->on('faculties');
+            $table->foreign('sec_faculty_id')->references('id')->on('faculties');
         });
     }
 
@@ -40,6 +43,7 @@ class HallsMigration extends Migration
         Schema::table('halls', function(Blueprint $table){
             $table->dropForeign(['halltype_id']);
             $table->dropForeign(['faculty_id']);
+            $table->dropForeign(['sec_faculty_id']);
         });
         Schema::dropIfExists('halls');
     }

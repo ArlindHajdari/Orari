@@ -120,13 +120,17 @@ $(document).ready(function(){
         var hall = link.data('hall');
         var capacity = link.data('capacity');
         var halltype_id = link.data('halltype_id');
-        
+        var faculty_id = link.data('faculty_id');
+        var sec_faculty_id = link.data('sec_faculty_id');
+
         var id = link.data('id');
 
         var modal = $(this);
         modal.find("#hall").val(hall);
         modal.find("#capacity").val(capacity);
         modal.find("#halltype_id").val(halltype_id);
+        modal.find("#faculty_id").val(faculty_id);
+        modal.find("#sec_faculty_id").val(sec_faculty_id);
         $("#salla-edit").attr('action','http://localhost:8000/salla-edit/'+id);
     });
 });

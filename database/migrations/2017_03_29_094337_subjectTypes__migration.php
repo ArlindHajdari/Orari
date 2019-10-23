@@ -21,12 +21,6 @@ class SubjectTypesMigration extends Migration
 
             $table->engine = 'InnoDB';
         });
-
-        DB::table('subjecttypes')->insert([[
-            'subjecttype'=>'Obligative',
-        ],[
-            'subjecttype'=>'Zgjedhore'
-        ]]);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 17 Apr 2017 13:10:52 +0000.
+ * Date: Thu, 17 Aug 2017 08:27:30 +0000.
  */
 
 namespace App\Models;
@@ -13,9 +13,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class Availability
  * 
  * @property int $id
- * @property \Carbon\Carbon $TimeFrom
- * @property \Carbon\Carbon $TimeTo
  * @property int $user_id
+ * @property \Carbon\Carbon $start
+ * @property \Carbon\Carbon $end
+ * @property bool $allowed
  * 
  * @property \App\Models\User $user
  *
@@ -27,18 +28,20 @@ class Availability extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
-		'user_id' => 'int'
+		'user_id' => 'int',
+		'allowed' => 'bool'
 	];
 
 	protected $dates = [
-		'TimeFrom',
-		'TimeTo'
+		'start',
+		'end'
 	];
 
 	protected $fillable = [
-		'TimeFrom',
-		'TimeTo',
-		'user_id'
+		'user_id',
+		'start',
+		'end',
+		'allowed'
 	];
 
 	public function user()

@@ -14,13 +14,13 @@ class ComposerProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(['login','Menaxho.Dekanet.panel','Menaxho.Mesimdhenesi.panel'],'App\Http\ViewComposers\AcademicalTitleComposer');
+        View::composer(['login','Menaxho.Dekanet.panel','Menaxho.Mesimdhenesi.panel','Menaxho.Statusi.statusi'],'App\Http\ViewComposers\AcademicalTitleComposer');
 
-        View::composer(['login','Menaxho.Dekanet.panel','Menaxho.Mesimdhenesi.panel'],'App\Http\ViewComposers\CPAsComposer');
+        View::composer(['login','Menaxho.Dekanet.panel','Menaxho.Mesimdhenesi.panel','Menaxho.CpaLush.panel'], 'App\Http\ViewComposers\CPAsComposer');
 
-        View::composer(['LendetPanel','Menaxho.Lendet.panel'],'App\Http\ViewComposers\LlojiLendesComposer');
+        View::composer(['Menaxho.Lendet.panel'],'App\Http\ViewComposers\LlojiLendesComposer');
 
-        View::composer(['LendetPanel','Menaxho.Lendet.panel'],'App\Http\ViewComposers\DepartamentetComposer');
+        View::composer(['Menaxho.Lendet.panel'],'App\Http\ViewComposers\DepartamentetComposer');
 
         View::composer('Menaxho.Dekanet.panel','App\Http\ViewComposers\RolesComposer');
 
@@ -28,11 +28,13 @@ class ComposerProvider extends ServiceProvider
 
         View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\AsistentComposer');
 
-        View::composer('Menaxho.Profesor-Lende.panel','App\Http\ViewComposers\LendetComposer');
-        
+        View::composer(['Menaxho.Profesor-Lende.panel','Menaxho.Grupet.groupSubjectLush'],'App\Http\ViewComposers\LendetComposer');
+
         View::composer('Menaxho.Sallat.panel','App\Http\ViewComposers\HallsTypeComposer');
 
         View::composer(['Menaxho.Departamentet.panel','Menaxho.Sallat.panel'],'App\Http\ViewComposers\FacultyComposer');
+
+        View::composer(['Menaxho.Statusi.statusi','Menaxho.Mesimdhenesi.panel'],'App\Http\ViewComposers\StatusComposer');
 
         View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\DekansComposer');
 
@@ -42,9 +44,15 @@ class ComposerProvider extends ServiceProvider
 
         View::composer('Menaxho.Orari.scheduler','App\Http\ViewComposers\ProfLendeComposer');
 
-        View::composer('Menaxho.Orari.scheduler','App\Http\ViewComposers\HallByFacultyComposer');
+        View::composer('Menaxho.Orari.scheduler','App\Http\ViewComposers\SemesterComposer');
 
-        View::composer('Menaxho.Kontakti.contact','App\Http\ViewComposers\HallsComposer');
+        View::composer(['Menaxho.Orari.scheduler','Menaxho.Kontakti.contact','Menaxho.Sallat.secPanel'],'App\Http\ViewComposers\HallByFacultyComposer');
+
+        View::composer('Menaxho.Sallat.secPanel','App\Http\ViewComposers\FacultyComposer');
+
+        View::composer(['Menaxho.CpaLush.panel','Menaxho.Lendet.panel'],'App\Http\ViewComposers\LUSHComposer');
+
+        View::composer(['Menaxho.Orari.scheduler','Menaxho.Grupet.groupSubjectLush'],'App\Http\ViewComposers\GroupsComposer');
 
         View::composer(['layouts.header','Menaxho.Rregullat.panel'],'App\Http\ViewComposers\SettingsComposer');
    }

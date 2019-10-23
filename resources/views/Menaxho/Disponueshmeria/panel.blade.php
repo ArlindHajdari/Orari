@@ -38,7 +38,7 @@
                     $('#alldaymodal #when').text(data);
                     $('#alldaymodal').modal('toggle');
                 },
-                allDayText: 'Tëkërëbitën',
+                allDayText: 'Tërë ditën',
                 timeFormat: 'HH:mm',
                 draggable: true,
                 editable: true,
@@ -61,7 +61,7 @@
                     start: '2017-04-17',
                     end: '2017-04-22'
                 },
-                height: 1218,
+                height: 1261,
                 locale:'sq',
                 eventClick:  function(event, jsEvent, view) {
                     endtime = $.fullCalendar.moment(event.end).format('HH:mm');

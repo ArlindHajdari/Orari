@@ -20,22 +20,16 @@ class SettingsMigration extends Migration
             $table->date('end_summer_semester');
             $table->date('start_winter_semester');
             $table->date('end_winter_semester');
-            $table->integer('max_hour_day_professor')->nullable();
-            $table->integer('max_hour_day_assistant')->nullable();
+            $table->time('start_schedule_time');
+            $table->time('end_schedule_time');
+            $table->integer('max_hour_day_lecture');
+            $table->integer('max_hour_day_exercise');
             $table->integer('user_id')->unsigned();
 
             $table->index('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->engine = 'InnoDB';
         });
-
-        DB::table('settings')->insert([
-            'start_winter_semester'=>Carbon::now()->year.'-10-03',
-            'end_winter_semester'=>Carbon::now()->year.'-01-15',
-            'start_summer_semester'=>Carbon::now()->year.'-02-15',
-            'end_summer_semester'=>Carbon::now()->year.'-05-31',
-            'user_id'=>1
-        ]);
     }
 
     /**
@@ -45,9 +39,10 @@ class SettingsMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('settings');
         Schema::table('subjects', function(Blueprint $table){
             $table->dropForeign(['user_id']);
         });
+
+        Schema::dropIfExists('settings');
     }
 }
